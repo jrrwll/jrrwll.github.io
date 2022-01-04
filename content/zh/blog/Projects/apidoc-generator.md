@@ -1,12 +1,16 @@
 ---
 title: "apidoc-generator API文档生成器简介"
 linkTitle: "API文档生成器"
-date: 2020-12-24
-weight: 1
+date: 2020-12-17
+weight: 2
 ---
 
 ## 一、概述
 > 基于java源码中的注释(不限于多行或单行)和泛型解析，来生成api文档元数据和具体文档输出的工具
+> 
+> 只需要指定想要解析的接口源码目录，并保证接口涉及的所有类都包含在classpath下，然后再设置渲染方式，最后运行便可获得最终结果
+> 
+> 目前支持json-with-comment 和 swagger-editor两种输出方式
 
 ## 二、实现原理
 ```plantuml
@@ -55,25 +59,66 @@ frame "文档渲染" {
 
 #### 3.1.1 gradle 依赖引入
 ```groovy
+repositories {
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+}
+
 testImplementation 'org.dreamcat:apidoc-generator:0.1-SNAPSHOT'
 ```
 
 #### 3.1.2 maven 依赖引入
 ```xml
-<dependency>
+<project>
+  <repository>
+    <id>snapshots-repo</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    <releases><enabled>false</enabled></releases>
+    <snapshots><enabled>true</enabled></snapshots>
+  </repository>
+
+  <dependency>
     <groupId>org.dreamcat</groupId>
     <artifactId>apidoc-generator</artifactId>
-  	<version>0.1-SNAPSHOT</version>
-  	<scope>test</scope>
-</dependency>
+    <version>0.1-SNAPSHOT</version>
+    <scope>test</scope>
+  </dependency>
+</project>
 ```
 
 #### 3.1.3 单元测试示例
+
+**源码样例**
+```java
+public interface ComplexService {
+
+    // list complex
+    ApiResult<ApiPageSummary<ComplexModel, ComplexSummaryModel>> list(ComplexListParam param);
+
+    /**
+     * create complex
+     *
+     * @param param require param to create complex
+     * @param file attachment
+     * @return complex id
+     */
+    ApiResult<String> create(ComplexCreateParam param, byte[] file);
+}
+```
+
+```java
+public class ComplexListParam extends PageParam {
+
+    private String token; // the token to sign
+    private Set<Integer> userIds; // users who admire the number
+}
+```
+
+**单元测试**
 ```java
 import java.util.Collections;
 import org.dreamcat.cli.generator.apidoc.ApiDocConfig;
 import org.dreamcat.cli.generator.apidoc.ApiDocGenerator;
-import org.dreamcat.cli.generator.apidoc.renderer.JsonWithCommentMDRenderer;
+import org.dreamcat.cli.generator.apidoc.renderer.JsonWithCommentRenderer;
 import org.junit.jupiter.api.Test;
 
 class JavaDocTest {
@@ -81,15 +126,23 @@ class JavaDocTest {
     @Test
     void test() throws Exception {
         String srcDir = "/path/to/project/src/main/java";
-        String javaFileDir = srcDir + "/com/exmaple/app/api";
-        String basePackage = "com.exmaple.app.api";
+        // 想要分析的Service接口的源码目录
+        String javaFileDir = srcDir + "/com/example/service";
+        // 支持源码分析的java基础包名
+        String basePackage = "com.example";
 
+        // API文档生成器的配置
         ApiDocConfig config = new ApiDocConfig();
-        config.setBasePackage(basePackage);
+        config.setBasePackages(Collections.singletonList(basePackage));
         config.setSrcDirs(Collections.singletonList(srcDir));
         config.setJavaFileDirs(Collections.singletonList(javaFileDir));
-        JsonWithCommentMDRenderer renderer = new JsonWithCommentMDRenderer(config);
+        
+        // 设置渲染方式为带注释的Json模式
+        JsonWithCommentRenderer renderer = new JsonWithCommentRenderer(config);
+        renderer.setSeqFormatter(i -> "#### 4.1." + i);
+        
         ApiDocGenerator<String> generator = new ApiDocGenerator<>(config, renderer);
+        
         String doc = generator.generate();
         System.out.println(doc);
     }
@@ -102,38 +155,7 @@ class JavaDocTest {
 
 示例如下
 
-#### 4.1.1  get complex
-入参
-```js
-"pNzod0"
-```
-
-出参
-```js
-{
-    "code": "69nWl00", //  response code
-    "msg": "t505j000000", //  error message
-    "data": {
-        "id": "47K34100", // /! entity id
-        "createdBy": 3302967472579308987, //     who created the record    
-        "createdAt": "2021-12-20 20:18:56", // 
-        "a": 22108551, //  a or a + bi
-        "b": 630757701, //  b of a + bi
-        "salt": [
-            34
-        ], //  salt to sign 
-        "admired": [
-            {
-                "id": 6274417466735950286,
-                "name": "rg704000",
-                "gender": unknown
-            }
-        ] //      * the people who admire the number     
-    } //  real data
-}
-```
-
-#### 4.1.2  list complex
+#### 4.1.1  list complex
 入参
 ```js
 {
@@ -186,7 +208,7 @@ class JavaDocTest {
 }
 ```
 
-#### 4.1.3  create complex
+#### 4.1.2  create complex
 入参
 ```js
 {
@@ -206,39 +228,4 @@ class JavaDocTest {
     "data": "OgF6" //  real data
 }
 ```
-
-#### 4.1.4  update complex
-入参
-```js
-{
-    "a": 25500759197484633195280009055164974548, //  some of complex
-    "b": 7.9757671995651600229832514042539E+615, //  some of complex
-    "props": {
-        "oiE6200000000": "Qg7hw0"
-    } //  props for extra settings 
-}
-```
-
-出参
-```js
-{
-    "code": "PCHj10000", //  response code
-    "msg": "bDtE00000000", //  error message
-    "data": "c5OH2000" //  real data
-}
-```
-
-#### 4.1.5  delete complex
-入参
-```js
-"9y4Bo000000000"
-```
-
-出参
-```js
-{
-    "code": "E", //  response code
-    "msg": "AbocF000000000", //  error message
-    "data": null //  real data
-}
 ```

@@ -75,8 +75,8 @@ description = "一个简洁的博客网站"
 languageName ="简体中文"
 languageCode = "zh-cn" 
 contentDir = "content/zh"
-time_format_default = "2006.02.01"
-time_format_blog = "2006.02.01"
+time_format_default = "2006-01-02"
+time_format_blog = "2006-01-02"
 
 [markup]
   [markup.goldmark]
