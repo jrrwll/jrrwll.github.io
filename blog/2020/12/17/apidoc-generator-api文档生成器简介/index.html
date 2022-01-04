@@ -18,27 +18,29 @@
 <meta name=description content="一、概述
 
 基于java源码中的注释(不限于多行或单行)和泛型解析，来生成api文档元数据和具体文档输出的工具
-
-二、实现原理
-@startuml
-folder &#34;数据源&#34; {
-   component [source源码] as src
-   component [source …">
+只需要指定想要解析的接口源码目录，并保证接口涉及的所有类都包含在classpath下，然后再设置渲染方式，最后运行便可获得最终结果
+目前支持json-with-comment …">
 <meta property="og:title" content="apidoc-generator API文档生成器简介">
 <meta property="og:description" content="一、概述  基于java源码中的注释(不限于多行或单行)和泛型解析，来生成api文档元数据和具体文档输出的工具
+只需要指定想要解析的接口源码目录，并保证接口涉及的所有类都包含在classpath下，然后再设置渲染方式，最后运行便可获得最终结果
+目前支持json-with-comment 和 swagger-editor两种输出方式
  二、实现原理 @startuml folder &#34;数据源&#34; { component [source源码] as src component [source源码对应的class和依赖] as classpath } package &#34;Java源码解析&#34; { component [Java源码解析 com.github.javaparser] as javaparser src --> javaparser } node &#34;Java类型解析&#34; { component [类型解析 databind-core] as type component [数据Mock databind-json] as mock component [带注释的Json序列化 ] as jwc classpath --> type type --> mock mock --> jwc } frame &#34;文档渲染&#34; { component [API Doc元数据] as doc component [Markdown] as md component [Swagger元数据] as sg javaparser --> doc type --> doc doc --> mock jwc --> md doc --> md doc --> sg } @enduml 三、接入姿势 3.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="/blog/2020/12/24/apidoc-generator-api%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%99%A8%E7%AE%80%E4%BB%8B/"><meta property="article:section" content="blog">
-<meta property="article:published_time" content="2020-12-24T00:00:00+00:00">
-<meta property="article:modified_time" content="2022-01-03T03:10:35+08:00"><meta property="og:site_name" content="Jerry Will's Blog">
+<meta property="og:url" content="/blog/2020/12/17/apidoc-generator-api%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%99%A8%E7%AE%80%E4%BB%8B/"><meta property="article:section" content="blog">
+<meta property="article:published_time" content="2020-12-17T00:00:00+00:00">
+<meta property="article:modified_time" content="2022-01-05T00:13:57+08:00"><meta property="og:site_name" content="Jerry Will's Blog">
 <meta itemprop=name content="apidoc-generator API文档生成器简介">
 <meta itemprop=description content="一、概述  基于java源码中的注释(不限于多行或单行)和泛型解析，来生成api文档元数据和具体文档输出的工具
- 二、实现原理 @startuml folder &#34;数据源&#34; { component [source源码] as src component [source源码对应的class和依赖] as classpath } package &#34;Java源码解析&#34; { component [Java源码解析 com.github.javaparser] as javaparser src --> javaparser } node &#34;Java类型解析&#34; { component [类型解析 databind-core] as type component [数据Mock databind-json] as mock component [带注释的Json序列化 ] as jwc classpath --> type type --> mock mock --> jwc } frame &#34;文档渲染&#34; { component [API Doc元数据] as doc component [Markdown] as md component [Swagger元数据] as sg javaparser --> doc type --> doc doc --> mock jwc --> md doc --> md doc --> sg } @enduml 三、接入姿势 3."><meta itemprop=datePublished content="2020-12-24T00:00:00+00:00">
-<meta itemprop=dateModified content="2022-01-03T03:10:35+08:00">
-<meta itemprop=wordCount content="561">
+只需要指定想要解析的接口源码目录，并保证接口涉及的所有类都包含在classpath下，然后再设置渲染方式，最后运行便可获得最终结果
+目前支持json-with-comment 和 swagger-editor两种输出方式
+ 二、实现原理 @startuml folder &#34;数据源&#34; { component [source源码] as src component [source源码对应的class和依赖] as classpath } package &#34;Java源码解析&#34; { component [Java源码解析 com.github.javaparser] as javaparser src --> javaparser } node &#34;Java类型解析&#34; { component [类型解析 databind-core] as type component [数据Mock databind-json] as mock component [带注释的Json序列化 ] as jwc classpath --> type type --> mock mock --> jwc } frame &#34;文档渲染&#34; { component [API Doc元数据] as doc component [Markdown] as md component [Swagger元数据] as sg javaparser --> doc type --> doc doc --> mock jwc --> md doc --> md doc --> sg } @enduml 三、接入姿势 3."><meta itemprop=datePublished content="2020-12-17T00:00:00+00:00">
+<meta itemprop=dateModified content="2022-01-05T00:13:57+08:00">
+<meta itemprop=wordCount content="507">
 <meta itemprop=keywords content><meta name=twitter:card content="summary">
 <meta name=twitter:title content="apidoc-generator API文档生成器简介">
 <meta name=twitter:description content="一、概述  基于java源码中的注释(不限于多行或单行)和泛型解析，来生成api文档元数据和具体文档输出的工具
+只需要指定想要解析的接口源码目录，并保证接口涉及的所有类都包含在classpath下，然后再设置渲染方式，最后运行便可获得最终结果
+目前支持json-with-comment 和 swagger-editor两种输出方式
  二、实现原理 @startuml folder &#34;数据源&#34; { component [source源码] as src component [source源码对应的class和依赖] as classpath } package &#34;Java源码解析&#34; { component [Java源码解析 com.github.javaparser] as javaparser src --> javaparser } node &#34;Java类型解析&#34; { component [类型解析 databind-core] as type component [数据Mock databind-json] as mock component [带注释的Json序列化 ] as jwc classpath --> type type --> mock mock --> jwc } frame &#34;文档渲染&#34; { component [API Doc元数据] as doc component [Markdown] as md component [Swagger元数据] as sg javaparser --> doc type --> doc doc --> mock jwc --> md doc --> md doc --> sg } @enduml 三、接入姿势 3.">
 <link rel=preload href=/scss/main.min.704093cd1a56f37fd00dc35c7125fced09d88d60c92d59965b30c8c0eeef1cd5.css as=style>
 <link href=/scss/main.min.704093cd1a56f37fd00dc35c7125fced09d88d60c92d59965b30c8c0eeef1cd5.css rel=stylesheet integrity>
@@ -87,8 +89,8 @@ folder &#34;数据源&#34; {
 <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id=m-blogprojects-li>
 <a href=/blog/projects/ title=项目文档 class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id=m-blogprojects><span>项目</span></a>
 <ul class="ul-2 foldable">
-<li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id=m-blog20201224apidoc-generator-apie69687e6a1a3e7949fe68890e599a8e7ae80e4bb8b-li>
-<a href=/blog/2020/12/24/apidoc-generator-api%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%99%A8%E7%AE%80%E4%BB%8B/ title="apidoc-generator API文档生成器简介" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id=m-blog20201224apidoc-generator-apie69687e6a1a3e7949fe68890e599a8e7ae80e4bb8b><span class=td-sidebar-nav-active-item>API文档生成器</span></a>
+<li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id=m-blog20201217apidoc-generator-apie69687e6a1a3e7949fe68890e599a8e7ae80e4bb8b-li>
+<a href=/blog/2020/12/17/apidoc-generator-api%E6%96%87%E6%A1%A3%E7%94%9F%E6%88%90%E5%99%A8%E7%AE%80%E4%BB%8B/ title="apidoc-generator API文档生成器简介" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id=m-blog20201217apidoc-generator-apie69687e6a1a3e7949fe68890e599a8e7ae80e4bb8b><span class=td-sidebar-nav-active-item>API文档生成器</span></a>
 </li>
 </ul>
 </li>
@@ -131,13 +133,15 @@ RSS <i class="fa fa-rss ml-2"></i>
 <div class=td-content>
 <h1>apidoc-generator API文档生成器简介</h1>
 <div class="td-byline mb-4">
-<time datetime=2020-12-24 class=text-muted>2020.24.12</time>
+<time datetime=2020-12-17 class=text-muted>2020-12-17</time>
 </div>
 <header class=article-meta>
 </header>
 <h2 id=一概述>一、概述</h2>
 <blockquote>
 <p>基于java源码中的注释(不限于多行或单行)和泛型解析，来生成api文档元数据和具体文档输出的工具</p>
+<p>只需要指定想要解析的接口源码目录，并保证接口涉及的所有类都包含在classpath下，然后再设置渲染方式，最后运行便可获得最终结果</p>
+<p>目前支持json-with-comment 和 swagger-editor两种输出方式</p>
 </blockquote>
 <h2 id=二实现原理>二、实现原理</h2>
 <pre tabindex=0><code class=language-plantuml data-lang=plantuml>@startuml
@@ -180,19 +184,53 @@ frame &quot;文档渲染&quot; {
 <h3 id=31-项目侵入式接入>3.1 项目侵入式接入</h3>
 <p>可以编写单元测试或单独的模块来接入</p>
 <h4 id=311-gradle-依赖引入>3.1.1 gradle 依赖引入</h4>
-<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=color:#000>testImplementation</span> <span style=color:#4e9a06>&#39;org.dreamcat:apidoc-generator:0.1-SNAPSHOT&#39;</span>
+<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=color:#000>repositories</span> <span style=color:#ce5c00;font-weight:700>{</span>
+    <span style=color:#000>maven</span> <span style=color:#ce5c00;font-weight:700>{</span> <span style=color:#000>url</span> <span style=color:#4e9a06>&#39;https://oss.sonatype.org/content/repositories/snapshots/&#39;</span> <span style=color:#ce5c00;font-weight:700>}</span>
+<span style=color:#ce5c00;font-weight:700>}</span>
+
+<span style=color:#000>testImplementation</span> <span style=color:#4e9a06>&#39;org.dreamcat:apidoc-generator:0.1-SNAPSHOT&#39;</span>
 </code></pre></div><h4 id=312-maven-依赖引入>3.1.2 maven 依赖引入</h4>
-<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=color:#204a87;font-weight:700>&lt;dependency&gt;</span>
+<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=color:#204a87;font-weight:700>&lt;project&gt;</span>
+  <span style=color:#204a87;font-weight:700>&lt;repository&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;id&gt;</span>snapshots-repo<span style=color:#204a87;font-weight:700>&lt;/id&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots<span style=color:#204a87;font-weight:700>&lt;/url&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;releases&gt;&lt;enabled&gt;</span>false<span style=color:#204a87;font-weight:700>&lt;/enabled&gt;&lt;/releases&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;snapshots&gt;&lt;enabled&gt;</span>true<span style=color:#204a87;font-weight:700>&lt;/enabled&gt;&lt;/snapshots&gt;</span>
+  <span style=color:#204a87;font-weight:700>&lt;/repository&gt;</span>
+
+  <span style=color:#204a87;font-weight:700>&lt;dependency&gt;</span>
     <span style=color:#204a87;font-weight:700>&lt;groupId&gt;</span>org.dreamcat<span style=color:#204a87;font-weight:700>&lt;/groupId&gt;</span>
     <span style=color:#204a87;font-weight:700>&lt;artifactId&gt;</span>apidoc-generator<span style=color:#204a87;font-weight:700>&lt;/artifactId&gt;</span>
-  	<span style=color:#204a87;font-weight:700>&lt;version&gt;</span>0.1-SNAPSHOT<span style=color:#204a87;font-weight:700>&lt;/version&gt;</span>
-  	<span style=color:#204a87;font-weight:700>&lt;scope&gt;</span>test<span style=color:#204a87;font-weight:700>&lt;/scope&gt;</span>
-<span style=color:#204a87;font-weight:700>&lt;/dependency&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;version&gt;</span>0.1-SNAPSHOT<span style=color:#204a87;font-weight:700>&lt;/version&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;scope&gt;</span>test<span style=color:#204a87;font-weight:700>&lt;/scope&gt;</span>
+  <span style=color:#204a87;font-weight:700>&lt;/dependency&gt;</span>
+<span style=color:#204a87;font-weight:700>&lt;/project&gt;</span>
 </code></pre></div><h4 id=313-单元测试示例>3.1.3 单元测试示例</h4>
+<p><strong>源码样例</strong></p>
+<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#204a87;font-weight:700>public</span> <span style=color:#204a87;font-weight:700>interface</span> <span style=color:#000>ComplexService</span> <span style=color:#ce5c00;font-weight:700>{</span>
+
+    <span style=color:#8f5902;font-style:italic>// list complex
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#000>ApiResult</span><span style=color:#ce5c00;font-weight:700>&lt;</span><span style=color:#000>ApiPageSummary</span><span style=color:#ce5c00;font-weight:700>&lt;</span><span style=color:#000>ComplexModel</span><span style=color:#ce5c00;font-weight:700>,</span> <span style=color:#000>ComplexSummaryModel</span><span style=color:#ce5c00;font-weight:700>&gt;&gt;</span> <span style=color:#000>list</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>ComplexListParam</span> <span style=color:#000>param</span><span style=color:#ce5c00;font-weight:700>);</span>
+
+    <span style=color:#8f5902;font-style:italic>/**
+</span><span style=color:#8f5902;font-style:italic>     * create complex
+</span><span style=color:#8f5902;font-style:italic>     *
+</span><span style=color:#8f5902;font-style:italic>     * @param param require param to create complex
+</span><span style=color:#8f5902;font-style:italic>     * @param file attachment
+</span><span style=color:#8f5902;font-style:italic>     * @return complex id
+</span><span style=color:#8f5902;font-style:italic>     */</span>
+    <span style=color:#000>ApiResult</span><span style=color:#ce5c00;font-weight:700>&lt;</span><span style=color:#000>String</span><span style=color:#ce5c00;font-weight:700>&gt;</span> <span style=color:#000>create</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>ComplexCreateParam</span> <span style=color:#000>param</span><span style=color:#ce5c00;font-weight:700>,</span> <span style=color:#204a87;font-weight:700>byte</span><span style=color:#ce5c00;font-weight:700>[]</span> <span style=color:#000>file</span><span style=color:#ce5c00;font-weight:700>);</span>
+<span style=color:#ce5c00;font-weight:700>}</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#204a87;font-weight:700>public</span> <span style=color:#204a87;font-weight:700>class</span> <span style=color:#000>ComplexListParam</span> <span style=color:#204a87;font-weight:700>extends</span> <span style=color:#000>PageParam</span> <span style=color:#ce5c00;font-weight:700>{</span>
+
+    <span style=color:#204a87;font-weight:700>private</span> <span style=color:#000>String</span> <span style=color:#000>token</span><span style=color:#ce5c00;font-weight:700>;</span> <span style=color:#8f5902;font-style:italic>// the token to sign
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#204a87;font-weight:700>private</span> <span style=color:#000>Set</span><span style=color:#ce5c00;font-weight:700>&lt;</span><span style=color:#000>Integer</span><span style=color:#ce5c00;font-weight:700>&gt;</span> <span style=color:#000>userIds</span><span style=color:#ce5c00;font-weight:700>;</span> <span style=color:#8f5902;font-style:italic>// users who admire the number
+</span><span style=color:#8f5902;font-style:italic></span><span style=color:#ce5c00;font-weight:700>}</span>
+</code></pre></div><p><strong>单元测试</strong></p>
 <div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#204a87;font-weight:700>import</span> <span style=color:#000>java.util.Collections</span><span style=color:#ce5c00;font-weight:700>;</span>
 <span style=color:#204a87;font-weight:700>import</span> <span style=color:#000>org.dreamcat.cli.generator.apidoc.ApiDocConfig</span><span style=color:#ce5c00;font-weight:700>;</span>
 <span style=color:#204a87;font-weight:700>import</span> <span style=color:#000>org.dreamcat.cli.generator.apidoc.ApiDocGenerator</span><span style=color:#ce5c00;font-weight:700>;</span>
-<span style=color:#204a87;font-weight:700>import</span> <span style=color:#000>org.dreamcat.cli.generator.apidoc.renderer.JsonWithCommentMDRenderer</span><span style=color:#ce5c00;font-weight:700>;</span>
+<span style=color:#204a87;font-weight:700>import</span> <span style=color:#000>org.dreamcat.cli.generator.apidoc.renderer.JsonWithCommentRenderer</span><span style=color:#ce5c00;font-weight:700>;</span>
 <span style=color:#204a87;font-weight:700>import</span> <span style=color:#000>org.junit.jupiter.api.Test</span><span style=color:#ce5c00;font-weight:700>;</span>
 
 <span style=color:#204a87;font-weight:700>class</span> <span style=color:#000>JavaDocTest</span> <span style=color:#ce5c00;font-weight:700>{</span>
@@ -200,15 +238,23 @@ frame &quot;文档渲染&quot; {
     <span style=color:#5c35cc;font-weight:700>@Test</span>
     <span style=color:#204a87;font-weight:700>void</span> <span style=color:#000>test</span><span style=color:#ce5c00;font-weight:700>()</span> <span style=color:#204a87;font-weight:700>throws</span> <span style=color:#000>Exception</span> <span style=color:#ce5c00;font-weight:700>{</span>
         <span style=color:#000>String</span> <span style=color:#000>srcDir</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#4e9a06>&#34;/path/to/project/src/main/java&#34;</span><span style=color:#ce5c00;font-weight:700>;</span>
-        <span style=color:#000>String</span> <span style=color:#000>javaFileDir</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#000>srcDir</span> <span style=color:#ce5c00;font-weight:700>+</span> <span style=color:#4e9a06>&#34;/com/exmaple/app/api&#34;</span><span style=color:#ce5c00;font-weight:700>;</span>
-        <span style=color:#000>String</span> <span style=color:#000>basePackage</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#4e9a06>&#34;com.exmaple.app.api&#34;</span><span style=color:#ce5c00;font-weight:700>;</span>
+        <span style=color:#8f5902;font-style:italic>// 想要分析的Service接口的源码目录
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#000>String</span> <span style=color:#000>javaFileDir</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#000>srcDir</span> <span style=color:#ce5c00;font-weight:700>+</span> <span style=color:#4e9a06>&#34;/com/example/service&#34;</span><span style=color:#ce5c00;font-weight:700>;</span>
+        <span style=color:#8f5902;font-style:italic>// 支持源码分析的java基础包名
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#000>String</span> <span style=color:#000>basePackage</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#4e9a06>&#34;com.example&#34;</span><span style=color:#ce5c00;font-weight:700>;</span>
 
-        <span style=color:#000>ApiDocConfig</span> <span style=color:#000>config</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#204a87;font-weight:700>new</span> <span style=color:#000>ApiDocConfig</span><span style=color:#ce5c00;font-weight:700>();</span>
-        <span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>setBasePackage</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>basePackage</span><span style=color:#ce5c00;font-weight:700>);</span>
+        <span style=color:#8f5902;font-style:italic>// API文档生成器的配置
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#000>ApiDocConfig</span> <span style=color:#000>config</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#204a87;font-weight:700>new</span> <span style=color:#000>ApiDocConfig</span><span style=color:#ce5c00;font-weight:700>();</span>
+        <span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>setBasePackages</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>Collections</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>singletonList</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>basePackage</span><span style=color:#ce5c00;font-weight:700>));</span>
         <span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>setSrcDirs</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>Collections</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>singletonList</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>srcDir</span><span style=color:#ce5c00;font-weight:700>));</span>
         <span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>setJavaFileDirs</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>Collections</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>singletonList</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>javaFileDir</span><span style=color:#ce5c00;font-weight:700>));</span>
-        <span style=color:#000>JsonWithCommentMDRenderer</span> <span style=color:#000>renderer</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#204a87;font-weight:700>new</span> <span style=color:#000>JsonWithCommentMDRenderer</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>);</span>
+        
+        <span style=color:#8f5902;font-style:italic>// 设置渲染方式为带注释的Json模式
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#000>JsonWithCommentRenderer</span> <span style=color:#000>renderer</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#204a87;font-weight:700>new</span> <span style=color:#000>JsonWithCommentRenderer</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>);</span>
+        <span style=color:#000>renderer</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>setSeqFormatter</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>i</span> <span style=color:#ce5c00;font-weight:700>-&gt;</span> <span style=color:#4e9a06>&#34;#### 4.1.&#34;</span> <span style=color:#ce5c00;font-weight:700>+</span> <span style=color:#000>i</span><span style=color:#ce5c00;font-weight:700>);</span>
+        
         <span style=color:#000>ApiDocGenerator</span><span style=color:#ce5c00;font-weight:700>&lt;</span><span style=color:#000>String</span><span style=color:#ce5c00;font-weight:700>&gt;</span> <span style=color:#000>generator</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#204a87;font-weight:700>new</span> <span style=color:#000>ApiDocGenerator</span><span style=color:#ce5c00;font-weight:700>&lt;&gt;(</span><span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>,</span> <span style=color:#000>renderer</span><span style=color:#ce5c00;font-weight:700>);</span>
+        
         <span style=color:#000>String</span> <span style=color:#000>doc</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#000>generator</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>generate</span><span style=color:#ce5c00;font-weight:700>();</span>
         <span style=color:#000>System</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>out</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>println</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>doc</span><span style=color:#ce5c00;font-weight:700>);</span>
     <span style=color:#ce5c00;font-weight:700>}</span>
@@ -216,32 +262,7 @@ frame &quot;文档渲染&quot; {
 </code></pre></div><h2 id=四输出姿势>四、输出姿势</h2>
 <h3 id=41-带注释的json-markdown文档输出>4.1 带注释的Json Markdown文档输出</h3>
 <p>示例如下</p>
-<h4 id=411--get-complex>4.1.1 get complex</h4>
-<p>入参</p>
-<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#4e9a06>&#34;pNzod0&#34;</span>
-</code></pre></div><p>出参</p>
-<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#000;font-weight:700>{</span>
-    <span style=color:#4e9a06>&#34;code&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;69nWl00&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  response code
-</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;msg&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;t505j000000&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  error message
-</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;data&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000;font-weight:700>{</span>
-        <span style=color:#4e9a06>&#34;id&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;47K34100&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>// /! entity id
-</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#4e9a06>&#34;createdBy&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>3302967472579308987</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//     who created the record    
-</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#4e9a06>&#34;createdAt&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;2021-12-20 20:18:56&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>// 
-</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#4e9a06>&#34;a&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>22108551</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  a or a + bi
-</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#4e9a06>&#34;b&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>630757701</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  b of a + bi
-</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#4e9a06>&#34;salt&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000;font-weight:700>[</span>
-            <span style=color:#0000cf;font-weight:700>34</span>
-        <span style=color:#000;font-weight:700>],</span> <span style=color:#8f5902;font-style:italic>//  salt to sign 
-</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#4e9a06>&#34;admired&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000;font-weight:700>[</span>
-            <span style=color:#000;font-weight:700>{</span>
-                <span style=color:#4e9a06>&#34;id&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>6274417466735950286</span><span style=color:#000;font-weight:700>,</span>
-                <span style=color:#4e9a06>&#34;name&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;rg704000&#34;</span><span style=color:#000;font-weight:700>,</span>
-                <span style=color:#4e9a06>&#34;gender&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000>unknown</span>
-            <span style=color:#000;font-weight:700>}</span>
-        <span style=color:#000;font-weight:700>]</span> <span style=color:#8f5902;font-style:italic>//      * the people who admire the number     
-</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#000;font-weight:700>}</span> <span style=color:#8f5902;font-style:italic>//  real data
-</span><span style=color:#8f5902;font-style:italic></span><span style=color:#000;font-weight:700>}</span>
-</code></pre></div><h4 id=412--list-complex>4.1.2 list complex</h4>
+<h4 id=411--list-complex>4.1.1 list complex</h4>
 <p>入参</p>
 <div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#000;font-weight:700>{</span>
     <span style=color:#4e9a06>&#34;pageNo&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>1616467239</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  page number, default is 1
@@ -288,7 +309,7 @@ frame &quot;文档渲染&quot; {
 </span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#000;font-weight:700>}</span> <span style=color:#8f5902;font-style:italic>//  the summary per page
 </span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#000;font-weight:700>}</span> <span style=color:#8f5902;font-style:italic>//  real data
 </span><span style=color:#8f5902;font-style:italic></span><span style=color:#000;font-weight:700>}</span>
-</code></pre></div><h4 id=413--create-complex>4.1.3 create complex</h4>
+</code></pre></div><h4 id=412--create-complex>4.1.2 create complex</h4>
 <p>入参</p>
 <div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#000;font-weight:700>{</span>
     <span style=color:#4e9a06>&#34;a&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>15466019106679717788876966621497800342</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  some of complex
@@ -303,31 +324,7 @@ frame &quot;文档渲染&quot; {
 </span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;msg&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;7RwO600&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  error message
 </span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;data&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;OgF6&#34;</span> <span style=color:#8f5902;font-style:italic>//  real data
 </span><span style=color:#8f5902;font-style:italic></span><span style=color:#000;font-weight:700>}</span>
-</code></pre></div><h4 id=414--update-complex>4.1.4 update complex</h4>
-<p>入参</p>
-<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#000;font-weight:700>{</span>
-    <span style=color:#4e9a06>&#34;a&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>25500759197484633195280009055164974548</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  some of complex
-</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;b&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>7.9757671995651600229832514042539</span><span style=color:#000>E</span><span style=color:#ce5c00;font-weight:700>+</span><span style=color:#0000cf;font-weight:700>615</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  some of complex
-</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;props&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000;font-weight:700>{</span>
-        <span style=color:#4e9a06>&#34;oiE6200000000&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;Qg7hw0&#34;</span>
-    <span style=color:#000;font-weight:700>}</span> <span style=color:#8f5902;font-style:italic>//  props for extra settings 
-</span><span style=color:#8f5902;font-style:italic></span><span style=color:#000;font-weight:700>}</span>
-</code></pre></div><p>出参</p>
-<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#000;font-weight:700>{</span>
-    <span style=color:#4e9a06>&#34;code&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;PCHj10000&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  response code
-</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;msg&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;bDtE00000000&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  error message
-</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;data&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;c5OH2000&#34;</span> <span style=color:#8f5902;font-style:italic>//  real data
-</span><span style=color:#8f5902;font-style:italic></span><span style=color:#000;font-weight:700>}</span>
-</code></pre></div><h4 id=415--delete-complex>4.1.5 delete complex</h4>
-<p>入参</p>
-<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#4e9a06>&#34;9y4Bo000000000&#34;</span>
-</code></pre></div><p>出参</p>
-<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#000;font-weight:700>{</span>
-    <span style=color:#4e9a06>&#34;code&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;E&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  response code
-</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;msg&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;AbocF000000000&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  error message
-</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;data&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#204a87;font-weight:700>null</span> <span style=color:#8f5902;font-style:italic>//  real data
-</span><span style=color:#8f5902;font-style:italic></span><span style=color:#000;font-weight:700>}</span>
-</code></pre></div>
+</code></pre></div><pre tabindex=0><code></code></pre>
 <ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
 <li>
 <a class="btn btn-primary disabled"><span class=mr-1>←</span>上一页</a>
