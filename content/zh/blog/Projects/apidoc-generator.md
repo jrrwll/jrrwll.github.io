@@ -137,14 +137,21 @@ class JavaDocTest {
         config.setSrcDirs(Collections.singletonList(srcDir));
         config.setJavaFileDirs(Collections.singletonList(javaFileDir));
         
-        // 设置渲染方式为带注释的Json模式
-        JsonWithCommentRenderer renderer = new JsonWithCommentRenderer(config);
-        renderer.setSeqFormatter(i -> "#### 4.1." + i);
+        // 第一种输出：设置渲染方式为带注释的Json markdown格式
+        JsonWithCommentRenderer jsonWithCommentRenderer = new JsonWithCommentRenderer(config);
+        jsonWithCommentRenderer.setSeqFormatter(i -> "#### 4.1." + i);
         
-        ApiDocGenerator<String> generator = new ApiDocGenerator<>(config, renderer);
+        ApiDocGenerator<String> markdownGenerator = new ApiDocGenerator<>(config, jsonWithCommentRenderer);
+        String markdown = markdownGenerator.generate();
+        System.out.println(markdown);
         
-        String doc = generator.generate();
-        System.out.println(doc);
+        // 第二种输出：设置渲染方式为swagger-editor yaml格式
+        SwaggerRenderer swaggerRenderer = new SwaggerRenderer();
+        swaggerRenderer.setdDfaultTitle("Some Stuff");
+
+        ApiDocGenerator<String> yamlGenerator = new ApiDocGenerator<>(config, swaggerRenderer);
+        String yaml = yamlGenerator.generate();
+        System.out.println(yaml);
     }
 }
 ```
@@ -228,4 +235,84 @@ class JavaDocTest {
     "data": "OgF6" //  real data
 }
 ```
+
+### 4.2 Swagger Editor Yaml文档输出
+
+示例如下
+
+```yaml
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Default Title"
+tags:
+- name: "com.example.controller.ComplexController"
+  description: ""
+schemes:
+- "https"
+- "http"
+paths:
+  /api/v1/get:
+    get:
+      tags:
+      - "com.example.controller.ComplexController"
+      description: "get complex"
+      operationId: "GET_get"
+      parameters:
+      - in: "query"
+        name: "id"
+        description: ""
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "ApiResult<ComplexModel>"
+          schema:
+            $ref: "#/definitions/ApiResult_ComplexModel"
+definitions:
+  ApiResult_ComplexModel:
+    type: "object"
+    properties:
+      msg:
+        type: "string"
+      data:
+        type: "object"
+        properties:
+          admired:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                name:
+                  type: "string"
+                gender:
+                  type: "string"
+                  enum:
+                  - "unknown"
+                  - "female"
+                  - "male"
+                id:
+                  type: "object"
+                  format: "int64"
+          createdAt:
+            type: "object"
+            format: "date-time"
+          a:
+            type: "object"
+            format: "int32"
+          b:
+            type: "integer"
+            format: "int32"
+          salt:
+            type: "array"
+            items:
+              type: "object"
+          createdBy:
+            type: "integer"
+            format: "int64"
+          id:
+            type: "string"
+      code:
+        type: "string"
 ```
