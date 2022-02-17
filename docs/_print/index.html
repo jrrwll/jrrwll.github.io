@@ -2,7 +2,7 @@
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
-<meta name=generator content="Hugo 0.91.2">
+<meta name=generator content="Hugo 0.92.2">
 <link rel=canonical type=text/html href=/docs/>
 <link rel=alternate type=application/rss+xml href=/docs/index.xml>
 <meta name=robots content="noindex, nofollow">
@@ -71,15 +71,290 @@
 </div>
 <h1 class=title>文档</h1>
 <ul>
-<li>1: <a href=#pg-6e17e09fffc1050f46600282def85180>文档简要</a></li>
+<li>1: <a href=#pg-9f3fe661c510a6627ee0f14e1098f0d9>实用工具</a></li>
 <ul>
+<li>1.1: <a href=#pg-fc355a0600f7b92b0af0cd9bc2435cb8>apidoc-generator API文档生成器简介</a></li>
 </ul>
 </ul>
 <div class=content>
 </div>
 </div>
 <div class=td-content>
-<h1 id=pg-6e17e09fffc1050f46600282def85180>1 - 文档简要</h1>
+<h1 id=pg-9f3fe661c510a6627ee0f14e1098f0d9>1 - 实用工具</h1>
+</div>
+<div class=td-content>
+<h1 id=pg-fc355a0600f7b92b0af0cd9bc2435cb8>1.1 - apidoc-generator API文档生成器简介</h1>
+<h2 id=一概述>一、概述</h2>
+<blockquote>
+<p>基于java源码中的注释(不限于多行或单行)和泛型解析，来生成api文档元数据和具体文档输出的工具</p>
+<p>只需要指定想要解析的接口源码目录，并保证接口涉及的所有类都包含在classpath下，然后再设置渲染方式，最后运行便可获得最终结果</p>
+<p>目前支持json-with-comment 和 swagger-editor两种输出方式</p>
+</blockquote>
+<h2 id=二实现原理>二、实现原理</h2>
+<pre tabindex=0><code class=language-plantuml data-lang=plantuml>@startuml
+folder &quot;数据源&quot; {
+   component [source源码] as src
+   component [source源码对应的class和依赖] as classpath
+}
+
+package &quot;Java源码解析&quot; {
+    component [Java源码解析 com.github.javaparser] as javaparser
+    src --&gt; javaparser
+}
+
+node &quot;Java类型解析&quot; {
+    component [类型解析 databind-core] as type
+    component [数据Mock databind-json] as mock
+    component [带注释的Json序列化 ] as jwc
+    classpath --&gt; type
+    type --&gt; mock
+    mock --&gt; jwc
+}
+
+frame &quot;文档渲染&quot; {
+    component [API Doc元数据] as doc
+    component [Markdown] as md
+    component [Swagger元数据] as sg
+
+    javaparser --&gt; doc
+    type --&gt; doc
+    doc --&gt; mock
+
+    jwc --&gt; md
+    doc --&gt; md
+
+    doc --&gt; sg
+}
+
+@enduml
+</code></pre><h2 id=三接入姿势>三、接入姿势</h2>
+<h3 id=31-项目侵入式接入>3.1 项目侵入式接入</h3>
+<p>可以编写单元测试或单独的模块来接入</p>
+<h4 id=311-gradle-依赖引入>3.1.1 gradle 依赖引入</h4>
+<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy><span style=color:#000>repositories</span> <span style=color:#ce5c00;font-weight:700>{</span>
+    <span style=color:#000>maven</span> <span style=color:#ce5c00;font-weight:700>{</span> <span style=color:#000>url</span> <span style=color:#4e9a06>&#39;https://oss.sonatype.org/content/repositories/snapshots/&#39;</span> <span style=color:#ce5c00;font-weight:700>}</span>
+<span style=color:#ce5c00;font-weight:700>}</span>
+
+<span style=color:#000>testImplementation</span> <span style=color:#4e9a06>&#39;org.dreamcat:apidoc-generator:0.1-SNAPSHOT&#39;</span>
+</code></pre></div><h4 id=312-maven-依赖引入>3.1.2 maven 依赖引入</h4>
+<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=color:#204a87;font-weight:700>&lt;project&gt;</span>
+  <span style=color:#204a87;font-weight:700>&lt;repository&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;id&gt;</span>snapshots-repo<span style=color:#204a87;font-weight:700>&lt;/id&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots<span style=color:#204a87;font-weight:700>&lt;/url&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;releases&gt;&lt;enabled&gt;</span>false<span style=color:#204a87;font-weight:700>&lt;/enabled&gt;&lt;/releases&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;snapshots&gt;&lt;enabled&gt;</span>true<span style=color:#204a87;font-weight:700>&lt;/enabled&gt;&lt;/snapshots&gt;</span>
+  <span style=color:#204a87;font-weight:700>&lt;/repository&gt;</span>
+
+  <span style=color:#204a87;font-weight:700>&lt;dependency&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;groupId&gt;</span>org.dreamcat<span style=color:#204a87;font-weight:700>&lt;/groupId&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;artifactId&gt;</span>apidoc-generator<span style=color:#204a87;font-weight:700>&lt;/artifactId&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;version&gt;</span>0.1-SNAPSHOT<span style=color:#204a87;font-weight:700>&lt;/version&gt;</span>
+    <span style=color:#204a87;font-weight:700>&lt;scope&gt;</span>test<span style=color:#204a87;font-weight:700>&lt;/scope&gt;</span>
+  <span style=color:#204a87;font-weight:700>&lt;/dependency&gt;</span>
+<span style=color:#204a87;font-weight:700>&lt;/project&gt;</span>
+</code></pre></div><h4 id=313-单元测试示例>3.1.3 单元测试示例</h4>
+<p><strong>源码样例</strong></p>
+<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#204a87;font-weight:700>public</span> <span style=color:#204a87;font-weight:700>interface</span> <span style=color:#000>ComplexService</span> <span style=color:#ce5c00;font-weight:700>{</span>
+
+    <span style=color:#8f5902;font-style:italic>// list complex
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#000>ApiResult</span><span style=color:#ce5c00;font-weight:700>&lt;</span><span style=color:#000>ApiPageSummary</span><span style=color:#ce5c00;font-weight:700>&lt;</span><span style=color:#000>ComplexModel</span><span style=color:#ce5c00;font-weight:700>,</span> <span style=color:#000>ComplexSummaryModel</span><span style=color:#ce5c00;font-weight:700>&gt;&gt;</span> <span style=color:#000>list</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>ComplexListParam</span> <span style=color:#000>param</span><span style=color:#ce5c00;font-weight:700>);</span>
+
+    <span style=color:#8f5902;font-style:italic>/**
+</span><span style=color:#8f5902;font-style:italic>     * create complex
+</span><span style=color:#8f5902;font-style:italic>     *
+</span><span style=color:#8f5902;font-style:italic>     * @param param require param to create complex
+</span><span style=color:#8f5902;font-style:italic>     * @param file attachment
+</span><span style=color:#8f5902;font-style:italic>     * @return complex id
+</span><span style=color:#8f5902;font-style:italic>     */</span>
+    <span style=color:#000>ApiResult</span><span style=color:#ce5c00;font-weight:700>&lt;</span><span style=color:#000>String</span><span style=color:#ce5c00;font-weight:700>&gt;</span> <span style=color:#000>create</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>ComplexCreateParam</span> <span style=color:#000>param</span><span style=color:#ce5c00;font-weight:700>,</span> <span style=color:#204a87;font-weight:700>byte</span><span style=color:#ce5c00;font-weight:700>[]</span> <span style=color:#000>file</span><span style=color:#ce5c00;font-weight:700>);</span>
+<span style=color:#ce5c00;font-weight:700>}</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#204a87;font-weight:700>public</span> <span style=color:#204a87;font-weight:700>class</span> <span style=color:#000>ComplexListParam</span> <span style=color:#204a87;font-weight:700>extends</span> <span style=color:#000>PageParam</span> <span style=color:#ce5c00;font-weight:700>{</span>
+
+    <span style=color:#204a87;font-weight:700>private</span> <span style=color:#000>String</span> <span style=color:#000>token</span><span style=color:#ce5c00;font-weight:700>;</span> <span style=color:#8f5902;font-style:italic>// the token to sign
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#204a87;font-weight:700>private</span> <span style=color:#000>Set</span><span style=color:#ce5c00;font-weight:700>&lt;</span><span style=color:#000>Integer</span><span style=color:#ce5c00;font-weight:700>&gt;</span> <span style=color:#000>userIds</span><span style=color:#ce5c00;font-weight:700>;</span> <span style=color:#8f5902;font-style:italic>// users who admire the number
+</span><span style=color:#8f5902;font-style:italic></span><span style=color:#ce5c00;font-weight:700>}</span>
+</code></pre></div><p><strong>单元测试</strong></p>
+<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#204a87;font-weight:700>import</span> <span style=color:#000>java.util.Collections</span><span style=color:#ce5c00;font-weight:700>;</span>
+<span style=color:#204a87;font-weight:700>import</span> <span style=color:#000>org.dreamcat.cli.generator.apidoc.ApiDocConfig</span><span style=color:#ce5c00;font-weight:700>;</span>
+<span style=color:#204a87;font-weight:700>import</span> <span style=color:#000>org.dreamcat.cli.generator.apidoc.ApiDocGenerator</span><span style=color:#ce5c00;font-weight:700>;</span>
+<span style=color:#204a87;font-weight:700>import</span> <span style=color:#000>org.dreamcat.cli.generator.apidoc.renderer.JsonWithCommentRenderer</span><span style=color:#ce5c00;font-weight:700>;</span>
+<span style=color:#204a87;font-weight:700>import</span> <span style=color:#000>org.junit.jupiter.api.Test</span><span style=color:#ce5c00;font-weight:700>;</span>
+
+<span style=color:#204a87;font-weight:700>class</span> <span style=color:#000>JavaDocTest</span> <span style=color:#ce5c00;font-weight:700>{</span>
+
+    <span style=color:#5c35cc;font-weight:700>@Test</span>
+    <span style=color:#204a87;font-weight:700>void</span> <span style=color:#000>test</span><span style=color:#ce5c00;font-weight:700>()</span> <span style=color:#204a87;font-weight:700>throws</span> <span style=color:#000>Exception</span> <span style=color:#ce5c00;font-weight:700>{</span>
+        <span style=color:#000>String</span> <span style=color:#000>srcDir</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#4e9a06>&#34;/path/to/project/src/main/java&#34;</span><span style=color:#ce5c00;font-weight:700>;</span>
+        <span style=color:#8f5902;font-style:italic>// 想要分析的Service接口的源码目录
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#000>String</span> <span style=color:#000>javaFileDir</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#000>srcDir</span> <span style=color:#ce5c00;font-weight:700>+</span> <span style=color:#4e9a06>&#34;/com/example/service&#34;</span><span style=color:#ce5c00;font-weight:700>;</span>
+        <span style=color:#8f5902;font-style:italic>// 支持源码分析的java基础包名
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#000>String</span> <span style=color:#000>basePackage</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#4e9a06>&#34;com.example&#34;</span><span style=color:#ce5c00;font-weight:700>;</span>
+
+        <span style=color:#8f5902;font-style:italic>// API文档生成器的配置
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#000>ApiDocConfig</span> <span style=color:#000>config</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#204a87;font-weight:700>new</span> <span style=color:#000>ApiDocConfig</span><span style=color:#ce5c00;font-weight:700>();</span>
+        <span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>setBasePackages</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>Collections</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>singletonList</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>basePackage</span><span style=color:#ce5c00;font-weight:700>));</span>
+        <span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>setSrcDirs</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>Collections</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>singletonList</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>srcDir</span><span style=color:#ce5c00;font-weight:700>));</span>
+        <span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>setJavaFileDirs</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>Collections</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>singletonList</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>javaFileDir</span><span style=color:#ce5c00;font-weight:700>));</span>
+        
+        <span style=color:#8f5902;font-style:italic>// 第一种输出：设置渲染方式为带注释的Json markdown格式
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#000>JsonWithCommentRenderer</span> <span style=color:#000>jsonWithCommentRenderer</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#204a87;font-weight:700>new</span> <span style=color:#000>JsonWithCommentRenderer</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>);</span>
+        <span style=color:#000>jsonWithCommentRenderer</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>setSeqFormatter</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>i</span> <span style=color:#ce5c00;font-weight:700>-&gt;</span> <span style=color:#4e9a06>&#34;#### 4.1.&#34;</span> <span style=color:#ce5c00;font-weight:700>+</span> <span style=color:#000>i</span><span style=color:#ce5c00;font-weight:700>);</span>
+        
+        <span style=color:#000>ApiDocGenerator</span><span style=color:#ce5c00;font-weight:700>&lt;</span><span style=color:#000>String</span><span style=color:#ce5c00;font-weight:700>&gt;</span> <span style=color:#000>markdownGenerator</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#204a87;font-weight:700>new</span> <span style=color:#000>ApiDocGenerator</span><span style=color:#ce5c00;font-weight:700>&lt;&gt;(</span><span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>,</span> <span style=color:#000>jsonWithCommentRenderer</span><span style=color:#ce5c00;font-weight:700>);</span>
+        <span style=color:#000>String</span> <span style=color:#000>markdown</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#000>markdownGenerator</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>generate</span><span style=color:#ce5c00;font-weight:700>();</span>
+        <span style=color:#000>System</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>out</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>println</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>markdown</span><span style=color:#ce5c00;font-weight:700>);</span>
+        
+        <span style=color:#8f5902;font-style:italic>// 第二种输出：设置渲染方式为swagger-editor yaml格式
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#000>SwaggerRenderer</span> <span style=color:#000>swaggerRenderer</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#204a87;font-weight:700>new</span> <span style=color:#000>SwaggerRenderer</span><span style=color:#ce5c00;font-weight:700>();</span>
+        <span style=color:#000>swaggerRenderer</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>setdDfaultTitle</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#4e9a06>&#34;Some Stuff&#34;</span><span style=color:#ce5c00;font-weight:700>);</span>
+
+        <span style=color:#000>ApiDocGenerator</span><span style=color:#ce5c00;font-weight:700>&lt;</span><span style=color:#000>String</span><span style=color:#ce5c00;font-weight:700>&gt;</span> <span style=color:#000>yamlGenerator</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#204a87;font-weight:700>new</span> <span style=color:#000>ApiDocGenerator</span><span style=color:#ce5c00;font-weight:700>&lt;&gt;(</span><span style=color:#000>config</span><span style=color:#ce5c00;font-weight:700>,</span> <span style=color:#000>swaggerRenderer</span><span style=color:#ce5c00;font-weight:700>);</span>
+        <span style=color:#000>String</span> <span style=color:#000>yaml</span> <span style=color:#ce5c00;font-weight:700>=</span> <span style=color:#000>yamlGenerator</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>generate</span><span style=color:#ce5c00;font-weight:700>();</span>
+        <span style=color:#000>System</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>out</span><span style=color:#ce5c00;font-weight:700>.</span><span style=color:#c4a000>println</span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#000>yaml</span><span style=color:#ce5c00;font-weight:700>);</span>
+    <span style=color:#ce5c00;font-weight:700>}</span>
+<span style=color:#ce5c00;font-weight:700>}</span>
+</code></pre></div><h2 id=四输出姿势>四、输出姿势</h2>
+<h3 id=41-带注释的json-markdown文档输出>4.1 带注释的Json Markdown文档输出</h3>
+<p>示例如下</p>
+<h4 id=411--list-complex>4.1.1 list complex</h4>
+<p>入参</p>
+<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#000;font-weight:700>{</span>
+    <span style=color:#4e9a06>&#34;pageNo&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>1616467239</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  page number, default is 1
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;pageSize&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>1187568143</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  page size, default is 10
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;token&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;05Ie60000000&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  the token to sign
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;userIds&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000;font-weight:700>[</span>
+        <span style=color:#0000cf;font-weight:700>1360046618</span>
+    <span style=color:#000;font-weight:700>]</span> <span style=color:#8f5902;font-style:italic>//  users who admire the number
+</span><span style=color:#8f5902;font-style:italic></span><span style=color:#000;font-weight:700>}</span>
+</code></pre></div><p>出参</p>
+<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#000;font-weight:700>{</span>
+    <span style=color:#4e9a06>&#34;code&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;Z14dx00&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  response code
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;msg&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;6d1B&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  error message
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;data&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000;font-weight:700>{</span>
+        <span style=color:#4e9a06>&#34;pageNo&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>332708021</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  page number, default is 1
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#4e9a06>&#34;pageSize&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>1363282705</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  page size, default is 10
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#4e9a06>&#34;list&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000;font-weight:700>[</span>
+            <span style=color:#000;font-weight:700>{</span>
+                <span style=color:#4e9a06>&#34;id&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;0HN5X&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>// /! entity id
+</span><span style=color:#8f5902;font-style:italic></span>                <span style=color:#4e9a06>&#34;createdBy&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>7819338319132650901</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//     who created the record    
+</span><span style=color:#8f5902;font-style:italic></span>                <span style=color:#4e9a06>&#34;createdAt&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;2021-12-20 20:18:56&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>// 
+</span><span style=color:#8f5902;font-style:italic></span>                <span style=color:#4e9a06>&#34;a&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>2114287267</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  a or a + bi
+</span><span style=color:#8f5902;font-style:italic></span>                <span style=color:#4e9a06>&#34;b&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>1421927723</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  b of a + bi
+</span><span style=color:#8f5902;font-style:italic></span>                <span style=color:#4e9a06>&#34;salt&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000;font-weight:700>[</span>
+                    <span style=color:#0000cf;font-weight:700>3</span>
+                <span style=color:#000;font-weight:700>],</span> <span style=color:#8f5902;font-style:italic>//  salt to sign 
+</span><span style=color:#8f5902;font-style:italic></span>                <span style=color:#4e9a06>&#34;admired&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000;font-weight:700>[</span>
+                    <span style=color:#000;font-weight:700>{</span>
+                        <span style=color:#4e9a06>&#34;id&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>6733097960264216561</span><span style=color:#000;font-weight:700>,</span>
+                        <span style=color:#4e9a06>&#34;name&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;2O9eO000000000&#34;</span><span style=color:#000;font-weight:700>,</span>
+                        <span style=color:#4e9a06>&#34;gender&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000>female</span>
+                    <span style=color:#000;font-weight:700>}</span>
+                <span style=color:#000;font-weight:700>]</span> <span style=color:#8f5902;font-style:italic>//      * the people who admire the number     
+</span><span style=color:#8f5902;font-style:italic></span>            <span style=color:#000;font-weight:700>}</span>
+        <span style=color:#000;font-weight:700>],</span> <span style=color:#8f5902;font-style:italic>//  the list data per page
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#4e9a06>&#34;totalCount&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>1593462666</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  the total count
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#4e9a06>&#34;totalPage&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>585256653</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  the total page
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#4e9a06>&#34;summary&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000;font-weight:700>{</span>
+            <span style=color:#4e9a06>&#34;todayCount&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>940383353038686031</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  count of today
+</span><span style=color:#8f5902;font-style:italic></span>            <span style=color:#4e9a06>&#34;last7dayCount&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>2958055079033281580</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  count of last 7 day
+</span><span style=color:#8f5902;font-style:italic></span>            <span style=color:#4e9a06>&#34;bits&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000;font-weight:700>[</span>
+                <span style=color:#0000cf;font-weight:700>367530979</span>
+            <span style=color:#000;font-weight:700>]</span> <span style=color:#8f5902;font-style:italic>//  magic bits
+</span><span style=color:#8f5902;font-style:italic></span>        <span style=color:#000;font-weight:700>}</span> <span style=color:#8f5902;font-style:italic>//  the summary per page
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#000;font-weight:700>}</span> <span style=color:#8f5902;font-style:italic>//  real data
+</span><span style=color:#8f5902;font-style:italic></span><span style=color:#000;font-weight:700>}</span>
+</code></pre></div><h4 id=412--create-complex>4.1.2 create complex</h4>
+<p>入参</p>
+<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#000;font-weight:700>{</span>
+    <span style=color:#4e9a06>&#34;a&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>15466019106679717788876966621497800342</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  some of complex
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;b&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#0000cf;font-weight:700>1.14164135352093225954791023656452</span><span style=color:#000>E</span><span style=color:#ce5c00;font-weight:700>+</span><span style=color:#0000cf;font-weight:700>616</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  some of complex
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;props&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#000;font-weight:700>{</span>
+        <span style=color:#4e9a06>&#34;Q14iG0000&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;VWsEa00000&#34;</span>
+    <span style=color:#000;font-weight:700>}</span> <span style=color:#8f5902;font-style:italic>//  props for extra settings 
+</span><span style=color:#8f5902;font-style:italic></span><span style=color:#000;font-weight:700>}</span>
+</code></pre></div><p>出参</p>
+<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=color:#000;font-weight:700>{</span>
+    <span style=color:#4e9a06>&#34;code&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;k&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  response code
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;msg&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;7RwO600&#34;</span><span style=color:#000;font-weight:700>,</span> <span style=color:#8f5902;font-style:italic>//  error message
+</span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#4e9a06>&#34;data&#34;</span><span style=color:#ce5c00;font-weight:700>:</span> <span style=color:#4e9a06>&#34;OgF6&#34;</span> <span style=color:#8f5902;font-style:italic>//  real data
+</span><span style=color:#8f5902;font-style:italic></span><span style=color:#000;font-weight:700>}</span>
+</code></pre></div><h3 id=42-swagger-editor-yaml文档输出>4.2 Swagger Editor Yaml文档输出</h3>
+<p>示例如下</p>
+<div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#000>---</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline></span><span style=color:#204a87;font-weight:700>swagger</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;2.0&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline></span><span style=color:#204a87;font-weight:700>info</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>  </span><span style=color:#204a87;font-weight:700>version</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;1.0.0&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>  </span><span style=color:#204a87;font-weight:700>title</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;Default Title&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline></span><span style=color:#204a87;font-weight:700>tags</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline></span>- <span style=color:#204a87;font-weight:700>name</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;com.example.controller.ComplexController&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>  </span><span style=color:#204a87;font-weight:700>description</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline></span><span style=color:#204a87;font-weight:700>schemes</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline></span>- <span style=color:#4e9a06>&#34;https&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline></span>- <span style=color:#4e9a06>&#34;http&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline></span><span style=color:#204a87;font-weight:700>paths</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>  </span><span style=color:#204a87;font-weight:700>/api/v1/get</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>    </span><span style=color:#204a87;font-weight:700>get</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>      </span><span style=color:#204a87;font-weight:700>tags</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>      </span>- <span style=color:#4e9a06>&#34;com.example.controller.ComplexController&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>      </span><span style=color:#204a87;font-weight:700>description</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;get complex&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>      </span><span style=color:#204a87;font-weight:700>operationId</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;GET_get&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>      </span><span style=color:#204a87;font-weight:700>parameters</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>      </span>- <span style=color:#204a87;font-weight:700>in</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;query&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>        </span><span style=color:#204a87;font-weight:700>name</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;id&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>        </span><span style=color:#204a87;font-weight:700>description</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>        </span><span style=color:#204a87;font-weight:700>required</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#204a87;font-weight:700>true</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>        </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;string&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>      </span><span style=color:#204a87;font-weight:700>responses</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>        </span><span style=color:#4e9a06>&#34;200&#34;</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>          </span><span style=color:#204a87;font-weight:700>description</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;ApiResult&lt;ComplexModel&gt;&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>          </span><span style=color:#204a87;font-weight:700>schema</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>$ref</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;#/definitions/ApiResult_ComplexModel&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline></span><span style=color:#204a87;font-weight:700>definitions</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>  </span><span style=color:#204a87;font-weight:700>ApiResult_ComplexModel</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>    </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;object&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>    </span><span style=color:#204a87;font-weight:700>properties</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>      </span><span style=color:#204a87;font-weight:700>msg</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>        </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;string&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>      </span><span style=color:#204a87;font-weight:700>data</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>        </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;object&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>        </span><span style=color:#204a87;font-weight:700>properties</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>          </span><span style=color:#204a87;font-weight:700>admired</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;array&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>items</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>              </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;object&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>              </span><span style=color:#204a87;font-weight:700>properties</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>                </span><span style=color:#204a87;font-weight:700>name</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>                  </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;string&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>                </span><span style=color:#204a87;font-weight:700>gender</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>                  </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;string&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>                  </span><span style=color:#204a87;font-weight:700>enum</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>                  </span>- <span style=color:#4e9a06>&#34;unknown&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>                  </span>- <span style=color:#4e9a06>&#34;female&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>                  </span>- <span style=color:#4e9a06>&#34;male&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>                </span><span style=color:#204a87;font-weight:700>id</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>                  </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;object&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>                  </span><span style=color:#204a87;font-weight:700>format</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;int64&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>          </span><span style=color:#204a87;font-weight:700>createdAt</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;object&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>format</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;date-time&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>          </span><span style=color:#204a87;font-weight:700>a</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;object&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>format</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;int32&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>          </span><span style=color:#204a87;font-weight:700>b</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;integer&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>format</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;int32&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>          </span><span style=color:#204a87;font-weight:700>salt</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;array&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>items</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>              </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;object&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>          </span><span style=color:#204a87;font-weight:700>createdBy</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;integer&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>format</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;int64&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>          </span><span style=color:#204a87;font-weight:700>id</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>            </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;string&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>      </span><span style=color:#204a87;font-weight:700>code</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline>
+</span><span style=color:#f8f8f8;text-decoration:underline>        </span><span style=color:#204a87;font-weight:700>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#4e9a06>&#34;string&#34;</span><span style=color:#f8f8f8;text-decoration:underline>
+</span></code></pre></div>
 </div>
 </main>
 </div>
