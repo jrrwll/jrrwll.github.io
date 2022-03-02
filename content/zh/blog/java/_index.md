@@ -1,7 +1,7 @@
 
 ---
-title: "数据"
-linkTitle: "数据"
+title: "Java"
+linkTitle: "Java"
 weight: 1
 date: 2022-02-17
 ---
