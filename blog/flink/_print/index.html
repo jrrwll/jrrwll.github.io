@@ -3,8 +3,8 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
 <meta name=generator content="Hugo 0.93.0">
-<link rel=canonical type=text/html href=/blog/>
-<link rel=alternate type=application/rss+xml href=/blog/index.xml>
+<link rel=canonical type=text/html href=/blog/flink/>
+<link rel=alternate type=application/rss+xml href=/blog/flink/index.xml>
 <meta name=robots content="noindex, nofollow">
 <link rel="shortcut icon" href=/favicons/favicon.ico>
 <link rel=apple-touch-icon href=/favicons/apple-touch-icon-180x180.png sizes=180x180>
@@ -16,14 +16,14 @@
 <link rel=icon type=image/png href=/favicons/android-96x96.png sizes=96x96>
 <link rel=icon type=image/png href=/favicons/android-144x144.png sizes=144x144>
 <link rel=icon type=image/png href=/favicons/android-192x192.png sizes=192x192>
-<title>博客 | Jerry Will's Blog</title><meta name=description content>
-<meta property="og:title" content="博客">
+<title>Flink | Jerry Will's Blog</title><meta name=description content>
+<meta property="og:title" content="Flink">
 <meta property="og:description" content="一个简洁的博客网站">
 <meta property="og:type" content="website">
-<meta property="og:url" content="/blog/"><meta property="og:site_name" content="Jerry Will's Blog">
-<meta itemprop=name content="博客">
+<meta property="og:url" content="/blog/flink/"><meta property="og:site_name" content="Jerry Will's Blog">
+<meta itemprop=name content="Flink">
 <meta itemprop=description content="一个简洁的博客网站"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="博客">
+<meta name=twitter:title content="Flink">
 <meta name=twitter:description content="一个简洁的博客网站">
 <link rel=preload href=/scss/main.min.704093cd1a56f37fd00dc35c7125fced09d88d60c92d59965b30c8c0eeef1cd5.css as=style>
 <link href=/scss/main.min.704093cd1a56f37fd00dc35c7125fced09d88d60c92d59965b30c8c0eeef1cd5.css rel=stylesheet integrity>
@@ -60,131 +60,9 @@
 这是本节的多页打印视图。
 <a href=# onclick="return print(),!1">点击此处打印</a>.
 </p><p>
-<a href=/blog/>返回本页常规视图</a>.
-</p></div><h1 class=title>博客</h1><ul>
-<li><a href=#pg-bc7b7ea78aa76238b0734af6134e7f66>Java</a></li><ul>
-<li><a href=#pg-0c5d4e8774e78e2e5090a0dd15d5e8d6>G1 GC 算法</a></li></ul><li><a href=#pg-a5a5677d53a19c3b0d047d090c91f25a>Elasticsearch</a></li><ul>
-<li><a href=#pg-90d561e8ce98bb771d80f6fcd5abd804>ElasticSearch 学习笔记</a></li></ul><li><a href=#pg-c17c9d4cbf1c7e425d1c1e6dc485fe70>Flink</a></li><ul>
-<li><a href=#pg-e5ada68a7b507a60953af8cea24a8ab4>Flink 简介</a></li></ul></ul><div class=content>
-</div></div><div class=td-content>
-<h1 id=pg-bc7b7ea78aa76238b0734af6134e7f66>Java</h1><div class="td-byline mb-4">
-<time datetime=2022-02-17 class=text-muted>2022-02-17</time>
-</div></div><div class=td-content>
-<h1 id=pg-0c5d4e8774e78e2e5090a0dd15d5e8d6>G1 GC 算法</h1><div class="td-byline mb-4">
-<time datetime=2022-02-18 class=text-muted>2022-02-18</time>
-</div></div><div class=td-content style=page-break-before:always>
-<h1 id=pg-a5a5677d53a19c3b0d047d090c91f25a>Elasticsearch</h1><div class="td-byline mb-4">
-<time datetime=2022-02-17 class=text-muted>2022-02-17</time>
-</div></div><div class=td-content>
-<h1 id=pg-90d561e8ce98bb771d80f6fcd5abd804>ElasticSearch 学习笔记</h1><div class="td-byline mb-4">
-<time datetime=2022-02-17 class=text-muted>2022-02-17</time>
-</div><h2 id=概述>概述</h2><p>Elasticsearch是一个建立在全文搜索引擎库Apache Lucene 基础上的实时的分布式搜索和分析引擎，它可以帮助我们用很快的速度去处理大规模数据，可以用于全文检索、结构化检索、推荐、分析以及统计聚合等多种场景。</p><h2 id=数据模型>数据模型</h2><h3 id=lucene>Lucene</h3><p>Lucene提供了最基本的索引和查询的功能，是一个单机的搜索库，并且没有主键概念和更新逻辑</p><h3 id=luceneelasticsearch数据模型>Lucene/Elasticsearch数据模型</h3><pre tabindex=0><code class=language-plantuml data-lang=plantuml>@startmindmap
-*[#orange] 基本数据类型
-**[#lightgreen]: Index 索引
-由很多的Document组成;
-**[#lightgreen]: Document 文档
-由很多的Field组成，是Index和Search的最小单位;
-**[#lightgreen]: Field 字段
-由很多的Term组成，包括Field Name和Field Value;
-**[#lightgreen]: Term 词元
-由很多的字节组成，可以分词;
-
-*[#orange] 索引类型
-**[#lightblue]: Invert Index 倒排索引
-索引的Key是Term，Value是DocID的链表
-通过Term可以查询到拥有该Term的文档;
-***[#cyan] 存储类型
-****[#FFBBCC] DOCS 只存储DocID
-****[#FFBBCC]: DOCS_AND_FREQS 
-存储DocID和词频TermFreq;
-****[#FFBBCC]: DOCS_AND_FREQS_AND_POSITIONS 
-存储DocID、词频TermFreq和位置;
-****[#FFBBCC]: DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS 
-存储DocID、词频TermFreq、位置和偏移;
-**[#lightblue]: DocValues 正排索引
-Key 是DocID和FieldName，Value是FieldValue
-列式存储，通过DocID可以快速读取到该Doc的特定字段的值
-一般用于sort，agg等需要高频读取Doc字段值的场景;
-**[#lightblue]: Store 字段原始内容存储
-Key是Doc ID，Value是FiledName和FiledValue
-同一文档的多个Field的Store会存储在一起;
-@endmindmap
-</code></pre><h3 id=elasticsearch对lucene的扩展>Elasticsearch对Lucene的扩展</h3><p>Elasticsearch通过增加_id、_version、_source、_routing和_seq_no等多个系统字段，实现了分布式搜索和部分字段更新等Lucene缺失的功能</p><table>
-<thead>
-<tr>
-<th style=text-align:center>System Field</th><th style=text-align:center>含义</th><th style=text-align:center>Lucene Index</th><th style=text-align:center>Lucene DocValues</th><th style=text-align:center>Lucene Store</th></tr></thead><tbody>
-<tr>
-<td style=text-align:center>_uid</td><td style=text-align:center>主键</td><td style=text-align:center><strong>Y</strong></td><td style=text-align:center></td><td style=text-align:center><strong>Y</strong></td></tr><tr>
-<td style=text-align:center>_version</td><td style=text-align:center>版本</td><td style=text-align:center></td><td style=text-align:center><strong>Y</strong></td><td style=text-align:center></td></tr><tr>
-<td style=text-align:center>_source</td><td style=text-align:center>原始值</td><td style=text-align:center></td><td style=text-align:center></td><td style=text-align:center><strong>Y</strong></td></tr><tr>
-<td style=text-align:center>_seq_no</td><td style=text-align:center>序号</td><td style=text-align:center><strong>Y</strong></td><td style=text-align:center><strong>Y</strong></td><td style=text-align:center></td></tr><tr>
-<td style=text-align:center>_primary_term</td><td style=text-align:center>主编号</td><td style=text-align:center></td><td style=text-align:center><strong>Y</strong></td><td style=text-align:center></td></tr><tr>
-<td style=text-align:center>_routing</td><td style=text-align:center>路由</td><td style=text-align:center><strong>Y</strong></td><td style=text-align:center></td><td style=text-align:center><strong>Y</strong></td></tr><tr>
-<td style=text-align:center>_field_names</td><td style=text-align:center>字段名</td><td style=text-align:center><strong>Y</strong></td><td style=text-align:center></td><td style=text-align:center></td></tr></tbody></table><h4 id=1-_id>1 _id</h4><p>_id是一个用户级别的虚拟字段，Lucene不会存储该字段的值。表示Doc的主键，在写入的时候，可以指定该Doc的ID值，如果不指定，则系统自动生成一个唯一的UUID值。</p><p>Lucene中没有主键索引，要保证系统中同一个Doc不会重复，Elasticsearch引入了_id字段来实现主键。每次写入的时候都会先查询id，如果有，则说明已经有相同Doc存在了。</p><h4 id=2-_uid>2 _uid</h4><blockquote>
-<p>Index#Doc, Store</p></blockquote><p>_uid的格式是：type + &lsquo;#&rsquo; + id。同Index下值是唯一的</p><h4 id=3-_version>3 _version</h4><blockquote>
-<p>DcoValues</p></blockquote><p>每个Doc都会有一个Version，该Version可以由用户指定，也可以由系统自动生成。如果是系统自动生成，那么每次Version都是递增1。</p><p>Elasticsearch通过使用version来保证对文档的变更能以正确的顺序执行，避免乱序造成的数据丢失：</p><ul>
-<li>首次写入Doc的时候，会为Doc分配一个初始的Version：V0，该值根据VersionType不同而不同。</li><li>再次写入Doc的时候，如果Request中没有指定Version，则会先加锁，然后去读取该Doc的最大版本V1，然后将V1+1后的新版本写入Lucene中。</li><li>再次写入Doc的时候，如果Request中指定了Version：V1，则继续会先加锁，然后去读该Doc的最大版本V2，判断V1==V2，如果不相等，则发生版本冲突。否则版本吻合，继续写入Lucene。</li><li>当做部分更新的时候，会先通过GetRequest读取当前id的完整Doc和V1，接着和当前Request中的Doc合并为一个完整Doc。然后执行一些逻辑后，加锁，再次读取该Doc的最大版本号V2，判断V1==V2，如果不相等，则在刚才执行其他逻辑时被其他线程更改了当前文档，需要报错后重试。如果相等，则期间没有其他线程修改当前文档，继续写入Lucene中。这个过程就是一个典型的read-then-update事务。</li></ul><h4 id=4-_source>4 _source</h4><blockquote>
-<p>Store</p></blockquote><p>存储原始文档，也可以通过过滤设置只存储特定Field</p><p>_source字段的主要目的是通过doc_id读取该文档的原始内容，所以只需要存储Store即可</p><p>Elasticsearch中使用_source字段可以实现以下功能：</p><ul>
-<li>Update：部分更新时，需要从读取文档保存在_source字段中的原文，然后和请求中的部分字段合并为一个完整文档。如果没有_source，则不能完成部分字段的Update操作。</li><li>Rebuild：最新的版本中新增了rebuild接口，可以通过Rebuild API完成索引重建，过程中不需要从其他系统导入全量数据，而是从当前文档的_source中读取。如果没有_source，则不能使用Rebuild API。</li><li>Script：不管是Index还是Search的Script，都可能用到存储在Store中的原始内容，如果禁用了_source，则这部分功能不再可用。
-Summary：摘要信息也是来源于_source字段。</li></ul><h4 id=5-_seq_no>5 _seq_no</h4><blockquote>
-<p>Index#DOCS_AND_FREQS_AND_POSITIONS, Analyzer, DocValues</p></blockquote><p>严格递增的顺序号，每个文档一个，Shard级别严格递增，保证后写入的Doc的_seq_no大于先写入的Doc的_seq_no。任何类型的写操作，包括index、create、update和Delete，都会生成一个_seq_no。</p><p>每个文档在使用Lucene的document操作接口之前，会获取到一个_seq_no，这个_seq_no会以系统保留Field的名义存储到Lucene中，文档写入Lucene成功后，会标记该seq_no为完成状态，这时候会使用当前seq_no更新local_checkpoint。</p><p>checkpoint分为local_checkpoint和global_checkpoint，主要是用于保证有序性，以及减少Shard恢复时数据拷贝的数据拷贝量。</p><p>Elasticsearch中_seq_no的作用有两个，一是通过doc_id查询到该文档的seq_no，二是通过seq_no范围查找相关文档，所以也就需要存储为Index和DocValues（或者Store）。由于是在冲突检测时才需要读取文档的_seq_no，而且此时只需要读取_seq_no，不需要其他字段，这时候存储为列式存储的DocValues比Store在性能上更好一些。</p><h4 id=6-_primary_term>6 _primary_term</h4><blockquote>
-<p>DocValues</p></blockquote><p>每当Primary Shard发生重新分配时，比如重启，Primary选举等，_primary_term会递增1。_primary_term主要是用来恢复数据时处理当多个文档的_seq_no一样时的冲突，避免Primary Shard上的写入被覆盖。</p><p>Elasticsearch中_primary_term只需要通过doc_id读取到即可，所以只需要保存为DocValues就可以了.</p><h4 id=7-_routing>7 _routing</h4><blockquote>
-<p>Index#Doc, Store</p></blockquote><p>在mapping中，或者Request中可以指定按某个字段路由。默认是按照_Id值路由。</p><p>Elasticsearch中文档级别的_routing主要有两个目的，一是可以查询到使用某种_routing的文档有哪些，当发生_routing变化时，可以对历史_routing的文档重新读取再Index，这个需要倒排Index。另一个是查询到文档后，在Response里面展示该文档使用的_routing规则，这里需要存储为Store。</p><h4 id=8-_field_names>8 _field_names</h4><blockquote>
-<p>Index#Doc</p></blockquote><p>该字段会索引某个Field的名称，用来判断某个Doc中是否存在某个Field，用于exists或者missing请求。</p><p>Elasticsearch中_field_names的目的是查询哪些Doc的这个Field是否存在，所以只需要倒排Index即可。</p><h2 id=写入流程>写入流程</h2><h3 id=写操作在搜索系统和nosql数据库中的对比>写操作在搜索系统和NoSQL数据库中的对比</h3><ul>
-<li>实时性：
-<ul>
-<li>搜索系统的Index一般都是NRT（Near Real Time），近实时的，比如Elasticsearch中，Index的实时性是由refresh控制的，默认是1s，最快可到100ms，那么也就意味着Index doc成功后，需要等待一秒钟后才可以被搜索到。</li><li>NoSQL数据库的Write基本都是RT（Real Time），实时的，写入成功后，立即是可见的。Elasticsearch中的Index请求也能保证是实时的，因为Get请求会直接读内存中尚未Flush到存储介质的TransLog。</li></ul></li><li>可靠性：
-<ul>
-<li>搜索系统对可靠性要求都不高，一般数据的可靠性通过将原始数据存储在另一个存储系统来保证，当搜索系统的数据发生丢失时，再从其他存储系统导一份数据过来重新rebuild就可以了。在Elasticsearch中，通过设置TransLog的Flush频率可以控制可靠性，要么是按请求，每次请求都Flush；要么是按时间，每隔一段时间Flush一次。一般为了性能考虑，会设置为每隔5秒或者1分钟Flush一次，Flush间隔时间越长，可靠性就会越低。</li><li>NoSQL数据库作为一款数据库，必须要有很高的可靠性，数据可靠性是生命底线，决不能有闪失。如果把Elasticsearch当做NoSQL数据库，此时需要设置TransLog的Flush策略为每个请求都要Flush，这样才能保证当前Shard写入成功后，数据能尽量持久化下来。</li></ul></li></ul><h3 id=写操作的关键点>写操作的关键点</h3><ul>
-<li>可靠性：或者是持久性，数据写入系统成功后，数据不会被回滚或丢失。</li><li>一致性：数据写入成功后，再次查询时必须能保证读取到最新版本的数据，不能读取到旧数据。</li><li>原子性：一个写入或者更新操作，要么完全成功，要么完全失败，不允许出现中间状态。</li><li>隔离性：多个写入操作相互不影响。</li><li>实时性：写入后是否可以立即被查询到。</li><li>性能：写入性能，吞吐量到底怎么样。</li></ul><h3 id=elasticsearch的写>Elasticsearch的写</h3><h4 id=replica-副本>Replica 副本</h4><p>Elasticsearch采用多Shard方式，通过配置routing规则将数据分成多个数据子集，每个数据子集提供独立的索引和搜索功能。当写入文档的时候，根据routing规则，将文档发送给特定Shard中建立索引。</p><p>Elasticsearch整体架构上采用了一主多副的方式：</p><pre tabindex=0><code class=language-plantuml data-lang=plantuml>@startuml
-!theme mars
-skinparam component {
-  BackgroundColor gold
-  ArrowColor #FF6655
-}
-
-frame &#34;DataNode&#34; as primary {
-    node [Primary] as p1
-}
-frame &#34;DataNode&#34; as replica1 {
-    node [Replica1] as r1
-    p1 --&gt; r1
-}
-frame &#34;DataNode&#34; as replica2 {
-    node [Replica2] as r2
-    p1 --&gt; r2
-}
-@enduml
-</code></pre><p>每个Index由多个Shard组成，每个Shard有一个主节点和多个副本节点，副本个数可配。但每次写入的时候，写入请求会先根据_routing规则选择发给哪个Shard，Index Request中可以设置使用哪个Filed的值作为路由参数，如果没有设置，则使用Mapping中的配置，如果mapping中也没有配置，则使用_id作为路由参数，然后通过_routing的Hash值选择出Shard（在OperationRouting类中），最后从集群的Meta中找出出该Shard的Primary节点。</p><p>请求接着会发送给Primary Shard，在Primary Shard上执行成功后，再从Primary Shard上将请求同时发送给多个Replica Shard，请求在多个Replica Shard上执行成功并返回给Primary Shard后，写入请求执行成功，返回结果给客户端。</p><p>这种模式下，写入操作的延时就等于latency = Latency(Primary Write) + Max(Replicas Write)。只要有副本在，写入延时最小也是两次单Shard的写入时延总和，写入效率会较低，但是这样的好处也很明显，避免写入后，单机或磁盘故障导致数据丢失，在数据重要性和性能方面，一般都是优先选择数据，除非一些允许丢数据的特殊场景。</p><p>Elasticsearch里为了减少磁盘IO保证读写性能，一般是每隔一段时间（比如5分钟）才会把Lucene的Segment写入磁盘持久化，对于写入内存，但还未Flush到磁盘的Lucene数据，如果发生机器宕机或者掉电，那么内存中的数据也会丢失，这时候Elasticsearch使用TransLog来保证数据不丢失</p><h4 id=translog>TransLog</h4><p>对于每一个Shard，写入请求到达该Shard后，先写Lucene文件，创建好索引，此时索引还在内存里面，接着去写TransLog，写完TransLog后，刷新TransLog数据到磁盘上，写磁盘成功后，请求返回给用户。</p><p>在写Lucene内存后，需要通过Refresh把内存的对象转成完整的Segment后，然后再次reopen后才能被搜索，一般这个时间设置为1秒钟，导致写入Elasticsearch的文档，最快要1秒钟才可被从搜索到，所以Elasticsearch在搜索方面是NRT（Near Real Time）近实时的系统。而如果写完之后实时使用GetById查询，则可以直接从TransLog中查询到，这时候就成了RT（Real Time）实时系统。</p><p>每隔一段比较长的时间，比如30分钟后，Lucene会把内存中生成的新Segment刷新到磁盘上，这时会清空掉旧的TransLog。</p><h4 id=update流程>Update流程</h4><pre tabindex=0><code class=language-plantuml data-lang=plantuml>@startuml
-!theme mars
-start
-:Update请求;
-:GetDocById，找到相应的文档Doc;
-if (内存TransLog上找到该文档) then (yes)
-elseif (磁盘TransLog上找到该文档) then (yes)
-elseif (磁盘Lucene Segment上找到该文档) then (yes)
-else (nothing)
-  :文档未找到;
-  stop
-endif
-:找到完整Doc后，记录版本号为V1;
-:将版本V1的全量Doc和请求中的部分字段Doc合并为一个完整的Doc
-后续操作相当于Index请求+Delete请求，即先增后删;
-:加锁;
-:从versionMap中读取该id的最大版本号V2;
-if (检查版本是否冲突V1==V2) then (冲突)
-:回退到开始的“Update doc”阶段，重新执行;
-endif
-
-:将Version + 1得到V3，再将Doc加入到Lucene中去;
-:写入Lucene成功后，将当前V3更新到versionMap中;
-:释放锁;
-end
-@enduml
-</code></pre><h3 id=elasticsearch写操作的关键点>Elasticsearch写操作的关键点</h3><ul>
-<li>可靠性：由于Lucene的设计中不考虑可靠性，在Elasticsearch中通过Replica和TransLog两套机制保证数据的可靠性。</li><li>一致性：Lucene中的Flush锁只保证Update接口里面Delete和Add中间不会Flush，但是Add完成后仍然有可能立即发生Flush，导致Segment可读。这样就没法保证Primary和所有其他Replica可以同一时间Flush，就会出现查询不稳定的情况，这里只能实现最终一致性。</li><li>原子性：Add和Delete都是直接调用Lucene的接口，是原子的。当部分更新时，使用Version和锁保证更新是原子的。</li><li>隔离性：仍然采用Version和局部锁来保证更新的是特定版本的数据。</li><li>实时性：使用定期Refresh Segment到内存，并且Reopen Segment方式保证搜索可以在较短时间（比如1秒）内被搜索到。通过将未刷新到磁盘数据记入TransLog，保证对未提交数据可以通过ID实时访问到。</li><li>性能：一是不需要所有Replica都返回后才能返回给用户，只需要返回特定数目的就行；二是生成的Segment先在内存中提供服务，等一段时间后才刷新到磁盘，Segment在内存这段时间的可靠性由TransLog保证；三是TransLog可以配置为周期性的Flush，但这个会给可靠性带来伤害；四是每个线程持有一个Segment，多线程时相互不影响，相互独立，性能更好；五是系统的写入流程对版本依赖较重，读取频率较高，因此采用了versionMap，减少热点数据的多次磁盘IO开销。</li></ul></div><div class=td-content style=page-break-before:always>
-<h1 id=pg-c17c9d4cbf1c7e425d1c1e6dc485fe70>Flink</h1><div class="td-byline mb-4">
-<time datetime=2022-02-17 class=text-muted>2022-02-17</time>
+<a href=/blog/flink/>返回本页常规视图</a>.
+</p></div><h1 class=title>Flink</h1><ul>
+<li><a href=#pg-e5ada68a7b507a60953af8cea24a8ab4>Flink 简介</a></li></ul><div class=content>
 </div></div><div class=td-content>
 <h1 id=pg-e5ada68a7b507a60953af8cea24a8ab4>Flink 简介</h1><div class="td-byline mb-4">
 <time datetime=2022-02-18 class=text-muted>2022-02-18</time>

@@ -1,1 +1,639 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jerry Will's Blog – 博客</title><link>/blog/</link><description>Recent content in 博客 on Jerry Will's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>Blog: ElasticSearch 技术原理</title><link>/blog/2022/02/17/elasticsearch-%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/</link><pubDate>Thu, 17 Feb 2022 00:00:00 +0000</pubDate><guid>/blog/2022/02/17/elasticsearch-%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/</guid><description/></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jerry Will's Blog – 博客</title><link>/blog/</link><description>Recent content in 博客 on Jerry Will's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>Blog: Flink 简介</title><link>/blog/2022/02/18/flink-%E7%AE%80%E4%BB%8B/</link><pubDate>Fri, 18 Feb 2022 00:00:00 +0000</pubDate><guid>/blog/2022/02/18/flink-%E7%AE%80%E4%BB%8B/</guid><description>
+&lt;h2 id="概述">概述&lt;/h2>
+&lt;p>Apache Flink是一个开源的分布式，高性能，高可用，准确的流处理框架。同时支持实时流(stream)处理和批(batch)处理，其中批数据看做是流数据的一个特例。&lt;/p>
+&lt;p>在批(batch)处理中，批数据是在时间上&lt;strong>有界的数据&lt;/strong>，需要处理的数据量是确定的。而在流(stream)处理中，流数据是在时间上&lt;strong>无界的数据&lt;/strong>。相对于批数据，流数据增加了一个新的时间维度。流处理和批处理，需要处理的对象都是&lt;strong>大数据&lt;/strong>，需要解决大数据处理的共性问题。&lt;/p>
+&lt;h3 id="流处理和批处理">流处理和批处理&lt;/h3>
+&lt;p>CAP定理是大数据处理的基础约束，对一个分布式计算系统，C(Consistency 一致性)、A(Availability 可用性)、P(Partition tolerance 分区容忍性)难以同时满足。&lt;/p>
+&lt;p>因为大数据处理是在分布式环境下执行的，所以P是默认要满足的，C和A之间需要做出权衡取舍。&lt;/p>
+&lt;p>对于批处理系统，追求的是C，保证结果的正确性，牺牲了A，因为批处理对延时不敏感，几分钟甚至几小时之内获得计算结果都可以。&lt;/p>
+&lt;p>对于流处理系统，首先要保证C，用户对数据处理的基本需求，是要获得正确的结果。但是A也不能牺牲，因为流式数据处理天然有实时性的需求，较高的数据延时会严重影响用户体验。受CAP定理的约束，C和A难以兼得，于是在流式处理系统中，问题被定义成：在保证准确性的前提下，尽可能地追求实时性。&lt;/p>
+&lt;h3 id="flink设计思想">Flink设计思想&lt;/h3>
+&lt;pre tabindex="0">&lt;code class="language-plantuml" data-lang="plantuml">@startmindmap
+&amp;#39;!theme sketchy
+&amp;#39;!theme silver
+!theme plain
+&amp;#39;!include https://unpkg.com/plantuml-style-c4@latest/core.puml
++ Flink
+++ Stratosphere 大数据分析引擎
++++ Meteor，定义执行逻辑，一种将算子视为一等公民的DSL
++++ Sopremo，将Meteor脚本编译为PACT模型\n\
+(用于编写分布式数据批处理作业)
++++ PACT，将PACT定义的数据模型转换成Nephele Job Graph
++++ Nephele，Job Graph的执行引擎，将Job Graph调度和切分成Task任务，\n\
+并提供调度、执行、资源管理、容错管理、I/O服务等功能;
+++ Google开源论文提出的DataFlow/Beam编程模型
++++ 对无界、无序的数据源按数据本身的特征进行窗口计算
++++ 窗口、时间域和水位线
+++ 分布式异步快照算法Chandy-Lamport
++++ 使用两阶段提交保存一个全局快照
+-- 低延迟
+-- 高吞吐
+-- Exactly-Once数据一致性
+@endmindmap
+&lt;/code>&lt;/pre>&lt;h2 id="flink解决方案">Flink解决方案&lt;/h2>
+&lt;h3 id="集群架构">集群架构&lt;/h3>
+&lt;pre tabindex="0">&lt;code class="language-plantuml" data-lang="plantuml">@startuml
+!theme mars
+&amp;#39;!theme materia
+actor &amp;#34;用户&amp;#34; as user
+control &amp;#34;客户端&amp;#34; as client
+control &amp;#34;JobManager&amp;#34; as job
+control &amp;#34;TaskManager&amp;#34; as task
+user -&amp;gt; client: 提交Job\n\
+(Table SQL或DataStream API Jar等形式)
+client --&amp;gt; client: 加载用户提交的任务代码，\n\
+解析成StreamGraph并生成任务执行拓扑图JobGraph
+note left
+flink内部使用Akka框架(Actor System)和Netty
+进行通信, 通过发送消息驱动任务的推进。
+end note
+client -&amp;gt; job: 将拓扑图JobGraph提交给JobManager
+job --&amp;gt; job: 基于任务执行拓扑图JobGraph，\n\
+生成相应的物理执行计划ExecutionGraph
+job -&amp;gt; task: 将执行计划ExecutionGraph发送给TaskManager执行\n\
+(启用Task)
+@enduml
+&lt;/code>&lt;/pre>&lt;h5 id="jobmanagermaster">JobManager（master）&lt;/h5>
+&lt;p>Flink 系统的管理节点，全局只有一个，管理所有的 TaskManager，并决策用户任务在哪些 Taskmanager 执行。同时在运行过程中，会负责所有需要中央协调的操作，比如说检查点（checkpoints）的协调。&lt;/p>
+&lt;h5 id="taskmanager-slave">TaskManager (slave)&lt;/h5>
+&lt;p>Flink 系统的业务执行节点，执行具体的用户任务，提供了内存管理、IO管理、网络管理功能。每个TaskManger上运行一个jvm进程。每个TaskManger拥有多个TaskSlot，而每个TaskSlot运行一个线程。Flink允许同一个任务的多个子任务，并且会尽量将多个子任务放到一个slot中执行。&lt;/p>
+&lt;h3 id="时间">时间&lt;/h3>
+&lt;p>流数据相对于批数据，增加了一个时间维度。时间可以有以下3中表征方式:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Event Time&lt;/code> 表征事件发生的时间，是事件本身的固有属性，由事件生产者自行定义，默认为空，即&lt;code>Long.MIN_VALUE&lt;/code>。可以用于解决消息乱序的时候一致性问题&lt;/li>
+&lt;li>&lt;code>Ingestion Time&lt;/code> 事件流入Flink source operator的时间。&lt;/li>
+&lt;li>&lt;code>Processing Time&lt;/code> 事件被Flink算子处理的时间。&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code class="language-plantuml" data-lang="plantuml">@startuml
+!theme materia
+actor &amp;#34;事件生产者&amp;#34; as producer
+note bottom
+事件时间
+end note
+database &amp;#34;消息队列&amp;#34; as mq
+frame &amp;#34;Flink&amp;#34; {
+collections &amp;#34;source&amp;#34; as source
+note bottom
+摄入时间
+end note
+node &amp;#34;TaskSolt 1&amp;#34; as solt1
+node &amp;#34;TaskSolt 2&amp;#34; as solt2
+note bottom
+处理时间
+end note
+}
+producer -right-&amp;gt; mq
+mq -right-&amp;gt; source
+source -right-&amp;gt; solt1
+solt1 -right-&amp;gt; solt2
+@enduml
+&lt;/code>&lt;/pre>&lt;h3 id="窗口-window">窗口 Window&lt;/h3>
+&lt;p>由于流数据是时间上是无限的，那么可以将数据流在逻辑上做切分，分成一个个的窗口，在每一个窗口中进行数据计算。(这里也可以逐条处理)&lt;/p>
+&lt;p>Flink 支持以下几种窗口类型:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Tumbling Window&lt;/code>: 固定时间间隔的窗口。比如统计每分钟整点内的网站访问次数。&lt;/li>
+&lt;li>&lt;code>Sliding Window&lt;/code>: 滑动窗口，按一定的滑动尺寸和窗口大小进行计算。比如统计最近1分钟的网站访问次数，每隔10秒钟输出一次。那么窗口大小为1min，每次滑动前进10s。&lt;/li>
+&lt;li>&lt;code>Sessions Window&lt;/code>: 会话窗口。按会话维度进行统计。比如针对每个访问网站的用户建立会话，并且设定会话窗口超时阈值，假设1分钟。如果在最近1分钟之内，用户执行了操作，则将这些操作在同一个会话窗口中进行计算。&lt;/li>
+&lt;li>&lt;code>Custom Window&lt;/code>: 自定义窗口，继承&lt;code>WindowAssigner&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://s2.loli.net/2022/03/02/r8SZnEiI1Czxb2m.jpg" alt="">&lt;/p>
+&lt;h3 id="触发器-trigger">触发器 Trigger&lt;/h3>
+&lt;p>Flink使用Trigger(触发器)来决定何时输出计算结果。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Repeated update triggers&lt;/code>: 这个是最简单的形式，按固定的频率输出计算结果。&lt;/li>
+&lt;li>&lt;code>Completeness triggers&lt;/code>: 等到数据完整之后，输出计算结果。如何定义数据完整性呢？这就需要引入Watermark的概念。WaterMark是表征何时数据已经完整的标识。带有时间戳为X的waterMark表示，event time在X之前的数据，已经到齐了。&lt;/li>
+&lt;li>&lt;code>Early/On-Time/Late Triggers&lt;/code>: 这个是综合以上两种Trigger,对于早到、准时及迟到的数据分别输出计算结果。实际实现的时候，不会无限制地等待迟到的数据，会加上迟到时间的限制，丢弃超过限制的数据。&lt;/li>
+&lt;/ul>
+&lt;h3 id="水位线-watermark">水位线 Watermark&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>Perfect watermarks&lt;/code>: 确定性watermark。如果能够准确的评估出数据延迟时间的最大值，就可以使用 perfect watermark。&lt;/li>
+&lt;li>&lt;code>Heuristic watermarks&lt;/code>: 启发式watermark。在数据处理的过程中，Flink基于观察到的数据延时，不断的动态调整Watermark的值。适用于数据延时有较大波动的场景。&lt;/li>
+&lt;/ul>
+&lt;p>水位线提供了一种结果可信度和延时之间的妥协。激进的水位线设置可以保证低延迟，但结果的准确性不够；如果水位线设置的过于宽松，计算的结果准确性会很高，但可能会增加流处理程序不必要的延时。在追求数据完整性的过程中，&lt;strong>正确性&lt;/strong>和&lt;strong>低延迟&lt;/strong>不可兼得。我们需要在保证正确性的前提下，尽量减少延迟。如果条件允许的话，最好使用Perfect watermark。&lt;/p>
+&lt;h3 id="job-执行流程">Job 执行流程&lt;/h3>
+&lt;p>每个Job 定义的执行流程都由由以下三个部分组成：&lt;/p>
+&lt;ul>
+&lt;li>Source（数据源）：负责获取输入数据。&lt;/li>
+&lt;li>Transformation（数据处理）：对数据进行处理加工，通常对应着多个算子。&lt;/li>
+&lt;li>Sink（数据汇）：负责输出数据。&lt;/li>
+&lt;/ul>
+&lt;p>Flink程序执行时，由流和转换操作映射到streaming dataflows，每个数据流有一个或多个 source，有一个或多个sink，这个数据流最终形成一个DAG(有向无环图)。&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-plantuml" data-lang="plantuml">@startuml
+!theme mars
+database &amp;#34;source&amp;#34; as source
+node &amp;#34;transformations&amp;#34; as transformations
+database &amp;#34;sink&amp;#34; as sink
+source -&amp;gt; transformations
+transformations -&amp;gt; sink
+@enduml
+&lt;/code>&lt;/pre>&lt;h3 id="变换-transformation">变换 Transformation&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>map：&lt;/code> 输入一个元素，然后返回一个元素&lt;/li>
+&lt;li>&lt;code>flatmap&lt;/code>： 输入一个元素，可以返回零个，一个或者多个元素&lt;/li>
+&lt;li>&lt;code>filter&lt;/code>： 对流进行过滤，符合条件的数据会被留下&lt;/li>
+&lt;li>&lt;code>keyBy&lt;/code>： 根据指定的key进行分组，类似于SQL中的&lt;code>group by&lt;/code>&lt;/li>
+&lt;li>&lt;code>reduce&lt;/code>： 对数据进行聚合操作，结合当前元素和上一次reduce返回的值进行聚合操作，然后返回一个新的值&lt;/li>
+&lt;li>&lt;code>aggregations&lt;/code>：sum,min,max等&lt;/li>
+&lt;li>&lt;code>union&lt;/code>：合并多个流，新得到的流会包含被合并的流中的所有数据&lt;/li>
+&lt;li>&lt;code>split&lt;/code>：根据规则把一个数据流切分为多个流，类似于&lt;code>Java Stream API&lt;/code>中的&lt;code>partition&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h3 id="状态-state">状态 State&lt;/h3>
+&lt;p>Flink中的持久化模型，实现为RocksDB本地文件+异步HDFS持久化，也可使用基于Niagara的分布式存储。&lt;/p>
+&lt;p>State分为两类：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>KeyedState&lt;/code>：这里面的key是我们在SQL语句中对应的GroupBy/PartitioneBy里面的字段，key的值就是groupby/PartitionBy字段组成的Row的字节数组，每一个key都有一个属于自己的State，key与key之间的State是不可见的；&lt;/li>
+&lt;li>&lt;code>OperatorState&lt;/code>：Blink内部的Source Connector的实现中就会用OperatorState来记录source数据读取的offset。&lt;/li>
+&lt;/ul>
+&lt;p>双流&lt;code>inner join&lt;/code>场景&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-plantuml" data-lang="plantuml">@startuml
+!theme mars
+database &amp;#34;左表 stream&amp;#34; as left
+database &amp;#34;右表 stream&amp;#34; as right
+queue &amp;#34;Join stream&amp;#34; as join
+database &amp;#34;State状态后端&amp;#34; as state
+queue &amp;#34;下游 stream&amp;#34; as output
+left -&amp;gt; join: 先流入 1,2,3 三个事件
+join -&amp;gt; state: 存入 1,2,3
+right -&amp;gt; join: 流入 a 一个事件
+join -&amp;gt; state: 存入 a
+join -&amp;gt; join: 将 a 与左表已经到达的事件 1,2,3 进行join
+join -&amp;gt; output: 将join的结果输出到下游
+left -&amp;gt; join: 流入 4 一个事件
+join -&amp;gt; join: 将 4 与右表已经到达的事件 a 进行join
+join -&amp;gt; output: 将join的结果输出到下游
+@enduml
+&lt;/code>&lt;/pre>&lt;h3 id="定时器服务-timerservice">定时器服务 TimerService&lt;/h3>
+&lt;p>Flink开箱即用的提供了一套定时触发API，一般在&lt;code>KeyedProcessFunction&lt;/code>中使用&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>void registerEventTimeTimer(long time);&lt;/code> 注册定时器&lt;/li>
+&lt;li>&lt;code>void deleteEventTimeTimer(long time);&lt;/code> 删除定时器&lt;/li>
+&lt;li>&lt;code>void onTimer(long timestamp, OnTimerContext ctx, Collector&amp;lt;O&amp;gt; out)&lt;/code> 自定义回调函数&lt;/li>
+&lt;/ul>
+&lt;h2 id="api示例">API示例&lt;/h2>
+&lt;h3 id="datastream示例代码">DataStream示例代码&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">public&lt;/span> &lt;span style="color:#204a87;font-weight:bold">class&lt;/span> &lt;span style="color:#000">StreamGraphSimpleDemo&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">public&lt;/span> &lt;span style="color:#204a87;font-weight:bold">static&lt;/span> &lt;span style="color:#204a87;font-weight:bold">void&lt;/span> &lt;span style="color:#000">main&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">[]&lt;/span> &lt;span style="color:#000">args&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span> &lt;span style="color:#204a87;font-weight:bold">throws&lt;/span> &lt;span style="color:#000">Exception&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 获取执行环境
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">StreamExecutionEnvironment&lt;/span> &lt;span style="color:#000">env&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#000">StreamExecutionEnvironment&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">getExecutionEnvironment&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 添加输入源 [2, 3, 5, 7, 11]
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">DataStream&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">Integer&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">source1&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#000">env&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">addSource&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#204a87;font-weight:bold">new&lt;/span> &lt;span style="color:#000">Beep&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&amp;gt;(&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Arrays&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">asList&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">2&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">3&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">5&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">7&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">11&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">),&lt;/span> &lt;span style="color:#000">1000L&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">10_000L&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#34;source1&amp;#34;&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">TypeInformation&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">of&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">Integer&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">class&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 添加另一个输入源 [1.0, 2.0, 3.0, 4.0, 5.0]
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">DataStream&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">Double&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">source2&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#000">env&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">addSource&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#204a87;font-weight:bold">new&lt;/span> &lt;span style="color:#000">Beep&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&amp;gt;(&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Arrays&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">asList&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">1&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">0&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">2&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">0&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">3&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">0&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">4&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">0&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">5&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">0&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">),&lt;/span> &lt;span style="color:#000">1000L&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">10_000L&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#34;source2&amp;#34;&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">TypeInformation&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">of&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">Double&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">class&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 双流join [4, 9, 25]
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">DataStream&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">Integer&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">ds1&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#000">source1&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">join&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">source2&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// source1 join source2 on source1.a == source2.b
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">where&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">a&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">-&amp;gt;&lt;/span> &lt;span style="color:#000">a&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">).&lt;/span>&lt;span style="color:#c4a000">equalTo&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">Double&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">::&lt;/span>&lt;span style="color:#000">intValue&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 开窗，滑动窗口，窗口大小为3s，每次前进1s
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">window&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">SlidingEventTimeWindows&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">of&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">Time&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">seconds&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">3&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">),&lt;/span> &lt;span style="color:#000">Time&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">seconds&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">1&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)))&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 纵向合并
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">apply&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">((&lt;/span>&lt;span style="color:#000">a&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">b&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">-&amp;gt;&lt;/span> &lt;span style="color:#000">a&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">*&lt;/span> &lt;span style="color:#000">b&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">intValue&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(),&lt;/span> &lt;span style="color:#000">TypeInformation&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">of&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">Integer&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">class&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 消息变换，一到一映射 [3, 8, 24]
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">DataStream&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">Long&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">ds2&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#000">ds1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">map&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">value&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">-&amp;gt;&lt;/span> &lt;span style="color:#000">value&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">-&lt;/span> &lt;span style="color:#000">1L&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 消息变换，一到多映射 [3, 3, 8, 8, 24, 24]
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">DataStream&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">Integer&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">ds3&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#000">ds2&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">flatMap&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(((&lt;/span>&lt;span style="color:#000">value&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">out&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">-&amp;gt;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">out&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">collect&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">value&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">intValue&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">out&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">collect&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">value&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">intValue&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}));&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 分组，类似于SQL中的group by [(3, 3), (8, 8, 24, 24)]
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">DataStream&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">ds4&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#000">ds3&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">keyBy&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">value&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">-&amp;gt;&lt;/span> &lt;span style="color:#000">value&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">%&lt;/span> &lt;span style="color:#000">2&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">==&lt;/span> &lt;span style="color:#000">0&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 使用 ProcessFunction 处理每条消息 [-3, -3, +8, +8, +24, +24]
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 与map等算子的区别，在于 ProcessFunction
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 可以访问时间戳，watermark和定时器等
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">process&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#204a87;font-weight:bold">new&lt;/span> &lt;span style="color:#000">KeyedProcessFunction&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">Boolean&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">Integer&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;()&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5c35cc;font-weight:bold">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">public&lt;/span> &lt;span style="color:#204a87;font-weight:bold">void&lt;/span> &lt;span style="color:#000">processElement&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">Integer&lt;/span> &lt;span style="color:#000">value&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">KeyedProcessFunction&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">Boolean&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">Integer&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;.&lt;/span>&lt;span style="color:#c4a000">Context&lt;/span> &lt;span style="color:#000">ctx&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Collector&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">out&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span> &lt;span style="color:#204a87;font-weight:bold">throws&lt;/span> &lt;span style="color:#000">Exception&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Boolean&lt;/span> &lt;span style="color:#000">key&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#000">ctx&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">getCurrentKey&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">String&lt;/span> &lt;span style="color:#000">sign&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#000">key&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">?&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;+&amp;#34;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">:&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;-&amp;#34;&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">out&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">collect&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">sign&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">+&lt;/span> &lt;span style="color:#000">value&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 使用 PrintSinkFunction 进行sink输出，即输出到控制台
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">ds4&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">addSink&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#204a87;font-weight:bold">new&lt;/span> &lt;span style="color:#000">RichSinkFunction&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;()&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5c35cc;font-weight:bold">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">public&lt;/span> &lt;span style="color:#204a87;font-weight:bold">void&lt;/span> &lt;span style="color:#000">invoke&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">String&lt;/span> &lt;span style="color:#000">value&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">Context&lt;/span> &lt;span style="color:#000">context&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span> &lt;span style="color:#204a87;font-weight:bold">throws&lt;/span> &lt;span style="color:#000">Exception&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">log&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">info&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;sink to console: {}&amp;#34;&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">value&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}).&lt;/span>&lt;span style="color:#c4a000">name&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;sink&amp;#34;&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">env&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">execute&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;StreamGraphDemo&amp;#34;&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5c35cc;font-weight:bold">@RequiredArgsConstructor&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">public&lt;/span> &lt;span style="color:#204a87;font-weight:bold">static&lt;/span> &lt;span style="color:#204a87;font-weight:bold">class&lt;/span> &lt;span style="color:#000">Beep&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">T&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#204a87;font-weight:bold">extends&lt;/span> &lt;span style="color:#000">RichSourceFunction&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">T&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">final&lt;/span> &lt;span style="color:#000">List&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">T&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">list&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">final&lt;/span> &lt;span style="color:#204a87;font-weight:bold">long&lt;/span> &lt;span style="color:#000">elementIntervalMs&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">final&lt;/span> &lt;span style="color:#204a87;font-weight:bold">long&lt;/span> &lt;span style="color:#000">listIntervalMs&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">volatile&lt;/span> &lt;span style="color:#204a87;font-weight:bold">boolean&lt;/span> &lt;span style="color:#000">flag&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#204a87;font-weight:bold">true&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5c35cc;font-weight:bold">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">public&lt;/span> &lt;span style="color:#204a87;font-weight:bold">void&lt;/span> &lt;span style="color:#000">run&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">SourceContext&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">T&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">ctx&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span> &lt;span style="color:#204a87;font-weight:bold">throws&lt;/span> &lt;span style="color:#000">Exception&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">while&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">flag&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">for&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">T&lt;/span> &lt;span style="color:#000">element&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">:&lt;/span> &lt;span style="color:#000">list&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">ctx&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">collectWithTimestamp&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">element&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">System&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">currentTimeMillis&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Thread&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">sleep&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">elementIntervalMs&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">ctx&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">markAsTemporarilyIdle&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">Thread&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">sleep&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">listIntervalMs&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#5c35cc;font-weight:bold">@Override&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">public&lt;/span> &lt;span style="color:#204a87;font-weight:bold">void&lt;/span> &lt;span style="color:#000">cancel&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">()&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">flag&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#204a87;font-weight:bold">false&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="代码和dag的对照">代码和DAG的对照&lt;/h3>
+&lt;pre tabindex="0">&lt;code class="language-plantuml" data-lang="plantuml">@startuml
+!theme mars
+queue &amp;#34;消息队列1&amp;#34; as mq1
+queue &amp;#34;消息队列2&amp;#34; as mq2
+collections &amp;#34;source1&amp;#34; as source1
+note top
+var env = StreamExecutionEnvironment.getExecutionEnvironment();
+SourceFunction&amp;lt;Integer&amp;gt; sourceFunction1 = ...; // 输入源
+env.addSource(sourceFunction1); // 添加输入源
+end note
+collections &amp;#34;source2&amp;#34; as source2
+note right
+// 另一个输入源
+SourceFunction&amp;lt;Double&amp;gt; sourceFunction2 = ...;
+// 添加另一个输入源
+env.addSource(sourceFunction2);
+end note
+mq1 -right-&amp;gt; source1
+mq2 -down-&amp;gt; source2
+node &amp;#34;双流join&amp;#34; as join
+note right
+DataStream&amp;lt;Integer&amp;gt; ds1 = source1.join(source2)
+// on 条件
+.where(a -&amp;gt; a).equalTo(Double::intValue)
+// 开窗，滑动窗口，窗口大小为3s，每次前进1s
+.window(SlidingEventTimeWindows.of(Time.seconds(3), Time.seconds(1)))
+// 纵向合并
+.apply((a, b) -&amp;gt; a * b.intValue(), TypeInformation.of(Integer.class));
+end note
+source1 -down-&amp;gt; join
+source2 -down-&amp;gt; join
+node &amp;#34;Map&amp;#34; as map
+note left
+DataStream&amp;lt;Long&amp;gt; ds2 = ds1
+.map(value -&amp;gt; value - 1L);
+end note
+join -down-&amp;gt; map
+node &amp;#34;FlatMap&amp;#34; as flatMap
+note right
+DataStream&amp;lt;Integer&amp;gt; ds3 = ds2
+.flatMap(((value, out) -&amp;gt; {
+out.collect(value.intValue());
+out.collect(value.intValue());
+}));
+end note
+map -down-&amp;gt; flatMap
+node &amp;#34;KeyedProcess&amp;#34; as keyedProcess
+note left
+KeyedProcessFunction&amp;lt;K, I, O&amp;gt; keyedProcessFunction = ... ;
+DataStream&amp;lt;String&amp;gt; ds4 = ds3
+.keyBy(value -&amp;gt; value % 2 == 0)
+// 使用 ProcessFunction 处理每条分完组之后的事件
+// 与map等算子的区别，在于 ProcessFunction
+// 可以访问时间戳，watermark和定时器等
+.process(keyedProcessFunction);
+end note
+flatMap -down-&amp;gt; keyedProcess
+collections &amp;#34;sink&amp;#34; as sink
+note right
+SinkFunction&amp;lt;String&amp;gt; sinkFunction = ...; // sink输出
+ds4.addSink(sinkFunction); // 添加sink输出
+end note
+keyedProcess -down-&amp;gt; sink
+@enduml
+&lt;/code>&lt;/pre>&lt;h3 id="streamgraph拓扑图">StreamGraph拓扑图&lt;/h3>
+&lt;pre tabindex="0">&lt;code class="language-plantuml" data-lang="plantuml">@startuml
+!theme mars
+database &amp;#34;Source: source1&amp;#34; as source1
+database &amp;#34;Source: source2&amp;#34; as source2
+cloud &amp;#34;Map-3&amp;#34; as map1
+cloud &amp;#34;Map-4&amp;#34; as map2
+node &amp;#34;Window&amp;#34; as win
+cloud &amp;#34;Map-8&amp;#34; as map3
+cloud &amp;#34;Flat Map&amp;#34; as flatMap
+cloud &amp;#34;KeyedProcess&amp;#34; as KeyedProcess
+database &amp;#34;Sink: sink&amp;#34; as sink
+source1 --&amp;gt; map1: Source: source1_Map-3_0_FORWARD
+source2 --&amp;gt; map2: Source: source2_Map-4_0_FORWARD
+map1 --&amp;gt; win: Map-3_Window(SlidingEventTimeWindows(3000, 1000), \n\
+EventTimeTrigger, \nCoGroupWindowFunction)-7_0_HASH
+map2 --&amp;gt; win: Map-4_Window(SlidingEventTimeWindows(3000, 1000), \n\
+EventTimeTrigger, \nCoGroupWindowFunction)-7_0_HASH
+win --&amp;gt; map3: Window(SlidingEventTimeWindows(3000, 1000),\n\
+EventTimeTrigger, \nCoGroupWindowFunction)-7_Map-8_0_FORWARD
+map3 --&amp;gt; flatMap: Map-8_Flat Map-9_0_FORWARD
+flatMap --&amp;gt; KeyedProcess: Flat Map-9_KeyedProcess-11_0_HASH
+KeyedProcess --&amp;gt; sink: KeyedProcess-11_Sink: sink-12_0_FORWARD
+@enduml
+&lt;/code>&lt;/pre>&lt;h3 id="flink-sql示例">Flink SQL示例&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sql" data-lang="sql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">-- source
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">-- 骑手轨迹
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">create&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">table&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">knight_active_trace_kafka_source&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">id&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87">varchar&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#000">target_type&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87">varchar&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#000">target_id&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87">varchar&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#000">longitude&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87">varchar&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#000">latitude&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87">varchar&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#000">tracked_at&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87">varchar&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#000">created_at&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87">varchar&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#000">updated_at&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">timestamp&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#8f5902;font-style:italic">-- 该watermarker5秒之前的数据丢弃
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#000">watermark&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">wk&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">for&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">updated_at&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">as&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">withOffset&lt;/span>&lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#000">updated_at&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#0000cf;font-weight:bold">5000&lt;/span>&lt;span style="color:#000;font-weight:bold">)&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#000;font-weight:bold">)&lt;/span>&lt;span style="color:#204a87;font-weight:bold">with&lt;/span>&lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">type&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#39;kafka&amp;#39;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#000">topic&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#39;knight_active_trace&amp;#39;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#000;font-weight:bold">);&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#8f5902;font-style:italic">-- transformations
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">create&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">view&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">knight_active_trace_last&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">as&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">select&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">target_id&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">as&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">delivery_id&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">last_value&lt;/span>&lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#000">date_format&lt;/span>&lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#000">updated_at&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#4e9a06">&amp;#39;yyyy-MM-dd HH:mm:ss&amp;#39;&lt;/span>&lt;span style="color:#000;font-weight:bold">))&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">as&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">trace_time&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">from&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">knight_active_trace_kafka_source&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">where&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">target_type&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#4e9a06">&amp;#39;2&amp;#39;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#8f5902;font-style:italic">-- 众包
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">group&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">by&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#8f5902;font-style:italic">-- 设置滚动窗口为5分钟
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">tumble&lt;/span>&lt;span style="color:#000;font-weight:bold">(&lt;/span>&lt;span style="color:#000">updated_at&lt;/span>&lt;span style="color:#000;font-weight:bold">,&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87">interval&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#4e9a06">&amp;#39;5&amp;#39;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">minute&lt;/span>&lt;span style="color:#000;font-weight:bold">),&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">target_id&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#8f5902;font-style:italic">-- sink
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">insert&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">into&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">result_test&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">select&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">xxx&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">from&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">xxx&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Blog: G1 GC 算法</title><link>/blog/2022/02/18/g1-gc-%E7%AE%97%E6%B3%95/</link><pubDate>Fri, 18 Feb 2022 00:00:00 +0000</pubDate><guid>/blog/2022/02/18/g1-gc-%E7%AE%97%E6%B3%95/</guid><description/></item><item><title>Blog: ElasticSearch 学习笔记</title><link>/blog/2022/02/17/elasticsearch-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link><pubDate>Thu, 17 Feb 2022 00:00:00 +0000</pubDate><guid>/blog/2022/02/17/elasticsearch-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid><description>
+&lt;h2 id="概述">概述&lt;/h2>
+&lt;p>Elasticsearch是一个建立在全文搜索引擎库Apache Lucene 基础上的实时的分布式搜索和分析引擎，它可以帮助我们用很快的速度去处理大规模数据，可以用于全文检索、结构化检索、推荐、分析以及统计聚合等多种场景。&lt;/p>
+&lt;h2 id="数据模型">数据模型&lt;/h2>
+&lt;h3 id="lucene">Lucene&lt;/h3>
+&lt;p>Lucene提供了最基本的索引和查询的功能，是一个单机的搜索库，并且没有主键概念和更新逻辑&lt;/p>
+&lt;h3 id="luceneelasticsearch数据模型">Lucene/Elasticsearch数据模型&lt;/h3>
+&lt;pre tabindex="0">&lt;code class="language-plantuml" data-lang="plantuml">@startmindmap
+*[#orange] 基本数据类型
+**[#lightgreen]: Index 索引
+由很多的Document组成;
+**[#lightgreen]: Document 文档
+由很多的Field组成，是Index和Search的最小单位;
+**[#lightgreen]: Field 字段
+由很多的Term组成，包括Field Name和Field Value;
+**[#lightgreen]: Term 词元
+由很多的字节组成，可以分词;
+*[#orange] 索引类型
+**[#lightblue]: Invert Index 倒排索引
+索引的Key是Term，Value是DocID的链表
+通过Term可以查询到拥有该Term的文档;
+***[#cyan] 存储类型
+****[#FFBBCC] DOCS 只存储DocID
+****[#FFBBCC]: DOCS_AND_FREQS
+存储DocID和词频TermFreq;
+****[#FFBBCC]: DOCS_AND_FREQS_AND_POSITIONS
+存储DocID、词频TermFreq和位置;
+****[#FFBBCC]: DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS
+存储DocID、词频TermFreq、位置和偏移;
+**[#lightblue]: DocValues 正排索引
+Key 是DocID和FieldName，Value是FieldValue
+列式存储，通过DocID可以快速读取到该Doc的特定字段的值
+一般用于sort，agg等需要高频读取Doc字段值的场景;
+**[#lightblue]: Store 字段原始内容存储
+Key是Doc ID，Value是FiledName和FiledValue
+同一文档的多个Field的Store会存储在一起;
+@endmindmap
+&lt;/code>&lt;/pre>&lt;h3 id="elasticsearch对lucene的扩展">Elasticsearch对Lucene的扩展&lt;/h3>
+&lt;p>Elasticsearch通过增加_id、_version、_source、_routing和_seq_no等多个系统字段，实现了分布式搜索和部分字段更新等Lucene缺失的功能&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:center">System Field&lt;/th>
+&lt;th style="text-align:center">含义&lt;/th>
+&lt;th style="text-align:center">Lucene Index&lt;/th>
+&lt;th style="text-align:center">Lucene DocValues&lt;/th>
+&lt;th style="text-align:center">Lucene Store&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:center">_uid&lt;/td>
+&lt;td style="text-align:center">主键&lt;/td>
+&lt;td style="text-align:center">&lt;strong>Y&lt;/strong>&lt;/td>
+&lt;td style="text-align:center">&lt;/td>
+&lt;td style="text-align:center">&lt;strong>Y&lt;/strong>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">_version&lt;/td>
+&lt;td style="text-align:center">版本&lt;/td>
+&lt;td style="text-align:center">&lt;/td>
+&lt;td style="text-align:center">&lt;strong>Y&lt;/strong>&lt;/td>
+&lt;td style="text-align:center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">_source&lt;/td>
+&lt;td style="text-align:center">原始值&lt;/td>
+&lt;td style="text-align:center">&lt;/td>
+&lt;td style="text-align:center">&lt;/td>
+&lt;td style="text-align:center">&lt;strong>Y&lt;/strong>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">_seq_no&lt;/td>
+&lt;td style="text-align:center">序号&lt;/td>
+&lt;td style="text-align:center">&lt;strong>Y&lt;/strong>&lt;/td>
+&lt;td style="text-align:center">&lt;strong>Y&lt;/strong>&lt;/td>
+&lt;td style="text-align:center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">_primary_term&lt;/td>
+&lt;td style="text-align:center">主编号&lt;/td>
+&lt;td style="text-align:center">&lt;/td>
+&lt;td style="text-align:center">&lt;strong>Y&lt;/strong>&lt;/td>
+&lt;td style="text-align:center">&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">_routing&lt;/td>
+&lt;td style="text-align:center">路由&lt;/td>
+&lt;td style="text-align:center">&lt;strong>Y&lt;/strong>&lt;/td>
+&lt;td style="text-align:center">&lt;/td>
+&lt;td style="text-align:center">&lt;strong>Y&lt;/strong>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">_field_names&lt;/td>
+&lt;td style="text-align:center">字段名&lt;/td>
+&lt;td style="text-align:center">&lt;strong>Y&lt;/strong>&lt;/td>
+&lt;td style="text-align:center">&lt;/td>
+&lt;td style="text-align:center">&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h4 id="1-_id">1 _id&lt;/h4>
+&lt;p>_id是一个用户级别的虚拟字段，Lucene不会存储该字段的值。表示Doc的主键，在写入的时候，可以指定该Doc的ID值，如果不指定，则系统自动生成一个唯一的UUID值。&lt;/p>
+&lt;p>Lucene中没有主键索引，要保证系统中同一个Doc不会重复，Elasticsearch引入了_id字段来实现主键。每次写入的时候都会先查询id，如果有，则说明已经有相同Doc存在了。&lt;/p>
+&lt;h4 id="2-_uid">2 _uid&lt;/h4>
+&lt;blockquote>
+&lt;p>Index#Doc, Store&lt;/p>
+&lt;/blockquote>
+&lt;p>_uid的格式是：type + &amp;lsquo;#&amp;rsquo; + id。同Index下值是唯一的&lt;/p>
+&lt;h4 id="3-_version">3 _version&lt;/h4>
+&lt;blockquote>
+&lt;p>DcoValues&lt;/p>
+&lt;/blockquote>
+&lt;p>每个Doc都会有一个Version，该Version可以由用户指定，也可以由系统自动生成。如果是系统自动生成，那么每次Version都是递增1。&lt;/p>
+&lt;p>Elasticsearch通过使用version来保证对文档的变更能以正确的顺序执行，避免乱序造成的数据丢失：&lt;/p>
+&lt;ul>
+&lt;li>首次写入Doc的时候，会为Doc分配一个初始的Version：V0，该值根据VersionType不同而不同。&lt;/li>
+&lt;li>再次写入Doc的时候，如果Request中没有指定Version，则会先加锁，然后去读取该Doc的最大版本V1，然后将V1+1后的新版本写入Lucene中。&lt;/li>
+&lt;li>再次写入Doc的时候，如果Request中指定了Version：V1，则继续会先加锁，然后去读该Doc的最大版本V2，判断V1==V2，如果不相等，则发生版本冲突。否则版本吻合，继续写入Lucene。&lt;/li>
+&lt;li>当做部分更新的时候，会先通过GetRequest读取当前id的完整Doc和V1，接着和当前Request中的Doc合并为一个完整Doc。然后执行一些逻辑后，加锁，再次读取该Doc的最大版本号V2，判断V1==V2，如果不相等，则在刚才执行其他逻辑时被其他线程更改了当前文档，需要报错后重试。如果相等，则期间没有其他线程修改当前文档，继续写入Lucene中。这个过程就是一个典型的read-then-update事务。&lt;/li>
+&lt;/ul>
+&lt;h4 id="4-_source">4 _source&lt;/h4>
+&lt;blockquote>
+&lt;p>Store&lt;/p>
+&lt;/blockquote>
+&lt;p>存储原始文档，也可以通过过滤设置只存储特定Field&lt;/p>
+&lt;p>_source字段的主要目的是通过doc_id读取该文档的原始内容，所以只需要存储Store即可&lt;/p>
+&lt;p>Elasticsearch中使用_source字段可以实现以下功能：&lt;/p>
+&lt;ul>
+&lt;li>Update：部分更新时，需要从读取文档保存在_source字段中的原文，然后和请求中的部分字段合并为一个完整文档。如果没有_source，则不能完成部分字段的Update操作。&lt;/li>
+&lt;li>Rebuild：最新的版本中新增了rebuild接口，可以通过Rebuild API完成索引重建，过程中不需要从其他系统导入全量数据，而是从当前文档的_source中读取。如果没有_source，则不能使用Rebuild API。&lt;/li>
+&lt;li>Script：不管是Index还是Search的Script，都可能用到存储在Store中的原始内容，如果禁用了_source，则这部分功能不再可用。
+Summary：摘要信息也是来源于_source字段。&lt;/li>
+&lt;/ul>
+&lt;h4 id="5-_seq_no">5 _seq_no&lt;/h4>
+&lt;blockquote>
+&lt;p>Index#DOCS_AND_FREQS_AND_POSITIONS, Analyzer, DocValues&lt;/p>
+&lt;/blockquote>
+&lt;p>严格递增的顺序号，每个文档一个，Shard级别严格递增，保证后写入的Doc的_seq_no大于先写入的Doc的_seq_no。任何类型的写操作，包括index、create、update和Delete，都会生成一个_seq_no。&lt;/p>
+&lt;p>每个文档在使用Lucene的document操作接口之前，会获取到一个_seq_no，这个_seq_no会以系统保留Field的名义存储到Lucene中，文档写入Lucene成功后，会标记该seq_no为完成状态，这时候会使用当前seq_no更新local_checkpoint。&lt;/p>
+&lt;p>checkpoint分为local_checkpoint和global_checkpoint，主要是用于保证有序性，以及减少Shard恢复时数据拷贝的数据拷贝量。&lt;/p>
+&lt;p>Elasticsearch中_seq_no的作用有两个，一是通过doc_id查询到该文档的seq_no，二是通过seq_no范围查找相关文档，所以也就需要存储为Index和DocValues（或者Store）。由于是在冲突检测时才需要读取文档的_seq_no，而且此时只需要读取_seq_no，不需要其他字段，这时候存储为列式存储的DocValues比Store在性能上更好一些。&lt;/p>
+&lt;h4 id="6-_primary_term">6 _primary_term&lt;/h4>
+&lt;blockquote>
+&lt;p>DocValues&lt;/p>
+&lt;/blockquote>
+&lt;p>每当Primary Shard发生重新分配时，比如重启，Primary选举等，_primary_term会递增1。_primary_term主要是用来恢复数据时处理当多个文档的_seq_no一样时的冲突，避免Primary Shard上的写入被覆盖。&lt;/p>
+&lt;p>Elasticsearch中_primary_term只需要通过doc_id读取到即可，所以只需要保存为DocValues就可以了.&lt;/p>
+&lt;h4 id="7-_routing">7 _routing&lt;/h4>
+&lt;blockquote>
+&lt;p>Index#Doc, Store&lt;/p>
+&lt;/blockquote>
+&lt;p>在mapping中，或者Request中可以指定按某个字段路由。默认是按照_Id值路由。&lt;/p>
+&lt;p>Elasticsearch中文档级别的_routing主要有两个目的，一是可以查询到使用某种_routing的文档有哪些，当发生_routing变化时，可以对历史_routing的文档重新读取再Index，这个需要倒排Index。另一个是查询到文档后，在Response里面展示该文档使用的_routing规则，这里需要存储为Store。&lt;/p>
+&lt;h4 id="8-_field_names">8 _field_names&lt;/h4>
+&lt;blockquote>
+&lt;p>Index#Doc&lt;/p>
+&lt;/blockquote>
+&lt;p>该字段会索引某个Field的名称，用来判断某个Doc中是否存在某个Field，用于exists或者missing请求。&lt;/p>
+&lt;p>Elasticsearch中_field_names的目的是查询哪些Doc的这个Field是否存在，所以只需要倒排Index即可。&lt;/p>
+&lt;h2 id="写入流程">写入流程&lt;/h2>
+&lt;h3 id="写操作在搜索系统和nosql数据库中的对比">写操作在搜索系统和NoSQL数据库中的对比&lt;/h3>
+&lt;ul>
+&lt;li>实时性：
+&lt;ul>
+&lt;li>搜索系统的Index一般都是NRT（Near Real Time），近实时的，比如Elasticsearch中，Index的实时性是由refresh控制的，默认是1s，最快可到100ms，那么也就意味着Index doc成功后，需要等待一秒钟后才可以被搜索到。&lt;/li>
+&lt;li>NoSQL数据库的Write基本都是RT（Real Time），实时的，写入成功后，立即是可见的。Elasticsearch中的Index请求也能保证是实时的，因为Get请求会直接读内存中尚未Flush到存储介质的TransLog。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>可靠性：
+&lt;ul>
+&lt;li>搜索系统对可靠性要求都不高，一般数据的可靠性通过将原始数据存储在另一个存储系统来保证，当搜索系统的数据发生丢失时，再从其他存储系统导一份数据过来重新rebuild就可以了。在Elasticsearch中，通过设置TransLog的Flush频率可以控制可靠性，要么是按请求，每次请求都Flush；要么是按时间，每隔一段时间Flush一次。一般为了性能考虑，会设置为每隔5秒或者1分钟Flush一次，Flush间隔时间越长，可靠性就会越低。&lt;/li>
+&lt;li>NoSQL数据库作为一款数据库，必须要有很高的可靠性，数据可靠性是生命底线，决不能有闪失。如果把Elasticsearch当做NoSQL数据库，此时需要设置TransLog的Flush策略为每个请求都要Flush，这样才能保证当前Shard写入成功后，数据能尽量持久化下来。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="写操作的关键点">写操作的关键点&lt;/h3>
+&lt;ul>
+&lt;li>可靠性：或者是持久性，数据写入系统成功后，数据不会被回滚或丢失。&lt;/li>
+&lt;li>一致性：数据写入成功后，再次查询时必须能保证读取到最新版本的数据，不能读取到旧数据。&lt;/li>
+&lt;li>原子性：一个写入或者更新操作，要么完全成功，要么完全失败，不允许出现中间状态。&lt;/li>
+&lt;li>隔离性：多个写入操作相互不影响。&lt;/li>
+&lt;li>实时性：写入后是否可以立即被查询到。&lt;/li>
+&lt;li>性能：写入性能，吞吐量到底怎么样。&lt;/li>
+&lt;/ul>
+&lt;h3 id="elasticsearch的写">Elasticsearch的写&lt;/h3>
+&lt;h4 id="replica-副本">Replica 副本&lt;/h4>
+&lt;p>Elasticsearch采用多Shard方式，通过配置routing规则将数据分成多个数据子集，每个数据子集提供独立的索引和搜索功能。当写入文档的时候，根据routing规则，将文档发送给特定Shard中建立索引。&lt;/p>
+&lt;p>Elasticsearch整体架构上采用了一主多副的方式：&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-plantuml" data-lang="plantuml">@startuml
+!theme mars
+skinparam component {
+BackgroundColor gold
+ArrowColor #FF6655
+}
+frame &amp;#34;DataNode&amp;#34; as primary {
+node [Primary] as p1
+}
+frame &amp;#34;DataNode&amp;#34; as replica1 {
+node [Replica1] as r1
+p1 --&amp;gt; r1
+}
+frame &amp;#34;DataNode&amp;#34; as replica2 {
+node [Replica2] as r2
+p1 --&amp;gt; r2
+}
+@enduml
+&lt;/code>&lt;/pre>&lt;p>每个Index由多个Shard组成，每个Shard有一个主节点和多个副本节点，副本个数可配。但每次写入的时候，写入请求会先根据_routing规则选择发给哪个Shard，Index Request中可以设置使用哪个Filed的值作为路由参数，如果没有设置，则使用Mapping中的配置，如果mapping中也没有配置，则使用_id作为路由参数，然后通过_routing的Hash值选择出Shard（在OperationRouting类中），最后从集群的Meta中找出出该Shard的Primary节点。&lt;/p>
+&lt;p>请求接着会发送给Primary Shard，在Primary Shard上执行成功后，再从Primary Shard上将请求同时发送给多个Replica Shard，请求在多个Replica Shard上执行成功并返回给Primary Shard后，写入请求执行成功，返回结果给客户端。&lt;/p>
+&lt;p>这种模式下，写入操作的延时就等于latency = Latency(Primary Write) + Max(Replicas Write)。只要有副本在，写入延时最小也是两次单Shard的写入时延总和，写入效率会较低，但是这样的好处也很明显，避免写入后，单机或磁盘故障导致数据丢失，在数据重要性和性能方面，一般都是优先选择数据，除非一些允许丢数据的特殊场景。&lt;/p>
+&lt;p>Elasticsearch里为了减少磁盘IO保证读写性能，一般是每隔一段时间（比如5分钟）才会把Lucene的Segment写入磁盘持久化，对于写入内存，但还未Flush到磁盘的Lucene数据，如果发生机器宕机或者掉电，那么内存中的数据也会丢失，这时候Elasticsearch使用TransLog来保证数据不丢失&lt;/p>
+&lt;h4 id="translog">TransLog&lt;/h4>
+&lt;p>对于每一个Shard，写入请求到达该Shard后，先写Lucene文件，创建好索引，此时索引还在内存里面，接着去写TransLog，写完TransLog后，刷新TransLog数据到磁盘上，写磁盘成功后，请求返回给用户。&lt;/p>
+&lt;p>在写Lucene内存后，需要通过Refresh把内存的对象转成完整的Segment后，然后再次reopen后才能被搜索，一般这个时间设置为1秒钟，导致写入Elasticsearch的文档，最快要1秒钟才可被从搜索到，所以Elasticsearch在搜索方面是NRT（Near Real Time）近实时的系统。而如果写完之后实时使用GetById查询，则可以直接从TransLog中查询到，这时候就成了RT（Real Time）实时系统。&lt;/p>
+&lt;p>每隔一段比较长的时间，比如30分钟后，Lucene会把内存中生成的新Segment刷新到磁盘上，这时会清空掉旧的TransLog。&lt;/p>
+&lt;h4 id="update流程">Update流程&lt;/h4>
+&lt;pre tabindex="0">&lt;code class="language-plantuml" data-lang="plantuml">@startuml
+!theme mars
+start
+:Update请求;
+:GetDocById，找到相应的文档Doc;
+if (内存TransLog上找到该文档) then (yes)
+elseif (磁盘TransLog上找到该文档) then (yes)
+elseif (磁盘Lucene Segment上找到该文档) then (yes)
+else (nothing)
+:文档未找到;
+stop
+endif
+:找到完整Doc后，记录版本号为V1;
+:将版本V1的全量Doc和请求中的部分字段Doc合并为一个完整的Doc
+后续操作相当于Index请求+Delete请求，即先增后删;
+:加锁;
+:从versionMap中读取该id的最大版本号V2;
+if (检查版本是否冲突V1==V2) then (冲突)
+:回退到开始的“Update doc”阶段，重新执行;
+endif
+:将Version + 1得到V3，再将Doc加入到Lucene中去;
+:写入Lucene成功后，将当前V3更新到versionMap中;
+:释放锁;
+end
+@enduml
+&lt;/code>&lt;/pre>&lt;h3 id="elasticsearch写操作的关键点">Elasticsearch写操作的关键点&lt;/h3>
+&lt;ul>
+&lt;li>可靠性：由于Lucene的设计中不考虑可靠性，在Elasticsearch中通过Replica和TransLog两套机制保证数据的可靠性。&lt;/li>
+&lt;li>一致性：Lucene中的Flush锁只保证Update接口里面Delete和Add中间不会Flush，但是Add完成后仍然有可能立即发生Flush，导致Segment可读。这样就没法保证Primary和所有其他Replica可以同一时间Flush，就会出现查询不稳定的情况，这里只能实现最终一致性。&lt;/li>
+&lt;li>原子性：Add和Delete都是直接调用Lucene的接口，是原子的。当部分更新时，使用Version和锁保证更新是原子的。&lt;/li>
+&lt;li>隔离性：仍然采用Version和局部锁来保证更新的是特定版本的数据。&lt;/li>
+&lt;li>实时性：使用定期Refresh Segment到内存，并且Reopen Segment方式保证搜索可以在较短时间（比如1秒）内被搜索到。通过将未刷新到磁盘数据记入TransLog，保证对未提交数据可以通过ID实时访问到。&lt;/li>
+&lt;li>性能：一是不需要所有Replica都返回后才能返回给用户，只需要返回特定数目的就行；二是生成的Segment先在内存中提供服务，等一段时间后才刷新到磁盘，Segment在内存这段时间的可靠性由TransLog保证；三是TransLog可以配置为周期性的Flush，但这个会给可靠性带来伤害；四是每个线程持有一个Segment，多线程时相互不影响，相互独立，性能更好；五是系统的写入流程对版本依赖较重，读取频率较高，因此采用了versionMap，减少热点数据的多次磁盘IO开销。&lt;/li>
+&lt;/ul></description></item></channel></rss>
