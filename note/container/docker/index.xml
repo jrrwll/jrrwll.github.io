@@ -1,0 +1,432 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Jerry Will's Blog – Docker</title><link>/note/container/docker/</link><description>Recent content in Docker on Jerry Will's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="/note/container/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>Note: Docker Build</title><link>/note/container/docker/docker-build/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/docker-build/</guid><description>
+&lt;h2 id="build">build&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker build &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> PATH &lt;span style="color:#000;font-weight:bold">|&lt;/span> URL &lt;span style="color:#000;font-weight:bold">|&lt;/span> -
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># use Dockerfile in current path to build a image&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker build -t &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>repository&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>/&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>username&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>/&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>remote_image_name&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>:&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>tag&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> ./
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># or&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker build -t &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>local_image_name&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> ./
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker image tag &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>local_image_name&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>repository&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>/&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>username&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>/&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>remote_image_name&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>:&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>tag&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># finally&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker push &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>repository&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>/&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>username&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>/&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>remote_image_name&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>:&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>tag&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;strong>-f, &amp;ndash;file :&lt;/strong> Name of the Dockerfile&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;force-rm :&lt;/strong> Always remove intermediate containers&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;no-cache :&lt;/strong> Do not use cache when building the image&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;pull :&lt;/strong> Always attempt to pull a newer version of the image&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;quiet, -q :&lt;/strong> Only print image ID on success&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;tag, -t:&lt;/strong> Name and optionally a tag in the &amp;rsquo;name:tag&amp;rsquo; format&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;network:&lt;/strong> Set the networking mode for the RUN instructions during build (default &amp;ldquo;default&amp;rdquo;)&lt;/li>
+&lt;/ul>
+&lt;h2 id="dockerfile">Dockerfile&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-dockerfile" data-lang="dockerfile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">ENV&lt;/span> &lt;span style="color:#000">FOO&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>BAR
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># cid=$(docker run -e FOO=BAR &amp;lt;image&amp;gt;)&lt;/span>&lt;span style="color:#a40000">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000">&lt;/span>&lt;span style="color:#8f5902;font-style:italic"># docker commit $cid&lt;/span>&lt;span style="color:#a40000">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="dockerignore">&lt;code>.dockerignore&lt;/code>&lt;/h2>
+&lt;pre tabindex="0">&lt;code class="language-ignore" data-lang="ignore">.git
+README.md
+&lt;/code>&lt;/pre></description></item><item><title>Note: Docker Container</title><link>/note/container/docker/docker-container/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/docker-container/</guid><description>
+&lt;h2 id="run">run&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 创建一个守护态的Docker容器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -itd ubuntu:14.04 /bin/bash
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># docker ps&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 进入容器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker attach &amp;lt;container_id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 当多个窗口同时使用该命令进入该容器时，所有的窗口都会同步显示&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># enter a Docker container. &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">exec&lt;/span> -it CONTAINER_NAME /bin/bash
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 创建一个新的容器并运行一个命令&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> IMAGE &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>COMMAND&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>ARG...&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>-a stdin:&lt;/strong> 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；&lt;/li>
+&lt;li>&lt;strong>-d:&lt;/strong> 后台运行容器，并返回容器ID；&lt;/li>
+&lt;li>&lt;strong>-i:&lt;/strong> 以交互模式运行容器，通常与 -t 同时使用；&lt;/li>
+&lt;li>&lt;strong>-p:&lt;/strong> 端口映射，格式为：宿主端口:容器端口&lt;/li>
+&lt;li>&lt;strong>-v&lt;/strong>: 主机的目录映射到容器&lt;/li>
+&lt;li>&lt;strong>-t:&lt;/strong> 为容器重新分配一个伪输入终端，通常与 -i 同时使用；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;name=&amp;ldquo;cname&amp;rdquo;:&lt;/strong> 为容器指定一个名称；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;dns 8.8.8.8:&lt;/strong> 指定容器使用的DNS服务器，默认和宿主一致；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;dns-search example.com:&lt;/strong> 指定容器DNS搜索域名，默认和宿主一致；&lt;/li>
+&lt;li>&lt;strong>-h &amp;ldquo;hostname&amp;rdquo;:&lt;/strong> 指定容器的hostname；&lt;/li>
+&lt;li>&lt;strong>-e property=value:&lt;/strong> 设置环境变量；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;env-file=[]:&lt;/strong> 从指定文件读入环境变量；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;cpuset=&amp;ldquo;0-2&amp;rdquo; or &amp;ndash;cpuset=&amp;ldquo;0,1,2&amp;rdquo;:&lt;/strong> 绑定容器到指定CPU运行；&lt;/li>
+&lt;li>**-m :**设置容器使用内存最大值；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;net=&amp;ldquo;bridge&amp;rdquo;:&lt;/strong> 指定容器的网络连接类型，支持 bridge/host/none/container: 四种类型；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;link=[]:&lt;/strong> 添加链接到另一个容器；&lt;/li>
+&lt;li>&lt;strong>&amp;ndash;expose=[]:&lt;/strong> 开放一个端口或一组端口；&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker start &lt;span style="color:#8f5902;font-style:italic"># 启动一个或多少已经被停止的容器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker stop &lt;span style="color:#8f5902;font-style:italic"># 停止一个运行中的容器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker restart &lt;span style="color:#8f5902;font-style:italic"># 重启容器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker pause &lt;span style="color:#8f5902;font-style:italic"># 暂停容器中所有的进程。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker unpause &lt;span style="color:#8f5902;font-style:italic"># 恢复容器中所有的进程。&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="attach">attach&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 确保CTRL-D或C TRL-C不会关闭容器&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker attach --sig-proxy&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87">false&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="rm">rm&lt;/h2>
+&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>**-f :**通过SIGKILL信号强制删除一个运行中的容器&lt;/li>
+&lt;li>**-l :**移除容器间的网络连接，而非容器本身&lt;/li>
+&lt;li>&lt;strong>-v :&lt;/strong>-v 删除与容器关联的卷&lt;/li>
+&lt;/ul>
+&lt;h2 id="create">create&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 创建一个新的容器但不启动它&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker create &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> IMAGE &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>COMMAND&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>ARG...&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="exec">exec&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 在运行的容器中执行命令&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">exec&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> CONTAINER COMMAND &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>ARG...&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># tty size&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">exec&lt;/span> -it -e &lt;span style="color:#000">LINES&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>tput lines&lt;span style="color:#204a87;font-weight:bold">)&lt;/span> -e &lt;span style="color:#000">COLUMNS&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>tput cols&lt;span style="color:#204a87;font-weight:bold">)&lt;/span> &amp;lt;cid&amp;gt; bash
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>**-d :**分离模式: 在后台运行&lt;/li>
+&lt;li>**-i :**即使没有附加也保持STDIN 打开&lt;/li>
+&lt;li>**-t :**分配一个伪终端&lt;/li>
+&lt;/ul>
+&lt;h2 id="kill">kill&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Kill one or more running containers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># &amp;lt;signal&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># KILL&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">kill&lt;/span> -s &amp;lt;signal&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="cp">cp&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker cp &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> CONTAINER:SRC_PATH DEST_PATH&lt;span style="color:#000;font-weight:bold">|&lt;/span>-
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker cp &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> SRC_PATH&lt;span style="color:#000;font-weight:bold">|&lt;/span>- CONTAINER:DEST_PATH
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Docker Image</title><link>/note/container/docker/docker-image/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/docker-image/</guid><description>
+&lt;h2 id="search">search&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --limit int Max number of search results (default 25)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --no-trunc Don&amp;#39;t truncate output&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker search &amp;lt;something&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="pull">pull&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker pull debian
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># daemon mode&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">container_id&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">`&lt;/span>docker run -itd debian /bin/bash &lt;span style="color:#4e9a06">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">exec&lt;/span> -it &lt;span style="color:#000">$container_id&lt;/span> /bin/bash
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker attach &lt;span style="color:#000">$container_id&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="push">push&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker commit &amp;lt;container_id&amp;gt; &amp;lt;image_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker tag &amp;lt;image_name&amp;gt; &amp;lt;username&amp;gt;/&amp;lt;imagename&amp;gt;:&amp;lt;tagname&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker login -u &amp;lt;username&amp;gt; -p &amp;lt;password&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker push &amp;lt;username&amp;gt;/&amp;lt;imagename&amp;gt;:&amp;lt;tagname&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">logout&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="tag">tag&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker tag SOURCE_IMAGE&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>:TAG&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> TARGET_IMAGE&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>:TAG&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="commit">commit&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Create a new image from a container&amp;#39;s changes&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker commit &amp;lt;container_id&amp;gt; &amp;lt;image_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -a, --author string Author&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -m, --message string Commit message&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">cid&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>docker run -e &lt;span style="color:#000">FOO&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>BAR &amp;lt;image&amp;gt;&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker commit &lt;span style="color:#000">$cid&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="images">images&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -a, --all Show all images (default hides intermediate images)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --digests Show digests&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --no-trunc Don&amp;#39;t truncate output&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -q, --quiet Only show numeric IDs&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker images
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="rmi">rmi&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># -f, --force&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker rmi &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> IMAGE &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>IMAGE...&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="history">history&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Show the history of an image&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># --no-trunc Don&amp;#39;t truncate output&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">history&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> IMAGE
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="save">save&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Save one or more images to a tar archive&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker save -o &amp;lt;tar_file_name&amp;gt; &amp;lt;image&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="load">load&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Load an image from a tar archive or STDIN。&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker load -i &amp;lt;tar_file_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="dockertagssh">&lt;code>dockertags.sh&lt;/code>&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#!/bin/bash
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span> &lt;span style="color:#000">$#&lt;/span> -lt &lt;span style="color:#0000cf;font-weight:bold">1&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cat &lt;span style="color:#4e9a06">&amp;lt;&amp;lt; HELP
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">dockertags -- list all tags for a Docker image on a remote registry.
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">EXAMPLE:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> - list all tags for ubuntu:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> dockertags ubuntu
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> - list all php tags containing apache:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> dockertags php apache
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">HELP&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">image&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$1&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000">tags&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">`&lt;/span>wget -q https://registry.hub.docker.com/v1/repositories/&lt;span style="color:#4e9a06">${&lt;/span>&lt;span style="color:#000">image&lt;/span>&lt;span style="color:#4e9a06">}&lt;/span>/tags -O - &lt;span style="color:#000;font-weight:bold">|&lt;/span> sed -e &lt;span style="color:#4e9a06">&amp;#39;s/[][]//g&amp;#39;&lt;/span> -e &lt;span style="color:#4e9a06">&amp;#39;s/&amp;#34;//g&amp;#39;&lt;/span> -e &lt;span style="color:#4e9a06">&amp;#39;s/ //g&amp;#39;&lt;/span> &lt;span style="color:#000;font-weight:bold">|&lt;/span> tr &lt;span style="color:#4e9a06">&amp;#39;}&amp;#39;&lt;/span> &lt;span style="color:#4e9a06">&amp;#39;\n&amp;#39;&lt;/span> &lt;span style="color:#000;font-weight:bold">|&lt;/span> awk -F: &lt;span style="color:#4e9a06">&amp;#39;{print $3}&amp;#39;&lt;/span>&lt;span style="color:#4e9a06">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span> -n &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$2&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">tags&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">`&lt;/span> &lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#4e9a06">${&lt;/span>&lt;span style="color:#000">tags&lt;/span>&lt;span style="color:#4e9a06">}&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#000;font-weight:bold">|&lt;/span> grep &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$2&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#4e9a06">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#4e9a06">${&lt;/span>&lt;span style="color:#000">tags&lt;/span>&lt;span style="color:#4e9a06">}&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Docker Install</title><link>/note/container/docker/docker-install/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/docker-install/</guid><description>
+&lt;h2 id="docker">docker&lt;/h2>
+&lt;h3 id="docker-ce">docker-ce&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># https://docs.docker.com/engine/install/debian/&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get install &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> apt-transport-https &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> ca-certificates &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> curl &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> gnupg &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> lsb-release -y
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>curl -fsSL https://download.docker.com/linux/debian/gpg &lt;span style="color:#000;font-weight:bold">|&lt;/span> sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>lsb_release -cs&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>&lt;span style="color:#4e9a06"> stable&amp;#34;&lt;/span> &lt;span style="color:#000;font-weight:bold">|&lt;/span> sudo tee /etc/apt/sources.list.d/docker.list &amp;gt; /dev/null
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get update
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get install docker-ce docker-ce-cli containerd.io
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo systemctl status docker
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo usermod -aG docker &lt;span style="color:#000">$USER&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="debianubuntu">debian/ubuntu&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>sudo apt-get install docker.io
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># order to perform docker without sudo prefix &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo usermod -aG docker &lt;span style="color:#000">$USER&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo systemctl start docker
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo docker run --rm hello-world
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo apt-get autoremove --purge docker-io
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>rm -rf /var/lib/docker
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="centosfedora">centos/fedora&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>sudo dnf install docker
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 启动 Docker 服务&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># sudo service docker start&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo systemctl start docker
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run --rm hello-world
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker version
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker info
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 为避免输入sudo，可以把用户加入 Docker 用户组&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo groupadd docker
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>sudo usermod -aG docker &lt;span style="color:#000">$USER&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Docker Network</title><link>/note/container/docker/docker-network/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/docker-network/</guid><description>
+&lt;h2 id="--link">&lt;code>--link&lt;/code>&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># source container&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run --name mysql -e &lt;span style="color:#000">MYSQL_ROOT_PASSWORD&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>server -d mysql
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># received container&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 在nginx的容器中，使用db或者aliasmysql作为连接地址来连接MySQL服务&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run --name nginx --link mysql:aliasmysql -d nginx
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>docker将source container中定义的环境变量全部导入到received container中，在received container中可以通过环境变量来获取连接信息&lt;/p>
+&lt;p>通过给/etc/hosts中加入名称和IP的解析关系来实现&lt;/p>
+&lt;h2 id="network">network&lt;/h2>
+&lt;p>docker容器的网络有五种模式：&lt;/p>
+&lt;p>1）&lt;strong>bridge模式&lt;/strong>，&amp;ndash;net=bridge(默认)
+这是dokcer网络的默认设置，为容器创建独立的网络命名空间，容器具有独立的网卡等所有单独的网络栈，是最常用的使用方式。
+在docker run启动容器的时候，如果不加&amp;ndash;net参数，就默认采用这种网络模式。安装完docker，系统会自动添加一个供docker使用的网桥docker0，我们创建一个新的容器时，
+容器通过DHCP获取一个与docker0同网段的IP地址，并默认连接到docker0网桥，以此实现容器与宿主机的网络互通。&lt;/p>
+&lt;p>2）&lt;strong>host模式&lt;/strong>，&amp;ndash;net=host
+这个模式下创建出来的容器，直接使用容器宿主机的网络命名空间。
+将不拥有自己独立的Network Namespace，即没有独立的网络环境。它使用宿主机的ip和端口。&lt;/p>
+&lt;p>3）&lt;strong>none模式&lt;/strong>，&amp;ndash;net=none
+为容器创建独立网络命名空间，但不为它做任何网络配置，容器中只有lo，用户可以在此基础上，对容器网络做任意定制。
+这个模式下，dokcer不为容器进行任何网络配置。需要我们自己为容器添加网卡，配置IP。
+因此，若想使用pipework配置docker容器的ip地址，必须要在none模式下才可以。&lt;/p>
+&lt;p>4）&lt;strong>container模式&lt;/strong>，&amp;ndash;net=container:NAME_or_ID
+与host模式类似，只是容器将与指定的容器共享网络命名空间。
+这个模式就是指定一个已有的容器，共享该容器的IP和端口。除了网络方面两个容器共享，其他的如文件系统，进程等还是隔离开的。容器可以相以localhost访问，构成一个统一的整体。&lt;/p>
+&lt;p>5）&lt;strong>用户自定义&lt;/strong>：docker 1.9版本以后新增的特性，允许容器使用第三方的网络实现或者创建单独的bridge网络，提供网络隔离能力&lt;/p>
+&lt;p>在用户定义网络模式下，开发者可以使用任何docker支持的第三方网络driver来定制容器的网络。并且，docker 1.9以上的版本默认自带了bridge和overlay两种类型的自定义网络driver。可以用于集成calico、weave、openvswitch等第三方厂商的网络实现。&lt;/p>
+&lt;p>除了docker自带的bridge driver，其他的几种driver都可以实现容器的跨主机通信。而基于bdrige driver的网络，docker会自动为其创建iptables规则，保证与其他网络之间、与docker0之间的网络隔离。&lt;/p>
+&lt;h3 id="warning-ipv4-forwarding-is-disabled-networking-will-not-work">WARNING: IPv4 forwarding is disabled. Networking will not work.&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;net.ipv4.ip_forward=1&amp;#34;&lt;/span> &amp;gt;&amp;gt;/usr/lib/sysctl.d/00-system.conf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>systemctl restart network &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> systemctl restart docker
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="volume">volume&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;h3 id="backup">backup&lt;/h3>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker volume create data
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -v data:/path/to/data --name data_container &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> -d -it --rm &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> busybox /bin/sh
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run --rm --volumes-from data_container -v &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>&lt;span style="color:#204a87">pwd&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>:/backup busybox tar cvf /backup/data_backup.tar path/to/data
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>
+&lt;h3 id="restore">restore&lt;/h3>
+&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker run -v data:/path/to/data --name data_container2 &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> -d -it --rm &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> busybox /bin/bash
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run --rm --volumes-from data_container2 &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> -v &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>&lt;span style="color:#204a87">pwd&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>:/backup busybox &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> bash -c &lt;span style="color:#4e9a06">&amp;#34;cd /path/to/data &amp;amp;&amp;amp; tar xvf /backup/data_backup.tar --strip 1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Note: Docker Ps</title><link>/note/container/docker/docker-ps/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/docker-ps/</guid><description>
+&lt;h2 id="ps">ps&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker ps -a
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Show the latest created container, Only display numeric IDs&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker ps -lq
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker ps --format &lt;span style="color:#4e9a06">&amp;#39;table {{.Names}}\t{{.Image}}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>vim ~/.docker/config.json.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#34;psFormat&amp;#34;&lt;/span>: &lt;span style="color:#4e9a06">&amp;#34;table {{.Names}}\\t{{.Image}}\\t{{.RunningFor}} ago\\t{{.Status}}\\t{{.Command}}&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#34;imagesFormat&amp;#34;&lt;/span>: &lt;span style="color:#4e9a06">&amp;#34;table {{.Repository}}\\t{{.Tag}}\\t{{.ID}}\\t{{.Size}}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>**-a :**显示所有的容器，包括未运行的。&lt;/li>
+&lt;li>**-f :**根据条件过滤显示的内容。&lt;/li>
+&lt;li>**&amp;ndash;format :**指定返回值的模板文件。&lt;/li>
+&lt;li>**-l :**显示最近创建的容器。&lt;/li>
+&lt;li>**-n :**列出最近创建的n个容器。&lt;/li>
+&lt;li>**&amp;ndash;no-trunc :**不截断输出。&lt;/li>
+&lt;li>**-q :**静默模式，只显示容器编号。&lt;/li>
+&lt;li>**-s :**显示总的文件大小。&lt;/li>
+&lt;/ul>
+&lt;h2 id="inspect">inspect&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 显示容器的第一个进程的PID&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker inspect -f &lt;span style="color:#ce5c00;font-weight:bold">{{&lt;/span>.State.Pid&lt;span style="color:#ce5c00;font-weight:bold">}}&lt;/span> &amp;lt;container_id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker inspect --format&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#39;{{.RootFS.Layers}}&amp;#39;&lt;/span> &amp;lt;image_id&amp;gt;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker inspect --format&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#39;{{.NetworkSettings.IPAddress }}&amp;#39;&lt;/span> &amp;lt;container_id&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>获取容器/镜像的元数据&lt;/p>
+&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>**-f :**指定返回值的模板文件。&lt;/li>
+&lt;li>**-s :**显示总的文件大小。&lt;/li>
+&lt;li>**&amp;ndash;type :**为指定类型返回JSON。&lt;/li>
+&lt;/ul>
+&lt;h2 id="diff">diff&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker diff &amp;lt;container_id&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="top">top&lt;/h2>
+&lt;p>查看容器中运行的进程信息&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker top &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> CONTAINER &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>ps OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 查看所有运行容器的进程信息&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">for&lt;/span> i in &lt;span style="color:#4e9a06">`&lt;/span>docker ps &lt;span style="color:#000;font-weight:bold">|&lt;/span>grep Up&lt;span style="color:#000;font-weight:bold">|&lt;/span>awk &lt;span style="color:#4e9a06">&amp;#39;{print $1}&amp;#39;&lt;/span>&lt;span style="color:#4e9a06">`&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>&lt;span style="color:#204a87;font-weight:bold">do&lt;/span> &lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">\ &lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span>docker top &lt;span style="color:#000">$i&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span> &lt;span style="color:#204a87;font-weight:bold">done&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="logs">logs&lt;/h2>
+&lt;p>获取容器的日志&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker logs &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> CONTAINER
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tail -f /var/lib/docker/containers/&amp;lt;cid&amp;gt;/&amp;lt;cid&amp;gt;-json.log
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 用 fluentd 收集容器日志&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker run -d &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --log-driver&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>fluentd &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --log-opt fluentd-address&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">${&lt;/span>&lt;span style="color:#000">fluentd_address&lt;/span>&lt;span style="color:#4e9a06">}&lt;/span> &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span> --log-opt &lt;span style="color:#000">tag&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;docker.{{.Name}}&amp;#34;&lt;/span> &lt;span style="color:#4e9a06">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#4e9a06">&lt;/span>nginx
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>-f :&lt;/strong> 跟踪日志输出&lt;/li>
+&lt;li>**&amp;ndash;since :**显示某个开始时间的所有日志&lt;/li>
+&lt;li>&lt;strong>-t :&lt;/strong> 显示时间戳&lt;/li>
+&lt;li>**&amp;ndash;tail :**仅列出最新N条容器日志&lt;/li>
+&lt;/ul>
+&lt;h3 id="docker-引擎日志">Docker 引擎日志&lt;/h3>
+&lt;p>Ubuntu(14.04) /var/log/upstart/docker.log
+Ubuntu(16.04) journalctl -u docker.service
+CentOS 7/RHEL 7/Fedora journalctl -u docker.service
+CoreOS journalctl -u docker.service
+OpenSuSE journalctl -u docker.service
+OSX ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/log/docker.log
+Debian GNU/Linux 7 /var/log/daemon.log
+Debian GNU/Linux 8 journalctl -u docker.service
+Boot2Docker /var/log/docker.log&lt;/p>
+&lt;h2 id="events">events&lt;/h2>
+&lt;p>从服务器获取实时事件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker events &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>**-f ：**根据条件过滤事件；&lt;/li>
+&lt;li>**&amp;ndash;since ：**从指定的时间戳后显示所有事件; &amp;ndash;since=&amp;ldquo;2016-07-01&amp;rdquo;&lt;/li>
+&lt;li>**&amp;ndash;until ：**流水时间显示到指定的时间为止；&lt;/li>
+&lt;/ul>
+&lt;h2 id="export">export&lt;/h2>
+&lt;p>将文件系统作为一个tar归档文件导出到STDOUT。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">export&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>OPTIONS&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span> CONTAINER
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>OPTIONS说明：&lt;/p>
+&lt;ul>
+&lt;li>**-o :**将输入内容写到文件。&lt;/li>
+&lt;/ul>
+&lt;h2 id="wait">wait&lt;/h2>
+&lt;p>阻塞运行直到容器停止，然后打印出它的退出代码。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker &lt;span style="color:#204a87">wait&lt;/span> CONTAINER &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>CONTAINER...&lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="port">port&lt;/h2>
+&lt;p>列出指定的容器的端口映射，或者查找将PRIVATE_PORT NAT到面向公众的端口&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>docker port CONTAINER &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>PRIVATE_PORT&lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span>/PROTO&lt;span style="color:#ce5c00;font-weight:bold">]]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="heading">$&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Delete all containers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker rm &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>docker ps -a -q&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># Delete all images&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>docker rmi &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>docker images -q&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="varlibdocker">&lt;code>/var/lib/docker&lt;/code>&lt;/h2>
+&lt;ol>
+&lt;li>/var/lib/docker/devicemapper/devicemapper/data #用来存储相关的存储池数据&lt;/li>
+&lt;li>/var/lib/docker/devicemapper/devicemapper/metadata #用来存储相关的元数据。&lt;/li>
+&lt;li>/var/lib/docker/devicemapper/metadata/ #用来存储 device_id. 大小. 以及传输_id. 初始化信息&lt;/li>
+&lt;li>/var/lib/docker/devicemapper/mnt #用来存储挂载信息&lt;/li>
+&lt;li>/var/lib/docker/container/ #用来存储容器信息&lt;/li>
+&lt;li>/var/lib/docker/graph/ #用来存储镜像中间件及本身详细信息和大小 . 以及依赖信息&lt;/li>
+&lt;li>/var/lib/docker/repositores-devicemapper #用来存储镜像基本信息&lt;/li>
+&lt;li>/var/lib/docker/tmp #docker临时目录&lt;/li>
+&lt;li>/var/lib/docker/trust #docker信任目录&lt;/li>
+&lt;li>/var/lib/docker/volumes #docker卷目录&lt;/li>
+&lt;/ol></description></item><item><title>Note: Nsenter</title><link>/note/container/docker/nsenter/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/note/container/docker/nsenter/</guid><description>
+&lt;h2 id="nsenter">nsenter&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>wget https://www.kernel.org/pub/linux/utils/util-linux/v2.32/util-linux-2.32.tar.gz
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>tar -zxf util-linux-2.32.tar.gz &lt;span style="color:#ce5c00;font-weight:bold">&amp;amp;&amp;amp;&lt;/span> &lt;span style="color:#204a87">cd&lt;/span> util-linux-2.32
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>./configure
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>make
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># make &amp;amp;&amp;amp; make install，可能影响操作系统底层工具&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cp nsenter /usr/local/bin/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="docker-enter">&lt;code>docker-enter&lt;/code>&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">#!/bin/sh
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span> -e &lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>dirname &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$0&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>/nsenter &lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span> &lt;span style="color:#204a87;font-weight:bold">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic"># with boot2docker, nsenter is not in the PATH but it is in the same folder&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">NSENTER&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>dirname &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$0&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>/nsenter
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">NSENTER&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>nsenter
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span> -z &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$1&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span> &lt;span style="color:#204a87;font-weight:bold">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;Usage: &lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>basename &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$0&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>&lt;span style="color:#4e9a06"> CONTAINER [COMMAND [ARG]...]&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;Enters the Docker CONTAINER and executes the specified COMMAND.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">echo&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;If COMMAND is not specified, runs an interactive shell in CONTAINER.&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">PID&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#204a87;font-weight:bold">$(&lt;/span>docker inspect --format &lt;span style="color:#4e9a06">&amp;#34;{{.State.Pid}}&amp;#34;&lt;/span> &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$1&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#204a87;font-weight:bold">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span> -z &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$PID&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span> &lt;span style="color:#204a87;font-weight:bold">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">exit&lt;/span> &lt;span style="color:#0000cf;font-weight:bold">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87">shift&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">OPTS&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;--target &lt;/span>&lt;span style="color:#000">$PID&lt;/span>&lt;span style="color:#4e9a06"> --mount --uts --ipc --net --pid --&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">[&lt;/span> -z &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$1&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">]&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span> &lt;span style="color:#204a87;font-weight:bold">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic"># No command given.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic"># Use su to clear all host environment variables except for TERM,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic"># initialize the environment variables HOME, SHELL, USER, LOGNAME, PATH,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic"># and start a login shell.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$NSENTER&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#000">$OPTS&lt;/span> su - root
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic"># Use env to clear all host environment variables.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$NSENTER&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span> &lt;span style="color:#000">$OPTS&lt;/span> env --ignore-environment -- &lt;span style="color:#4e9a06">&amp;#34;&lt;/span>&lt;span style="color:#000">$@&lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

