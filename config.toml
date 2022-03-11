@@ -146,6 +146,9 @@ prism_syntax_highlighting = true
 [params.plantuml]
 enable = true
 
+[params.mermaid]
+enable = true
+
 # User interface configuration
 [params.ui]
 #  Set to true to disable breadcrumb navigation.
