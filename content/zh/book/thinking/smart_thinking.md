@@ -1,6 +1,5 @@
 ---
 title: "敏捷思考"
-linkTitle: "敏捷思考"
 weight: 1
 date: 2022-02-19
 ---
