@@ -52,6 +52,10 @@ CAP定理是大数据处理的基础约束，对一个分布式计算系统，C(
 
 ### 集群架构
 
+![alt](/img/acd2eb8e305046a189d69e884ec95c54.jpg)
+
+**Job提交流程**
+
 ```plantuml
 @startuml
 !theme mars
@@ -77,11 +81,11 @@ job -> task: 将执行计划ExecutionGraph发送给TaskManager执行\n\
 
 @enduml
 ```
-##### JobManager（master）
+#### JobManager（master）
 
 Flink 系统的管理节点，全局只有一个，管理所有的 TaskManager，并决策用户任务在哪些 Taskmanager 执行。同时在运行过程中，会负责所有需要中央协调的操作，比如说检查点（checkpoints）的协调。
 
-##### TaskManager (slave)
+#### TaskManager (slave)
 
 Flink 系统的业务执行节点，执行具体的用户任务，提供了内存管理、IO管理、网络管理功能。每个TaskManger上运行一个jvm进程。每个TaskManger拥有多个TaskSlot，而每个TaskSlot运行一个线程。Flink允许同一个任务的多个子任务，并且会尽量将多个子任务放到一个slot中执行。
 
