@@ -96,7 +96,7 @@ solt1 -right-&amp;gt; solt2
 &lt;li>&lt;code>Sessions Window&lt;/code>: 会话窗口。按会话维度进行统计。比如针对每个访问网站的用户建立会话，并且设定会话窗口超时阈值，假设1分钟。如果在最近1分钟之内，用户执行了操作，则将这些操作在同一个会话窗口中进行计算。&lt;/li>
 &lt;li>&lt;code>Custom Window&lt;/code>: 自定义窗口，继承&lt;code>WindowAssigner&lt;/code>&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://s2.loli.net/2022/03/02/r8SZnEiI1Czxb2m.jpg" alt="">&lt;/p>
+&lt;p>&lt;img src="/img/3de896780c004f1c879e1ff5c7faa99c.png" alt="alt">&lt;/p>
 &lt;h3 id="触发器-trigger">触发器 Trigger&lt;/h3>
 &lt;p>Flink使用Trigger(触发器)来决定何时输出计算结果。&lt;/p>
 &lt;ul>

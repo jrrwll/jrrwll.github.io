@@ -96,7 +96,7 @@ solt1 -right-&amp;gt; solt2
 &lt;li>&lt;code>Sessions Window&lt;/code>: 会话窗口。按会话维度进行统计。比如针对每个访问网站的用户建立会话，并且设定会话窗口超时阈值，假设1分钟。如果在最近1分钟之内，用户执行了操作，则将这些操作在同一个会话窗口中进行计算。&lt;/li>
 &lt;li>&lt;code>Custom Window&lt;/code>: 自定义窗口，继承&lt;code>WindowAssigner&lt;/code>&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://s2.loli.net/2022/03/02/r8SZnEiI1Czxb2m.jpg" alt="">&lt;/p>
+&lt;p>&lt;img src="/img/3de896780c004f1c879e1ff5c7faa99c.png" alt="alt">&lt;/p>
 &lt;h3 id="触发器-trigger">触发器 Trigger&lt;/h3>
 &lt;p>Flink使用Trigger(触发器)来决定何时输出计算结果。&lt;/p>
 &lt;ul>
@@ -388,7 +388,7 @@ KeyedProcess --&amp;gt; sink: KeyedProcess-11_Sink: sink-12_0_FORWARD
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">select&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">xxx&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">from&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">xxx&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
 &lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#000;font-weight:bold">;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Blog: G1 GC 算法</title><link>/blog/2022/02/18/g1-gc-%E7%AE%97%E6%B3%95/</link><pubDate>Fri, 18 Feb 2022 00:00:00 +0000</pubDate><guid>/blog/2022/02/18/g1-gc-%E7%AE%97%E6%B3%95/</guid><description>
-&lt;p>&lt;img src="https://tuke.vercel.app/bing/image" alt="alt">&lt;/p></description></item><item><title>Blog: ElasticSearch 学习笔记</title><link>/blog/2022/02/17/elasticsearch-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link><pubDate>Thu, 17 Feb 2022 00:00:00 +0000</pubDate><guid>/blog/2022/02/17/elasticsearch-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid><description>
+&lt;p>&lt;img src="https://tuke.vercel.app/bing/image" alt="alt">&lt;/p></description></item><item><title>Blog: ElasticSearch 简介</title><link>/blog/2022/02/17/elasticsearch-%E7%AE%80%E4%BB%8B/</link><pubDate>Thu, 17 Feb 2022 00:00:00 +0000</pubDate><guid>/blog/2022/02/17/elasticsearch-%E7%AE%80%E4%BB%8B/</guid><description>
 &lt;h2 id="概述">概述&lt;/h2>
 &lt;p>Elasticsearch是一个建立在全文搜索引擎库Apache Lucene 基础上的实时的分布式搜索和分析引擎，它可以帮助我们用很快的速度去处理大规模数据，可以用于全文检索、结构化检索、推荐、分析以及统计聚合等多种场景。&lt;/p>
 &lt;h2 id="数据模型">数据模型&lt;/h2>
@@ -547,7 +547,81 @@ Summary：摘要信息也是来源于_source字段。&lt;/li>
 &lt;p>Index#Doc&lt;/p>
 &lt;/blockquote>
 &lt;p>该字段会索引某个Field的名称，用来判断某个Doc中是否存在某个Field，用于exists或者missing请求。&lt;/p>
-&lt;p>Elasticsearch中_field_names的目的是查询哪些Doc的这个Field是否存在，所以只需要倒排Index即可。&lt;/p>
+&lt;p>Elasticsearch中_field_names的目的是查询哪些Doc的这个Field是否存在，所以只需要倒排Index即可。&lt;/p></description></item><item><title>Blog: ElasticSearch 查询</title><link>/blog/2022/02/17/elasticsearch-%E6%9F%A5%E8%AF%A2/</link><pubDate>Thu, 17 Feb 2022 00:00:00 +0000</pubDate><guid>/blog/2022/02/17/elasticsearch-%E6%9F%A5%E8%AF%A2/</guid><description>
+&lt;h2 id="查询流程">查询流程&lt;/h2>
+&lt;h3 id="lucene的读">Lucene的读&lt;/h3>
+&lt;ul>
+&lt;li>&lt;strong>&lt;code>TopDocs search(Query query, int n)&lt;/code>&lt;/strong> 返回最满足Query的N个结果&lt;/li>
+&lt;li>&lt;strong>&lt;code>Document doc(int docID)&lt;/code>&lt;/strong> 通过doc id查询Doc内容&lt;/li>
+&lt;li>&lt;strong>&lt;code>int count(Query query)&lt;/code>&lt;/strong> 通过Query获取到命中数&lt;/li>
+&lt;/ul>
+&lt;p>Search类实时（Near Real Time）请求：同时查询内存和磁盘上的Segment，最后将结果合并后返回。所有的搜索系统一般都是两阶段查询，第一阶段查询到匹配的DocID，第二阶段再查询DocID对应的完整文档，在Elasticsearch中称为&lt;code>query_then_fetch&lt;/code>。而一阶段查询&lt;code>query_and_fetch&lt;/code>，适用于查询一个Shard的请求。根据TF（Term Frequency）和DF（Document Frequency）来算分的查询使用三阶段查询，即先收集所有Shard中的TF和DF值，然后将这些值带入请求中，再次执行query_then_fetch，这样算分的时候TF和DF就是准确的，称作&lt;code>DFS_query_then_fetch&lt;/code>，另有&lt;code>DFS_query_and_fetch&lt;/code>。另一种选择是用BM25代替TF/DF模型&lt;/p>
+&lt;p>Get类实时（Real Time）请求：先查询内存中的TransLog，没找到则再查询磁盘上的TransLog，还没有则再查询磁盘上的Segment。这种查询顺序可以保证查询到最新版本的Doc&lt;/p>
+&lt;h3 id="client-node">Client Node&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>Get Remove Cluster Shard
+判断是否需要跨集群访问，如果需要，则获取到要访问的Shard列表&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Get Search Shard Iterator
+获取当前Cluster中要访问的Shard，和上一步中的Remove Cluster Shard合并，构建出最终要访问的完整Shard列表。
+这一步中，会在Primary Node和多个Replica Node中选择出一个要访问的Shard&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>For Every Shard:Perform
+遍历每个Shard，对每个Shard执行后面逻辑&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Send Request To Query Shard
+将查询阶段请求发送给相应的Shard&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Merge Docs
+上一步将请求发送给多个Shard后，这一步就是异步等待返回结果，然后对结果合并。这里的合并策略是维护一个Top N大小的优先级队列，每当收到一个shard的返回，就把结果放入优先级队列做一次排序，直到所有的Shard都返回。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Send Request To Fetch Shard
+选出Top N个Doc ID后发送Fetch Shard给这些Doc ID所在的Shard，最后会返回Top N的Doc的内容。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="query-phase">Query Phase&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>Create Search Context
+创建Search Context，之后Search过程中的所有中间状态都会存在Context中&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Parse Query
+解析Query的Source，将结果存入Search Context&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Get From Cache
+判断请求是否允许被Cache，如果允许，则检查Cache中是否已经有结果，如果有则直接读取Cache，如果没有则继续执行后续步骤，执行完后，再将结果加入Cache&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Add Collectors
+Collector主要目标是收集查询结果，实现排序，自定义结果集过滤和收集等。这一步会增加多个Collectors，多个Collector组成一个List&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Lucene::search
+调用Lucene中IndexSearch的search接口，执行真正的搜索逻辑。每个Shard中会有多个Segment，每个Segment对应一个LeafReaderContext，这里会遍历每个Segment，到每个Segment中去Search结果，然后计算分数&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Rescore
+根据Request中是否包含rescore配置决定是否进行二阶段排序&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Suggest::execute
+如果有推荐请求，则在这里执行推荐请求。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Aggregation::execute
+如果含有聚合统计请求，则在这里执行。Elasticsearch中的aggregate的处理逻辑也类似于Search，通过多个Collector来实现。在Client Node中也需要对aggregation做合并&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="fetch-phase">Fetch Phase&lt;/h3>
+&lt;p>通过DocID获取到用户需要的完整Doc内容。这些内容包括了DocValues，Store，Source，Script和Highlight等&lt;/p></description></item><item><title>Blog: ElasticSearch 写入</title><link>/blog/2022/02/17/elasticsearch-%E5%86%99%E5%85%A5/</link><pubDate>Thu, 17 Feb 2022 00:00:00 +0000</pubDate><guid>/blog/2022/02/17/elasticsearch-%E5%86%99%E5%85%A5/</guid><description>
 &lt;h2 id="写入流程">写入流程&lt;/h2>
 &lt;h3 id="写操作在搜索系统和nosql数据库中的对比">写操作在搜索系统和NoSQL数据库中的对比&lt;/h3>
 &lt;ul>
@@ -629,7 +703,71 @@ endif
 :释放锁;
 end
 @enduml
-&lt;/code>&lt;/pre>&lt;h3 id="elasticsearch写操作的关键点">Elasticsearch写操作的关键点&lt;/h3>
+&lt;/code>&lt;/pre>&lt;h3 id="client-node">Client Node&lt;/h3>
+&lt;ol>
+&lt;li>
+&lt;p>Ingest Pipeline
+在这一步可以对原始文档做一些处理，比如HTML解析，自定义的处理，具体处理逻辑可以通过插件来实现。在Elasticsearch中，由于Ingest Pipeline会比较耗费CPU等资源，可以设置专门的Ingest Node，专门用来处理Ingest Pipeline逻辑。如果当前Node不能执行Ingest Pipeline，则会将请求发给另一台可以执行Ingest Pipeline的Node&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Auto Create Index
+判断当前Index是否存在，如果不存在，则需要自动创建Index，这里需要和Master交互。也可以通过配置关闭自动创建Index的功能&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Set Routing
+设置路由条件，如果Request中指定了路由条件，则直接使用Request中的Routing，否则使用Mapping中配置的，如果Mapping中无配置，则使用默认的_id字段值。在这一步中，如果没有指定id字段，则会自动生成一个唯一的_id字段，目前使用的是UUID&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Construct BulkShardRequest
+由于Bulk Request中会包括多个(Index/Update/Delete)请求，这些请求根据routing可能会落在多个Shard上执行，这一步会按Shard挑拣Single Write Request，同一个Shard中的请求聚集在一起，构建BulkShardRequest，每个BulkShardRequest对应一个Shard&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Send Request To Primary
+这一步会将每一个BulkShardRequest请求发送给相应Shard的Primary Node&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="primary-node">Primary Node&lt;/h3>
+&lt;blockquote>
+&lt;p>&lt;code>PrimaryOperationTransportHandler.messageReceived&lt;/code>&lt;/p>
+&lt;/blockquote>
+&lt;h5 id="1-index-or-update-or-delete">1. Index or Update or Delete&lt;/h5>
+&lt;p>循环执行每个Single Write Request，对于每个Request，根据操作类型(CREATE/INDEX/UPDATE/DELETE)选择不同的处理逻辑。其中，Create/Index是直接新增Doc，Delete是直接根据_id删除Doc&lt;/p>
+&lt;h5 id="2-translate-update-to-index-or-delete">2. Translate Update To Index or Delete&lt;/h5>
+&lt;p>这一步是Update操作的特有步骤，在这里，会将Update请求转换为Index或者Delete请求。首先，会通过GetRequest查询到已经存在的同_id Doc（如果有）的完整字段和值（依赖_source字段），然后和请求中的Doc合并。同时，这里会获取到读到的Doc版本号，记做V1&lt;/p>
+&lt;h5 id="3-parse-doc">3. Parse Doc&lt;/h5>
+&lt;p>这里会解析Doc中各个字段。生成ParsedDocument对象，同时会生成uid Term&lt;/p>
+&lt;h5 id="4-update-mapping">4. Update Mapping&lt;/h5>
+&lt;p>Elasticsearch中有个自动更新Mapping的功能，就在这一步生效。会先挑选出Mapping中未包含的新Field，然后判断是否运行自动更新Mapping，如果允许，则更新Mapping&lt;/p>
+&lt;h5 id="5-get-sequence-id-and-version">5. Get Sequence Id and Version&lt;/h5>
+&lt;p>由于当前是Primary Shard，则会从SequenceNumber Service获取一个sequenceID和Version。SequenceID在Shard级别每次递增1，SequenceID在写入Doc成功后，会用来初始化LocalCheckpoint。Version则是根据当前Doc的最大Version递增1&lt;/p>
+&lt;h5 id="6-add-doc-to-lucene">6. Add Doc To Lucene&lt;/h5>
+&lt;p>这一步开始的时候会给特定_uid加锁，然后判断该_uid对应的Version是否等于之前Translate Update To Index步骤里获取到的Version，如果不相等，则说明刚才读取Doc后，该Doc发生了变化，出现了版本冲突，这时候会抛出一个VersionConflict的异常，该异常会在Primary Node最开始处捕获，重新从“Translate Update To Index or Delete”开始执行&lt;/p>
+&lt;p>如果Version相等，则继续执行，如果已经存在同id的Doc，则会调用Lucene的UpdateDocument(uid, doc)接口，先根据uid删除Doc，然后再Index新Doc。如果是首次写入，则直接调用Lucene的AddDocument接口完成Doc的Index，AddDocument也是通过UpdateDocument实现&lt;/p>
+&lt;p>这里如何保证Delete-Then-Add的原子性，怎么避免中间状态时被Refresh？答案是在开始Delete之前，会加一个Refresh Lock，禁止被Refresh，只有等Add完后释放了Refresh Lock后才能被Refresh，这样就保证了Delete-Then-Add的原子性&lt;/p>
+&lt;h5 id="7-write-translog">7. Write Translog&lt;/h5>
+&lt;p>写完Lucene的Segment后，会以keyvalue的形式写TransLog，Key是_id，Value是Doc内容。当查询的时候，如果请求是GetDocByID，则可以直接根据_id从TransLog中读取到，满足NoSQL场景下的实时性要去。这一步的最后，会标记当前SequenceID已经成功执行，接着会更新当前Shard的LocalCheckPoint&lt;/p>
+&lt;h5 id="8-renew-bulk-request">8. Renew Bulk Request&lt;/h5>
+&lt;p>这里会重新构造Bulk Request&lt;/p>
+&lt;h5 id="9-flush-translog">9. Flush Translog&lt;/h5>
+&lt;p>这里会根据TransLog的策略，选择不同的执行方式，要么是立即Flush到磁盘，要么是等到以后再Flush。Flush的频率越高，可靠性越高，对写入性能影响越大&lt;/p>
+&lt;h5 id="10-send-requests-to-replicas">10. Send Requests To Replicas&lt;/h5>
+&lt;p>这里会将刚才构造的新的Bulk Request并行发送给多个Replica，然后等待Replica的返回，这里需要等待所有Replica返回后（可能有成功，也有可能失败），Primary Node才会返回用户。如果某个Replica失败了，则Primary会给Master发送一个Remove Shard请求，要求Master将该Replica Shard从可用节点中移除。同时会将SequenceID，PrimaryTerm，GlobalCheckPoint等传递给Replica&lt;/p>
+&lt;p>发送给Replica的请求中，Action Name等于原始ActionName + [R]，这里的R表示Replica。通过这个[R]的不同，可以找到处理Replica请求的Handler&lt;/p>
+&lt;h5 id="11-receive-response-from-replicas">11. Receive Response From Replicas&lt;/h5>
+&lt;p>Replica中请求都处理完后，会更新Primary Node的LocalCheckPoint&lt;/p>
+&lt;h3 id="replica-node">Replica Node&lt;/h3>
+&lt;blockquote>
+&lt;p>&lt;code>ReplicaOperationTransportHandler.messageReceived&lt;/code>&lt;/p>
+&lt;/blockquote>
+&lt;h5 id="1-index-or-delete">1. Index or Delete&lt;/h5>
+&lt;h5 id="2-parse-doc">2. Parse Doc&lt;/h5>
+&lt;h5 id="3-update-mapping">3. Update Mapping&lt;/h5>
+&lt;h5 id="4-get-sequence-id-and-version">4. Get Sequence Id and Version&lt;/h5>
+&lt;p>Primary Node中会生成Sequence ID和Version，然后放入ReplicaRequest中，这里只需要从Request中获取到就行&lt;/p>
+&lt;h5 id="5-add-doc-to-lucene">5. Add Doc To Lucene&lt;/h5>
+&lt;h5 id="6-write-translog">6. Write Translog&lt;/h5>
+&lt;h5 id="7-flush-translog">7. Flush Translog&lt;/h5>
+&lt;h3 id="写操作的关键点-1">写操作的关键点&lt;/h3>
 &lt;ul>
 &lt;li>可靠性：由于Lucene的设计中不考虑可靠性，在Elasticsearch中通过Replica和TransLog两套机制保证数据的可靠性。&lt;/li>
 &lt;li>一致性：Lucene中的Flush锁只保证Update接口里面Delete和Add中间不会Flush，但是Add完成后仍然有可能立即发生Flush，导致Segment可读。这样就没法保证Primary和所有其他Replica可以同一时间Flush，就会出现查询不稳定的情况，这里只能实现最终一致性。&lt;/li>
@@ -637,4 +775,409 @@ end
 &lt;li>隔离性：仍然采用Version和局部锁来保证更新的是特定版本的数据。&lt;/li>
 &lt;li>实时性：使用定期Refresh Segment到内存，并且Reopen Segment方式保证搜索可以在较短时间（比如1秒）内被搜索到。通过将未刷新到磁盘数据记入TransLog，保证对未提交数据可以通过ID实时访问到。&lt;/li>
 &lt;li>性能：一是不需要所有Replica都返回后才能返回给用户，只需要返回特定数目的就行；二是生成的Segment先在内存中提供服务，等一段时间后才刷新到磁盘，Segment在内存这段时间的可靠性由TransLog保证；三是TransLog可以配置为周期性的Flush，但这个会给可靠性带来伤害；四是每个线程持有一个Segment，多线程时相互不影响，相互独立，性能更好；五是系统的写入流程对版本依赖较重，读取频率较高，因此采用了versionMap，减少热点数据的多次磁盘IO开销。&lt;/li>
+&lt;/ul></description></item><item><title>Blog: Elasticsearch 查询性能</title><link>/blog/2022/04/27/elasticsearch-%E6%9F%A5%E8%AF%A2%E6%80%A7%E8%83%BD/</link><pubDate>Wed, 27 Apr 2022 00:00:00 +0000</pubDate><guid>/blog/2022/04/27/elasticsearch-%E6%9F%A5%E8%AF%A2%E6%80%A7%E8%83%BD/</guid><description>
+&lt;h2 id="lucene查询原理">Lucene查询原理&lt;/h2>
+&lt;h3 id="lucene的数据结构">Lucene的数据结构&lt;/h3>
+&lt;ul>
+&lt;li>
+&lt;h4 id="fst">FST&lt;/h4>
+&lt;/li>
+&lt;/ul>
+&lt;p>保存term字典，可以在FST上实现单Term、Term范围、Term前缀和通配符查询等&lt;/p>
+&lt;p>对字符串范围/前缀/通配符查询，Lucene会从FST中获取到符合条件的所有Term，然后就可以根据这些Term再查找倒排链，找到符合条件的doc。FST相关的字符串查询要比倒排链查询慢很多(以上10倍)&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;h4 id="倒排链">倒排链&lt;/h4>
+&lt;/li>
+&lt;/ul>
+&lt;p>保存了每个term对应的docId的列表，采用skipList的结构保存，用于快速跳跃&lt;/p>
+&lt;p>对单个词条进行查询，Lucene会读取该词条的倒排链，倒排链中是一个有序的docId列表。单个倒排链扫描的性能在每秒千万级&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;h4 id="bkd-tree">BKD-Tree&lt;/h4>
+&lt;/li>
+&lt;/ul>
+&lt;p>BKD-Tree是一种保存多维空间点的数据结构，用于数值类型(包括空间点)的快速查找&lt;/p>
+&lt;p>对数字类型进行范围查找，Lucene会通过BKD-Tree找到符合条件的docId集合，但这个集合中的docId并非有序的。和其他条件做交集的时候，需要构建有序的docID数组或BitSet&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;h4 id="docvalues">DocValues&lt;/h4>
+&lt;/li>
+&lt;/ul>
+&lt;p>基于docId的列式存储，由于列式存储的特点，可以有效提升排序聚合的性能&lt;/p>
+&lt;h2 id="indexsorting">IndexSorting&lt;/h2>
+&lt;p>IndexSorting是一种预排序，即数据预先按照某种方式进行排序，它是Index的一个设置，这里数据是&lt;strong>在每个Segment内有序&lt;/strong>。一个Segment中的每个文档，都会被分配一个docID，docID从0开始，顺序分配。在没有IndexSorting时，docID是按照文档写入的顺序进行分配的，在设置了IndexSorting之后，docID的顺序就与IndexSorting的顺序一致&lt;/p>
+&lt;h3 id="优化查询性能">优化查询性能&lt;/h3>
+&lt;h4 id="提前中断">提前中断&lt;/h4>
+&lt;p>查询的Sort顺序与IndexSorting的顺序相同，并且不需要获取符合条件的记录总数(TotalHits)时，这时候可以提前中断查询&lt;/p>
+&lt;h4 id="提高数据压缩率">提高数据压缩率&lt;/h4>
+&lt;p>不管行存(Store)与列存(DocValues)的存储方式，应用IndexSorting后，相邻数据的相似度就会越高，也就越利于压缩&lt;/p>
+&lt;h4 id="降低写入性能">降低写入性能&lt;/h4>
+&lt;h3 id="实现原理">实现原理&lt;/h3>
+&lt;h4 id="flush时保证segment内数据有序">Flush时保证Segment内数据有序&lt;/h4>
+&lt;p>数据写入Lucene后，并不是立即可查的，要生成Segment之后才能被查到。为了保证近实时的查询，ES会每隔一秒进行一次Refresh，Refresh就会调用到Lucene的Flush生成新的Segment&lt;/p>
+&lt;p>每个doc写入进来之后，按照写入顺序被分配一个docID，然后被IndexingChain处理，依次要对invert index、store fields、doc values和point values进行处理，有些数据会直接写到文件里，主要是store field和term vector，其他的数据会放到memory buffer中&lt;/p>
+&lt;p>在Flush时，首先根据设定的列排序，这个排序可以利用内存中的doc values，排序之后得到老的docID到新docID的映射，因为之前docID是按照写入顺序生成的，现在重排后，生成的是新的排列。对于已经写到文件中的数据，比如store field和term vector，需要从文件中读出来，重新排列后再写到一个新文件里，原来的文件就相当于一个临时文件。对于内存中的数据结构，直接在内存中重排后写到文件中。&lt;/p>
+&lt;p>相比没有IndexSorting时，对性能影响比较大的一块就是store field的重排，因为这部分需要从文件中读出再写回，而其他部分都是内存操作，性能影响稍小一些&lt;/p>
+&lt;h4 id="merge时保证新的segment数据有序">Merge时保证新的Segment数据有序&lt;/h4>
+&lt;p>由于Flush时Segment已经是有序的了，所以在Merge时也就可以采用非常高效的Merge Sort的方式进行&lt;/p></description></item><item><title>Blog: Elasticsearch 分布式原理Node篇</title><link>/blog/2022/04/27/elasticsearch-%E5%88%86%E5%B8%83%E5%BC%8F%E5%8E%9F%E7%90%86node%E7%AF%87/</link><pubDate>Wed, 27 Apr 2022 00:00:00 +0000</pubDate><guid>/blog/2022/04/27/elasticsearch-%E5%88%86%E5%B8%83%E5%BC%8F%E5%8E%9F%E7%90%86node%E7%AF%87/</guid><description>
+&lt;h2 id="es集群构成">ES集群构成&lt;/h2>
+&lt;p>配置文件 &lt;code>conf/elasticsearch.yml&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">node.master&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">true&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">node.data&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">false&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>当node.master为true时，其表示这个node是一个master的候选节点，可以参与选举，在ES的文档中常被称作 master-eligible node，类似于Leader和Candidate的关系。当node.data为true时，这个节点作为一个数据节点，会存储分配在该node上的shard的数据并负责这些shard的写入、查询等。此外，任何一个集群内的node都可以执行任何请求，其会负责将请求转发给对应的node进行处理&lt;/p>
+&lt;h2 id="节点发现">节点发现&lt;/h2>
+&lt;blockquote>
+&lt;p>ES ZenDiscovery在选举时没有term的概念，不能保证每轮每个节点只投一票&lt;/p>
+&lt;/blockquote>
+&lt;p>Node启动后，首先要通过节点发现功能加入集群。&lt;a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery-hosts-providers.html?spm=ata.21736010.0.0.3ff518f1oBkJmL">ZenDiscovery&lt;/a>是ES自己实现的一套用于节点发现和选主等功能的模块&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 推荐这里设置为所有的master-eligible node&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">discovery.zen.ping.unicast.hosts&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000;font-weight:bold">[&lt;/span>&lt;span style="color:#000">x.x.x.1, x.x.x.2， x.x.x.3]&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="master选举">Master选举&lt;/h2>
+&lt;p>保证选举出的master被多数派(quorum)的master-eligible node认可，以此来保证只有一个master&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic"># 设置 quorum&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">discovery.zen.minimum_master_nodes&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#0000cf;font-weight:bold">2&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="master选举发起的时机">master选举发起的时机&lt;/h3>
+&lt;p>当一个节点发现包括自己在内的多数派的master-eligible节点认为集群没有master时，就可以发起master选举&lt;/p>
+&lt;ul>
+&lt;li>该master-eligible节点的状态为 &lt;code>当前没有master&lt;/code>&lt;/li>
+&lt;li>该master-eligible节点通过ZenDiscovery模块的ping操作询问其已知的集群其他节点的信息，获取到的状态都为 &lt;code>当前没有master&lt;/code>&lt;/li>
+&lt;li>包括本节点在内，当前已有超过minimum_master_nodes个节点认为集群没有master&lt;/li>
+&lt;/ul>
+&lt;h3 id="master选举的投票对象">master选举的投票对象&lt;/h3>
+&lt;p>当clusterStateVersion越大，优先级越高。这是为了保证新Master拥有最新的clusterState(即集群的meta)，避免已经commit的meta变更丢失&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">class&lt;/span> &lt;span style="color:#000">Some&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 计算出选举的投票对象
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">public&lt;/span> &lt;span style="color:#000">MasterCandidate&lt;/span> &lt;span style="color:#000">electMaster&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">Collection&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">MasterCandidate&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">candidates&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">assert&lt;/span> &lt;span style="color:#000">hasEnoughCandidates&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">candidates&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">List&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">MasterCandidate&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">sortedCandidates&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#204a87;font-weight:bold">new&lt;/span> &lt;span style="color:#000">ArrayList&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&amp;gt;(&lt;/span>&lt;span style="color:#000">candidates&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">sortedCandidates&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">sort&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">MasterCandidate&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">::&lt;/span>&lt;span style="color:#000">compare&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">return&lt;/span> &lt;span style="color:#000">sortedCandidates&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">get&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">0&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#8f5902;font-style:italic">// 先根据节点的clusterStateVersion比较，相同时，则按照节点的Id比较(Id为节点第一次启动时随机生成)
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">public&lt;/span> &lt;span style="color:#204a87;font-weight:bold">static&lt;/span> &lt;span style="color:#204a87;font-weight:bold">int&lt;/span> &lt;span style="color:#000">compare&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">MasterCandidate&lt;/span> &lt;span style="color:#000">c1&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">MasterCandidate&lt;/span> &lt;span style="color:#000">c2&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">int&lt;/span> &lt;span style="color:#000">ret&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#000">Long&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">compare&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">c2&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">clusterStateVersion&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">c1&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">clusterStateVersion&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">if&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">ret&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">==&lt;/span> &lt;span style="color:#000">0&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">)&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">ret&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">=&lt;/span> &lt;span style="color:#000">compareNodes&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(&lt;/span>&lt;span style="color:#000">c1&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">getNode&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">(),&lt;/span> &lt;span style="color:#000">c2&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">.&lt;/span>&lt;span style="color:#c4a000">getNode&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">return&lt;/span> &lt;span style="color:#000">ret&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="达成选举">达成选举&lt;/h3>
+&lt;h4 id="假设node_a选node_b当master">假设Node_A选Node_B当Master&lt;/h4>
+&lt;p>Node_A会向Node_B发送join请求，那么此时：&lt;/p>
+&lt;p>(1) 如果Node_B已经成为Master，那么Node_B就会把Node_A加入到集群中，然后发布最新的cluster_state, 最新的cluster_state就会包含Node_A的信息。相当于一次正常情况的新节点加入。对于Node_A，等新的cluster_state发布到Node_A的时候，Node_A也就完成join了&lt;/p>
+&lt;p>(2) 如果Node_B在竞选Master，那么Node_B会把这次join当作一张选票。对于这种情况，Node_A会等待一段时间，看Node_B是否能成为真正的Master，直到超时或者有别的Master选成功。、&lt;/p>
+&lt;p>(3) 如果Node_B认为自己不是Master(现在不是，将来也选不上)，那么Node_B会拒绝这次join。对于这种情况，Node_A会开启下一轮选举&lt;/p>
+&lt;h4 id="假设node_a选自己当master">假设Node_A选自己当Master&lt;/h4>
+&lt;p>此时NodeA会等别的node来join，即等待别的node的选票，当收集到超过半数的选票时，认为自己成为master，然后变更cluster_state中的master node为自己，并向集群发布这一消息&lt;/p>
+&lt;h3 id="脑裂保证">脑裂保证&lt;/h3>
+&lt;p>一个节点可能在相邻的两轮选主中选择不同的主，恰好导致这两个被选的节点都成为了主。但是这种脑裂很快会自动恢复，因为不一致发生后某个master再次发布cluster_state时就会发现无法达到多数派条件，或者是发现它的follower并不构成多数派而自动降级为candidate等&lt;/p>
+&lt;h2 id="错误检测">错误检测&lt;/h2>
+&lt;h3 id="masterfaultdetection-master定期检测集群内其他的node">&lt;code>MasterFaultDetection&lt;/code> Master定期检测集群内其他的Node&lt;/h3>
+&lt;p>如果Master检测到某个Node连不上了，会执行removeNode的操作，将节点从cluster_state中移除，并发布新的cluster_state。当各个模块apply新的cluster_state时，就会执行一些恢复操作，比如选择新的primaryShard或者replica，执行数据复制等&lt;/p>
+&lt;h3 id="nodesfaultdetection-集群内其他的node定期检测当前集群的master">&lt;code>NodesFaultDetection&lt;/code> 集群内其他的Node定期检测当前集群的Master&lt;/h3>
+&lt;p>如果某个Node发现Master连不上了，会清空pending在内存中还未commit的new cluster_state，然后发起rejoin，重新加入集群(如果达到选举条件则触发新master选举)。&lt;/p>
+&lt;h3 id="rejoin">&lt;code>rejoin&lt;/code>&lt;/h3>
+&lt;p>Master发现自己已经不满足多数派条件(&amp;gt;=minimumMasterNodes)了，需要主动退出master状态(退出master状态并执行rejoin)以避免脑裂的发生&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>electMasterService.hasEnoughMasterNodes&lt;/code> 当有节点连不上时，会执行removeNode。在执行removeNode时判断剩余的Node是否满足多数派条件，如果不满足，则执行rejoin&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>publishClusterState.publish&lt;/code> 在publish新的cluster_state时，分为send阶段和commit阶段，send阶段要求多数派必须成功，然后再进行commit。如果在send阶段没有实现多数派返回成功，那么可能是有了新的master或者是无法连接到多数派个节点等，则master需要执行rejoin&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>otherClusterStateVersion &amp;gt; localClusterState.version()&lt;/code> 在对其他节点进行定期的ping时，发现有其他节点也是master，此时会比较本节点与另一个master节点的cluster_state的version，谁的version大谁成为master，version小的执行rejoin&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="集群扩缩容">集群扩缩容&lt;/h2>
+&lt;h3 id="扩容datanode">扩容DataNode&lt;/h3>
+&lt;p>rebalance&lt;/p>
+&lt;p>&lt;a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-reroute.html">https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-reroute.html&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/shards-allocation.html">https://www.elastic.co/guide/en/elasticsearch/reference/current/shards-allocation.html&lt;/a>&lt;/p>
+&lt;h3 id="缩容datanode">缩容DataNode&lt;/h3>
+&lt;p>&lt;a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/allocation-filtering.html">https://www.elastic.co/guide/en/elasticsearch/reference/current/allocation-filtering.html&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-http" data-lang="http">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000">PUT /_cluster/settings
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000">{
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000"> &amp;#34;transient&amp;#34; : {
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000"> &amp;#34;cluster.routing.allocation.exclude._ip&amp;#34; : &amp;#34;10.0.0.1&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000"> }
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000">}
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="扩容masternode">扩容MasterNode&lt;/h3>
+&lt;p>先增大quorum，然后扩容节点&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-http" data-lang="http">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000">PUT /_cluster/settings
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000">{
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000"> &amp;#34;persistent&amp;#34; : {
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000"> &amp;#34;discovery.zen.minimum_master_nodes&amp;#34; : 3
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000"> }
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a40000">}&amp;#39;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="缩容masternode">缩容MasterNode&lt;/h3>
+&lt;p>缩容MasterNode与扩容跟扩容是相反的流程，我们需要先把节点缩下来，再把quorum数调下来&lt;/p></description></item><item><title>Blog: Elasticsearch 分布式原理Meta篇</title><link>/blog/2022/04/28/elasticsearch-%E5%88%86%E5%B8%83%E5%BC%8F%E5%8E%9F%E7%90%86meta%E7%AF%87/</link><pubDate>Thu, 28 Apr 2022 00:00:00 +0000</pubDate><guid>/blog/2022/04/28/elasticsearch-%E5%88%86%E5%B8%83%E5%BC%8F%E5%8E%9F%E7%90%86meta%E7%AF%87/</guid><description>
+&lt;h2 id="meta数据">&lt;code>Meta&lt;/code>数据&lt;/h2>
+&lt;p>Master节点管理Meta数据并通知其他节点，来驱动各个模块工作，比如创建Shard等&lt;/p>
+&lt;p>Meta是用来描述数据的数据。在ES中，Index的mapping结构、配置、持久化状态等就属于meta数据，集群的一些配置信息也属于meta。这类meta数据非常重要，假如记录某个index的meta数据丢失了，那么集群就认为这个index不再存在了。ES中的meta数据只能由master进行更新&lt;/p>
+&lt;h3 id="meta数据结构">&lt;code>Meta&lt;/code>数据结构&lt;/h3>
+&lt;p>集群中的每个节点都会在内存中维护一个当前的ClusterState，表示当前集群的各种状态&lt;/p>
+&lt;p>&lt;strong>ClusterState&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">class&lt;/span> &lt;span style="color:#000">ClusterState&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">long&lt;/span> &lt;span style="color:#000">version&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 当前版本号，每次更新加1
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">String&lt;/span> &lt;span style="color:#000">stateUUID&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 该state对应的唯一id
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">RoutingTable&lt;/span> &lt;span style="color:#000">routingTable&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 所有index的路由表
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">DiscoveryNodes&lt;/span> &lt;span style="color:#000">nodes&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 当前集群节点
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">MetaData&lt;/span> &lt;span style="color:#000">metaData&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 集群的meta数据，需要持久化
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">ClusterBlocks&lt;/span> &lt;span style="color:#000">blocks&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 用于屏蔽某些操作
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">ImmutableOpenMap&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">Custom&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">customs&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 自定义配置
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">ClusterName&lt;/span> &lt;span style="color:#000">clusterName&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 集群名
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>MetaData&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">class&lt;/span> &lt;span style="color:#000">MetaData&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">String&lt;/span> &lt;span style="color:#000">clusterUUID&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 集群的唯一id
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">long&lt;/span> &lt;span style="color:#000">version&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 当前版本号，每次更新加1
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">Settings&lt;/span> &lt;span style="color:#000">persistentSettings&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 持久化的集群设置
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">ImmutableOpenMap&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">IndexMetaData&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">indices&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 所有Index的Meta
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">ImmutableOpenMap&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">IndexTemplateMetaData&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">templates&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 所有模版的Meta
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">ImmutableOpenMap&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">Custom&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">customs&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 自定义配置
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>IndexMetaData&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">class&lt;/span> &lt;span style="color:#000">IndexMetaData&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">long&lt;/span> &lt;span style="color:#000">version&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 当前版本号，每次更新加1
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">int&lt;/span> &lt;span style="color:#000">routingNumShards&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">:;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 用于routing的shard数, 只能是该Index的numberOfShards的倍数，用于split
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">State&lt;/span> &lt;span style="color:#000">state&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// Index的状态, OPEN或CLOSE
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">Settings&lt;/span> &lt;span style="color:#000">settings&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// numbersOfShards，numbersOfRepilicas等配置
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">ImmutableOpenMap&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">MappingMetaData&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">mappings&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// Index的mapping
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">ImmutableOpenMap&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">Custom&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">customs&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 自定义配置。
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">ImmutableOpenMap&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span> &lt;span style="color:#000">AliasMetaData&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&lt;/span> &lt;span style="color:#000">aliases&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 别名
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">long&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">[]&lt;/span> &lt;span style="color:#000">primaryTerms&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// primaryTerm在每次Shard切换Primary时加1，用于保序
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">ImmutableOpenIntMap&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">Set&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;lt;&lt;/span>&lt;span style="color:#000">String&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">&amp;gt;&amp;gt;&lt;/span> &lt;span style="color:#000">inSyncAllocationIds&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 处于InSync状态的AllocationId，用于保证数据一致性
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="meta的存储">Meta的存储&lt;/h3>
+&lt;p>位于节点的data目录&lt;/p>
+&lt;h4 id="nodesnode_id_state">&lt;code>nodes/$node_id/_state/&lt;/code>&lt;/h4>
+&lt;p>&lt;code>global-1.st&lt;/code> 存储MetaData中除去IndexMetaData的部分&lt;/p>
+&lt;p>&lt;code>node-0.st&lt;/code> 存储NodeId&lt;/p>
+&lt;h4 id="nodesnode_idindicesindex_id_state">&lt;code>nodes/$node_id/indices/$index_id/_state/&lt;/code>&lt;/h4>
+&lt;p>&lt;code>state-2.st&lt;/code> 存储IndexMetaData&lt;/p>
+&lt;h4 id="nodesnode_idindicesindex_idshard_id_state">&lt;code>nodes/$node_id/indices/$index_id/$shard_id/_state/&lt;/code>&lt;/h4>
+&lt;p>&lt;code>state-0.st&lt;/code> 存储ShardStateMetaData，包含是否是primary和allocationId等信息&lt;/p>
+&lt;h3 id="meta的恢复">Meta的恢复&lt;/h3>
+&lt;p>当Master进程决定进行恢复Meta时，它会向集群中的MasterNode和DataNode请求其机器上的MetaData。对于集群的Meta，选择其中version最大的版本。对于每个Index的Meta，也选择其中最大的版本。然后将集群的Meta和每个Index的Meta再组合起来，构成当前的最新Meta&lt;/p>
+&lt;h2 id="clusterstate-commit的一致性">ClusterState commit的一致性&lt;/h2>
+&lt;p>&lt;code>MasterService&lt;/code>串行处理ClusterState的变更&lt;/p>
+&lt;h3 id="有缺陷的两阶段提交">有缺陷的两阶段提交&lt;/h3>
+&lt;p>把Master发布ClusterState分成两步，第一步是向所有节点send最新的ClusterState，当有超过半数的master节点返回ack时，再发送commit请求，要求节点commit接收到的ClusterState。如果没有超过半数的节点返回ack，那么认为本次发布失败，同时退出master状态，执行rejoin重新加入集群&lt;/p>
+&lt;p>&lt;strong>一致性问题&lt;/strong>：如果master在commit阶段，只commit了少数几个节点就出现了网络分区，将master与这几个少数节点分在了一起，其他节点可以互相访问。此时其他节点构成多数派，会选举出新的master，由于这部分节点中没有任何节点commit了新的ClusterState，所以新的master仍会使用更新前的ClusterState，造成Meta不一致&lt;/p>
+&lt;h3 id="解决方案">解决方案&lt;/h3>
+&lt;h4 id="实现一个标准的一致性算法比如raft">实现一个标准的一致性算法，比如raft&lt;/h4>
+&lt;p>raft算法中，follower接收到日志后就会进行持久化，写到磁盘上。ES中，节点接收到ClusterState只是放到内存中的一个队列中即返回，并不持久化&lt;/p>
+&lt;h4 id="借助额外的组件保证meta一致性">借助额外的组件保证meta一致性&lt;/h4>
+&lt;p>用Zookeeper来保证Meta的一致性&lt;/p>
+&lt;h4 id="使用共享存储来保存meta">使用共享存储来保存Meta&lt;/h4>
+&lt;p>首先保证不会出现脑裂，然后可以使用共享存储来保存Meta&lt;/p></description></item><item><title>Blog: Elasticsearch 分布式原理Data篇</title><link>/blog/2022/04/28/elasticsearch-%E5%88%86%E5%B8%83%E5%BC%8F%E5%8E%9F%E7%90%86data%E7%AF%87/</link><pubDate>Thu, 28 Apr 2022 00:00:00 +0000</pubDate><guid>/blog/2022/04/28/elasticsearch-%E5%88%86%E5%B8%83%E5%BC%8F%E5%8E%9F%E7%90%86data%E7%AF%87/</guid><description>
+&lt;h2 id="replication写入流程">Replication写入流程&lt;/h2>
+&lt;p>ES中每个Index会划分为多个Shard，Shard分布在不同的Node上，以此来实现分布式的存储和查询，支撑大规模的数据集。对于每个Shard，又会有多个Shard的副本，其中一个为Primary，其余的一个或多个为Replica。数据在写入时，会先写入Primary，由Primary将数据再同步给Replica。在读取时，为了提高读取能力，Primary和Replica都会接受读请求&lt;/p>
+&lt;h5 id="1-检查active的shard数">1. 检查Active的Shard数&lt;/h5>
+&lt;p>&lt;code>wait_for_active_shards&lt;/code> 在每次写入前，该shard至少具有的active副本数&lt;/p>
+&lt;h5 id="2-写入primary">2. 写入Primary&lt;/h5>
+&lt;h5 id="3-并发的向所有replicate发起写入请求">3. 并发的向所有Replicate发起写入请求&lt;/h5>
+&lt;h5 id="4-等所有replicate返回或者失败后返回给client">4. 等所有Replicate返回或者失败后，返回给Client&lt;/h5>
+&lt;p>如果Replica写入失败，ES会执行一些重试逻辑等，但最终并不强求一定要在多少个节点写入成功&lt;/p>
+&lt;p>如果一个Replica写失败了，Primary会将这个信息报告给Master，然后Master会在Meta中更新这个Index的InSyncAllocations配置，将这个Replica从中移除，移除后它就不再承担读请求&lt;/p>
+&lt;h2 id="pacifica算法">PacificA算法&lt;/h2>
+&lt;p>一种用于日志复制系统的分布式一致性算法&lt;/p>
+&lt;p>&lt;a href="https://www.microsoft.com/en-us/research/publication/pacifica-replication-in-log-based-distributed-storage-systems/?spm=ata.21736010.0.0.79aa17cdOVS8FP">https://www.microsoft.com/en-us/research/publication/pacifica-replication-in-log-based-distributed-storage-systems/?spm=ata.21736010.0.0.79aa17cdOVS8FP&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>强一致性&lt;/li>
+&lt;li>单Primary向多Secondary的数据同步模式&lt;/li>
+&lt;li>使用额外的一致性组件Configuration Manager维护Configuration&lt;/li>
+&lt;li>少数派Replica可用时仍可写入&lt;/li>
+&lt;/ul>
+&lt;h3 id="名词解释">名词解释&lt;/h3>
+&lt;h5 id="replica-group">Replica Group&lt;/h5>
+&lt;p>一个互为副本的数据集合叫做Replica Group，每个副本是一个Replica。一个Replica Group中只有一个副本是Primary，其余为Secondary&lt;/p>
+&lt;h5 id="configuration">Configuration&lt;/h5>
+&lt;p>一个Replica Group的Configuration描述了这个Replica Group包含哪些副本，其中Primary是谁等&lt;/p>
+&lt;h5 id="configuration-version">Configuration Version&lt;/h5>
+&lt;p>Configuration的版本号，每次Configuration发生变更时加1&lt;/p>
+&lt;h5 id="configuration-manager">Configuration Manager&lt;/h5>
+&lt;p>管理Configuration的全局组件，其保证Configuration数据的一致性。Configuration变更会由某个Replica发起，带着Version发送给Configuration Manager，Configuration Manager会检查Version是否正确，如果不正确则拒绝更改&lt;/p>
+&lt;h5 id="query--update">Query &amp;amp; Update&lt;/h5>
+&lt;p>对一个Replica Group的操作分为两种，Query和Update，Query不会改变数据，Update会更改数据&lt;/p>
+&lt;h5 id="serial-number-sn">Serial Number sn&lt;/h5>
+&lt;p>代表每个Update操作执行的顺序，每次Update操作加1，为连续的数字&lt;/p>
+&lt;h5 id="prepared-list">Prepared List&lt;/h5>
+&lt;p>Update操作的准备序列&lt;/p>
+&lt;h5 id="committed-list">Committed List&lt;/h5>
+&lt;p>Update操作的提交序列，提交序列中的操作一定不会丢失(除非全部副本挂掉)。在同一个Replica上，Committed List一定是Prepared List的前缀&lt;/p>
+&lt;h3 id="primary-invariant">&lt;code>Primary Invariant&lt;/code>&lt;/h3>
+&lt;blockquote>
+&lt;p>任何时候，当一个Replica认为自己是Primary时，Configuration Manager中维护的Configuration也认为其是当前的Primary。任何时候，最多只有一个Replica认为自己是这个Replica Group的Primary&lt;/p>
+&lt;/blockquote>
+&lt;p>如果不能满足Primary Invariant，那么Query请求就可能发送给Old Primary，读到旧的数据&lt;/p>
+&lt;p>Primary会定期获取一个Lease，获取之后认为某段时间内自己肯定是Primary，一旦超过这个时间还未获取到新的Lease就退出Primary状态。只要各个机器的CPU不出现较大的时钟漂移，那么就能够保证Lease机制的有效性&lt;/p>
+&lt;p>实现Lease机制的方式是，Primary定期向所有Secondary发送心跳来获取Lease，而不是所有节点都向某个中心化组件获取Lease。这样的好处是分散了压力，不会出现中心化组件故障而导致所有节点失去Lease的情况&lt;/p>
+&lt;h3 id="commited-invariant">&lt;code>Commited Invariant&lt;/code>&lt;/h3>
+&lt;blockquote>
+&lt;p>SecondaryCommittedList一定是PrimaryCommittedList的前缀，PrimaryCommittedList一定是SecondaryPreparedList的前缀&lt;/p>
+&lt;/blockquote>
+&lt;h4 id="query">Query&lt;/h4>
+&lt;p>Query只能发送给Primary，Primary根据最新commit的数据，返回对应的值。由于算法要求满足Primary Invariant，所以Query总是能读到最新commit的数据&lt;/p>
+&lt;h4 id="update">Update&lt;/h4>
+&lt;ol>
+&lt;li>Primary分配一个Serial Number(简称sn)给一个UpdateRequest&lt;/li>
+&lt;li>Primary将这个UpdateRequest加入自己的Prepared List，同时向所有Secondary发送Prepare请求，要求将这个UpdateRequest加入Prepared List&lt;/li>
+&lt;li>当所有Replica都完成了Prepare，即所有Replica的Prepared List中都包含了该Update请求时，Primary开始Commit这个请求，即将这个UpdateRequest放入Committed List中，同时Apply这个Update。因为同一个Replica上，Committed List永远是Prepared List的前缀，所以Primary实际上是提高Committed Point，把这个Update Request包含进来&lt;/li>
+&lt;li>返回客户端，Update操作成功&lt;/li>
+&lt;/ol>
+&lt;p>当下一次Primary向Secondary发送请求时，会带上Primary当前的Committed Point，此时Secondary才会提高自己的Committed Point&lt;/p>
+&lt;h3 id="reconfiguration-invariant">&lt;code>Reconfiguration Invariant&lt;/code>&lt;/h3>
+&lt;blockquote>
+&lt;p>当一个新的Primary在T时刻完成Reconciliation时，那么T时刻之前任何节点(包括原Primary)的Commited List都是新Primary当前Commited List的前缀&lt;/p>
+&lt;/blockquote>
+&lt;p>Reconfiguration Invariant表明了已经Commit的数据在Reconfiguration过程中不会丢&lt;/p>
+&lt;h4 id="1-secondary故障">1. Secondary故障&lt;/h4>
+&lt;p>当一个Secondary故障时，Primary向Configuration Manager发起Reconfiguration，将故障节点从Replica Group中删除。一旦移除这个Replica，它就不属于这个Replica Group了，所有请求都不会再发给它&lt;/p>
+&lt;p>假设某个Primary和Secondary发生了网络分区，但是都可以连接Configuration Manager。这时候Primary会检测到Secondary没有响应了，Secondary也会检测到Primary没有响应。此时两者都会试图发起Reconfiguration，将对方从Replica Group中移除，这里的策略是First Win的原则，谁先到Configuration Manager中更改成功，谁就留在Replica Group里，而另外一个已经不属于Replica Group了，也就无法再更新Configuration了。由于Primary会向Secondary请求一个Lease，在Lease有效期内Secondary不会执行Reconfiguration，而Primary的探测间隔必然是小于Lease时间的&lt;/p>
+&lt;h4 id="2-primary故障">2. Primary故障&lt;/h4>
+&lt;p>当一个Primary故障时，Secondary会收不到Primary的心跳，如果超过Lease的时间，那么Secondary就会发起Reconfiguration，将Primary剔除，这里也是First Win的原则，哪个Secondary先成功，就会变成Primary&lt;/p>
+&lt;p>当一个Secondary变成Primary后，需要先经过一个叫做Reconciliation的阶段才能提供服务。由于上述的Commited Invariant，所以原先的Primary的Committed List一定是新的Primary的Prepared List的前缀，那么我们将新的Primary的Prepared List中的内容与当前Replica Group中的其他节点对齐，相当于把该节点上未Commit的记录在所有节点上再Commit一次，那么就一定包含之前所有的Commit记录&lt;/p>
+&lt;h4 id="3-新加节点">3. 新加节点&lt;/h4>
+&lt;p>新加的节点需要先成为Secondary Candidate，这时候Primary就开始向其发送Prepare请求，此时这个节点还会追之前未同步过来的记录，一旦追平，就申请成为一个Secondary，然后Primary向Configuration Manager发起配置变更，将这个节点加入Replica Group&lt;/p>
+&lt;p>如果一个节点曾经在Replica Group中，由于临时发生故障被移除，现在需要重新加回来。此时这个节点上的Commited List中的数据肯定是已经被Commit的了，但是Prepared List中的数据未必被Commit，所以应该将未Commit的数据移除，从Committed Point开始向Primary请求数据&lt;/p>
+&lt;h2 id="sequencenumbercheckpoint与故障恢复">SequenceNumber、Checkpoint与故障恢复&lt;/h2>
+&lt;h3 id="term和sequencenumber">Term和SequenceNumber&lt;/h3>
+&lt;p>每个写操作都会分配两个值，Term和SequenceNumber。Term在每次Primary变更时都会加1，类似于PacificA论文中的Configuration Version。SequenceNumber在每次操作后加1，类似于PacificA论文中的Serial Number。由于写请求总是发给Primary，所以Term和SequenceNumber会由Primary分配，在向Replica发送同步请求时，会带上这两个值&lt;/p>
+&lt;h3 id="localcheckpoint和globalcheckpoint">LocalCheckpoint和GlobalCheckpoint&lt;/h3>
+&lt;p>LocalCheckpoint代表本Shard中所有小于该值的请求都已经处理完毕。GlobalCheckpoint代表所有小于该值的请求在所有的Replica上都处理完毕。GlobalCheckpoint会由Primary进行维护，每个Replica会向Primary汇报自己的LocalCheckpoint，Primary根据这些信息来提升GlobalCheckpoint&lt;/p>
+&lt;p>GlobalCheckpoint是一个全局的安全位置，代表其前面的请求都被所有Replica正确处理了，可以应用在节点故障恢复后的数据回补。另一方面，GlobalCheckpoint也可以用于Translog的GC，因为之前的操作记录可以不保存了&lt;/p>
+&lt;h3 id="快速故障恢复">快速故障恢复&lt;/h3>
+&lt;p>当一个Replica故障时，ES会将其移除，当故障超过一定时间，ES会分配一个新的Replica到新的Node上，此时需要全量同步数据。但是如果之前故障的Replica回来了，就可以只回补故障之后的数据，追平后加回来即可，实现快速故障恢复。实现快速故障恢复的条件有两个，一个是能够保存故障期间所有的操作以及其顺序，另一个是能够知道从哪个点开始同步数据。第一个条件可以通过保存一定时间的Translog实现，第二个条件可以通过Checkpoint实现，所以就能够实现快速的故障恢复&lt;/p>
+&lt;h3 id="es与pacifica的比较">ES与PacificA的比较&lt;/h3>
+&lt;ul>
+&lt;li>Meta一致性和Data一致性分开处理：PacificA中通过Configuration Manager维护Configuration的一致性，ES中通过Master维护Meta的一致性&lt;/li>
+&lt;li>维护同步中的副本集合：PacificA中维护Replica Group，ES中维护InSyncAllocationIds&lt;/li>
+&lt;li>SequenceNumber：在PacificA和ES中，写操作都具有SequenceNumber，记录操作顺序&lt;/li>
+&lt;/ul></description></item><item><title>Blog: Lucene 简介</title><link>/blog/2022/04/29/lucene-%E7%AE%80%E4%BB%8B/</link><pubDate>Fri, 29 Apr 2022 00:00:00 +0000</pubDate><guid>/blog/2022/04/29/lucene-%E7%AE%80%E4%BB%8B/</guid><description>
+&lt;h2 id="简介">简介&lt;/h2>
+&lt;p>Apache Lucene是一个开源的高性能、可扩展的信息检索引擎，提供了强大的数据检索能力&lt;/p>
+&lt;ul>
+&lt;li>Scalable, High-Performance Indexing&lt;/li>
+&lt;li>Powerful, Accurate and Efficient Search Algorithms&lt;/li>
+&lt;/ul>
+&lt;h3 id="概念">概念&lt;/h3>
+&lt;h4 id="index索引">Index（索引）&lt;/h4>
+&lt;p>类似数据库的表的概念，但是没有Scheme，相当于Document的集合&lt;/p>
+&lt;h4 id="document文档">Document（文档）&lt;/h4>
+&lt;p>类似数据库内的行或者文档数据库内的文档的概念，写入Index的Document会被分配一个唯一的ID，即Sequence Number（更多被叫做DocId）&lt;/p>
+&lt;h4 id="field字段">Field（字段）&lt;/h4>
+&lt;p>一个Document会由一个或多个Field组成，Field是Lucene中数据索引的最小定义单位。Lucene提供多种不同类型的Field，例如StringField、TextField、LongFiled或NumericDocValuesField等&lt;/p>
+&lt;h4 id="term和term-dictionary">Term和Term Dictionary&lt;/h4>
+&lt;p>Lucene中索引和搜索的最小单位，一个Field会由一个或多个Term组成，Term是由Field经过Analyzer（分词）产生。Term Dictionary即Term词典，是根据条件查找Term的基本索引&lt;/p>
+&lt;h4 id="segment">Segment&lt;/h4>
+&lt;p>一个Index会由一个或多个sub-index构成，sub-index被称为Segment。Lucene的Segment设计思想，与LSM类似但又有些不同，继承了LSM中数据写入的优点，但是在查询上只能提供近实时而非实时查询&lt;/p>
+&lt;p>Lucene中的数据写入会先写内存的一个Buffer（类似LSM的MemTable，但是不可读），当Buffer内数据到一定量后会被flush成一个Segment，每个Segment有自己独立的索引，可独立被查询，但数据永远不能被更改。删除时，由另外一个文件保存需要被删除的文档的DocID。Index的查询需要对多个Segment进行查询并对结果进行合并，还需要处理被删除的文档，为了对查询进行优化，Lucene会有策略对多个Segment进行合并，这点与LSM对SSTable的Merge类似&lt;/p>
+&lt;p>Segment在被flush或commit之前，数据保存在内存中，是不可被搜索的。原因是Lucene中数据搜索依赖构建的索引（例如倒排依赖Term Dictionary），Lucene中对数据索引的构建会在Segment flush时，而非实时构建，目的是为了构建最高效索引&lt;/p>
+&lt;h4 id="sequence-number">Sequence Number&lt;/h4>
+&lt;p>DocId（即Sequence Number）实际上并不在Index内唯一，而是Segment内唯一，取值从0开始递增，且不一定连续，如果有Doc被删除，那可能会存在空洞。一个文档对应的DocId可能会发生变化，主要是发生在Segment合并时&lt;/p>
+&lt;h2 id="field字段-1">Field（字段）&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">class&lt;/span> &lt;span style="color:#000">Field&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">protected&lt;/span> &lt;span style="color:#204a87;font-weight:bold">final&lt;/span> &lt;span style="color:#000">IndexableFieldType&lt;/span> &lt;span style="color:#000">type&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">protected&lt;/span> &lt;span style="color:#204a87;font-weight:bold">final&lt;/span> &lt;span style="color:#000">String&lt;/span> &lt;span style="color:#000">name&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">protected&lt;/span> &lt;span style="color:#000">Object&lt;/span> &lt;span style="color:#000">fieldsData&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">interface&lt;/span> &lt;span style="color:#000">IndexableFieldType&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">boolean&lt;/span> &lt;span style="color:#000">stored&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 是否需要保存该字段
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">boolean&lt;/span> &lt;span style="color:#000">tokenized&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 是否做分词，针对TextField
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">boolean&lt;/span> &lt;span style="color:#000">storeTermVectors&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 是否储存Term Vector，对于长度较小的字段不建议开启
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">boolean&lt;/span> &lt;span style="color:#000">omitNorms&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 允许每个文档的每个字段都存储一个normalization factor
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#000">IndexOptions&lt;/span> &lt;span style="color:#000">indexOptions&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">DocValuesType&lt;/span> &lt;span style="color:#000">docValuesType&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">int&lt;/span> &lt;span style="color:#000">pointDimensionCount&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span> &lt;span style="color:#8f5902;font-style:italic">// 多维数据的索引，一般经纬度数据会采取这个索引方式
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#8f5902;font-style:italic">&lt;/span> &lt;span style="color:#204a87;font-weight:bold">int&lt;/span> &lt;span style="color:#000">pointIndexDimensionCount&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">int&lt;/span> &lt;span style="color:#000">pointNumBytes&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#204a87;font-weight:bold">int&lt;/span> &lt;span style="color:#000">vectorDimension&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>&lt;code>Term Vector&lt;/code>&lt;/strong>&lt;/p>
+&lt;p>保存了一个文档内所有的term的相关信息，包括Term值、出现次数（frequencies）以及位置（positions）等，是一个per-document inverted index，提供了根据docid来查找该文档内所有term信息的能力。Term Vector的用途主要有两个，一是关键词高亮，二是做文档间的相似度匹配（more-like-this）&lt;/p>
+&lt;p>&lt;strong>&lt;code>Normalization Factor&lt;/code>&lt;/strong>&lt;/p>
+&lt;p>和搜索时的相关性计算有关的一个系数。Norms存储占一个字节，每个文档的每个字段都会独立存储一份，且Norms数据会全部加载到内存。若关闭了Norms，则无法做index-time boosting以及length normalization&lt;/p>
+&lt;p>&lt;strong>&lt;code>IndexOptions&lt;/code>&lt;/strong>&lt;/p>
+&lt;p>倒排索引的5种可选参数，用于选择该字段是否需要被索引，以及索引哪些内容&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">enum&lt;/span> &lt;span style="color:#000">IndexOptions&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">NONE&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">DOCS&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">DOCS_AND_FREQS&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">DOCS_AND_FREQS_AND_POSITIONS&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span>&lt;span style="color:#000">DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>&lt;code>DocValue&lt;/code>&lt;/strong>&lt;/p>
+&lt;p>正向索引（docid到field的一个列存）&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-java" data-lang="java">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">enum&lt;/span> &lt;span style="color:#000">DocValuesType&lt;/span> &lt;span style="color:#ce5c00;font-weight:bold">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">NONE&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">NUMERIC&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">BINARY&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">SORTED&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">SORTED_NUMERIC&lt;/span>&lt;span style="color:#ce5c00;font-weight:bold">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000">SORTED_SET&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ce5c00;font-weight:bold">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="数据结构">数据结构&lt;/h2>
+&lt;p>&lt;img src="/img/e6f7e6d5aa124341b222f8b068971187.png" alt="alt">&lt;/p>
+&lt;h3 id="fst">FST&lt;/h3>
+&lt;p>Lucene使用FST数据结构来存储Term Dict Index&lt;/p>
+&lt;p>有向无环图，在范围，前缀搜索以及压缩率上都有明显的优势&lt;/p>
+&lt;h3 id="bkdtree">BKDTree&lt;/h3></description></item><item><title>Blog: Lucene IndexWriter</title><link>/blog/2022/04/29/lucene-indexwriter/</link><pubDate>Fri, 29 Apr 2022 00:00:00 +0000</pubDate><guid>/blog/2022/04/29/lucene-indexwriter/</guid><description>
+&lt;h2 id="indexwriterconfig">IndexWriterConfig&lt;/h2>
+&lt;p>&lt;strong>IndexDeletionPolicy&lt;/strong>：Lucene开放对commit point的管理，通过对commit point的管理可以实现例如snapshot等功能。Lucene默认配置的DeletionPolicy，只会保留最新的一个commit point&lt;/p>
+&lt;p>&lt;strong>Similarity&lt;/strong>：搜索的核心是相关性，Similarity是相关性算法的抽象接口，Lucene默认实现了TF-IDF和BM25算法。相关性计算在数据写入和搜索时都会发生，数据写入时的相关性计算称为Index-time boosting，计算Normalizaiton并写入索引，搜索时的相关性计算称为query-time boosting&lt;/p>
+&lt;p>&lt;strong>MergePolicy&lt;/strong>：Lucene内部数据写入会产生很多Segment，查询时会对多个Segment查询并合并结果。所以Segment的数量一定程度上会影响查询的效率，所以需要对Segment进行合并，合并的过程就称为Merge，而何时触发Merge由MergePolicy决定&lt;/p>
+&lt;p>&lt;strong>MergeScheduler&lt;/strong>：当MergePolicy触发Merge后，执行Merge会由MergeScheduler来管理。Merge通常是比较耗CPU和IO的过程，MergeScheduler提供了对Merge过程定制管理的能力&lt;/p>
+&lt;p>&lt;strong>Codec&lt;/strong>：Codec可以说是Lucene中最核心的部分，定义了Lucene内部所有类型索引的Encoder和Decoder。Lucene在Config这一层将Codec配置化，主要目的是提供对不同版本数据的处理能力。对于Lucene用户来说，这一层的定制需求通常较少，能玩Codec的通常都是顶级玩家了&lt;/p>
+&lt;p>&lt;strong>IndexerThreadPool&lt;/strong>：管理IndexWriter内部索引线程（DocumentsWriterPerThread）池，这也是Lucene内部定制资源管理的一部分&lt;/p>
+&lt;p>&lt;strong>FlushPolicy&lt;/strong>：FlushPolicy决定了In-memory buffer何时被flush，默认的实现会根据RAM大小和文档个数来判断Flush的时机，FlushPolicy会在每次文档add/update/delete时调用判定&lt;/p>
+&lt;p>&lt;strong>MaxBufferedDoc&lt;/strong>：Lucene提供的默认FlushPolicy的实现FlushByRamOrCountsPolicy中允许DocumentsWriterPerThread使用的最大文档数上限，超过则触发Flush&lt;/p>
+&lt;p>&lt;strong>RAMBufferSizeMB&lt;/strong>：Lucene提供的默认FlushPolicy的实现FlushByRamOrCountsPolicy中允许DocumentsWriterPerThread使用的最大内存上限，超过则触发flush&lt;/p>
+&lt;p>&lt;strong>RAMPerThreadHardLimitMB&lt;/strong>：除了FlushPolicy能决定Flush外，Lucene还会有一个指标强制限制DocumentsWriterPerThread占用的内存大小，当超过阈值则强制flush&lt;/p>
+&lt;p>&lt;strong>Analyzer&lt;/strong>：即分词器，这个通常是定制化最多的，特别是针对不同的语言&lt;/p>
+&lt;h2 id="核心操作">核心操作&lt;/h2>
+&lt;p>&lt;strong>addDocument&lt;/strong>：比较纯粹的一个API，就是向Lucene内新增一个文档。Lucene内部没有主键索引，所有新增文档都会被认为一个新的文档，分配一个独立的docId&lt;/p>
+&lt;p>&lt;strong>updateDocuments&lt;/strong>：更新文档，但是和数据库的更新不太一样。数据库的更新是查询后更新，Lucene的更新是查询后删除再新增。流程是先delete by term，后add document。但是这个流程又和直接先调用delete后调用add效果不一样，只有update能够保证在Thread内部删除和新增保证原子性，详细流程在下一章节会细说&lt;/p>
+&lt;p>&lt;strong>deleteDocument&lt;/strong>：删除文档，支持两种类型删除，by term和by query。在IndexWriter内部这两种删除的流程不太一样，在下一章节再细说&lt;/p>
+&lt;p>&lt;strong>flush&lt;/strong>：触发强制flush，将所有Thread的In-memory buffer flush成segment文件，这个动作可以清理内存，强制对数据做持久化&lt;/p>
+&lt;p>&lt;strong>prepareCommit/commit/rollback&lt;/strong>：commit后数据才可被搜索，commit是一个二阶段操作，prepareCommit是二阶段操作的第一个阶段，也可以通过调用commit一步完成，rollback提供了回滚到last commit的操作&lt;/p>
+&lt;p>&lt;strong>maybeMerge/forceMerge&lt;/strong>：maybeMerge触发一次MergePolicy的判定，而forceMerge则触发一次强制merge&lt;/p>
+&lt;h2 id="数据路径">数据路径&lt;/h2>
+&lt;p>&lt;img src="/img/777b45faf3214fd5abb53baaacf8c210.png" alt="alt">&lt;/p>
+&lt;h3 id="并发模型">并发模型&lt;/h3>
+&lt;p>空间隔离式的数据写入方式&lt;/p>
+&lt;ol>
+&lt;li>多线程并发调用IndexWriter的写接口，在IndexWriter内部具体请求会由DocumentsWriter来执行。DocumentsWriter内部在处理请求之前，会先根据当前执行操作的Thread来分配&lt;code>DocumentsWriterPerThread&lt;/code>（DWPT）&lt;/li>
+&lt;li>每个线程在其独立的DocumentsWriterPerThread空间内部进行数据处理，包括分词、相关性计算、索引构建等&lt;/li>
+&lt;li>数据​处理完毕后，在DocumentsWriter层面执行一些后续动作，例如触发FlushPolicy的判定等&lt;/li>
+&lt;/ol>
+&lt;p>只需要对以上第一步和第三步进行加锁。每个DWPT内单独包含一个In-memory buffer，这个buffer最终会flush成不同的独立的segment文件&lt;/p>
+&lt;h3 id="add--update">add &amp;amp; update&lt;/h3>
+&lt;p>&lt;code>updateDocument&lt;/code>&lt;/p>
+&lt;ol>
+&lt;li>根据Thread分配DWPT&lt;/li>
+&lt;li>在DWPT内执行delete&lt;/li>
+&lt;li>在DWPT内执行add&lt;/li>
+&lt;/ol>
+&lt;h3 id="delete">delete&lt;/h3>
+&lt;p>在IndexWriter内部会有一个全局的Deletion Queue，称为Global Deletion Queue，而在每个DWPT内部，还会有一个独立的Deletion Queue，称为Pending Updates。DWPT Pending Updates会与Global Deletion Queue进行双向同步，因为文档删除是全局范围的，不应该只发生在DWPT范围内&lt;/p>
+&lt;p>Segment中有一个特殊的文件叫live docs，内部是一个位图的数据结构，记录了这个Segment内部哪些DocId是存活的，哪些DocId是被删除的。所以删除的过程就是构建live docs标记位图的过程，数据实际上不会被真正删除，只是在live docs里会被标记删除。live docs只影响倒排，所以在live docs里被标记删除的文档没有办法通过倒排索引检索出，但是还能够通过doc id查询到store fields。文档数据最终是会被真正物理删除，这个过程会发生在merge时&lt;/p>
+&lt;h3 id="flush">flush&lt;/h3>
+&lt;p>flush是将DWPT内In-memory buffer里的数据持久化到文件的过程，flush会在每次新增文档后由FlushPolicy判定自动触发，也可以通过IndexWriter的flush接口手动触发。每个DWPT会flush成一个segment文件，flush完成后这个segment文件是不可被搜索的，只有在commit之后，所有commit之前flush的文件才可被搜索&lt;/p>
+&lt;h3 id="commit">commit&lt;/h3>
+&lt;p>commit时会触发数据的一次强制flush，commit完成后再此之前flush的数据才可被搜索。commit动作会触发生成一个commit point，commit point是一个文件。Commit point会由IndexDeletionPolicy管理，lucene默认配置的策略只会保留last commit point&lt;/p>
+&lt;h3 id="merge">merge&lt;/h3>
+&lt;p>merge是对segment文件合并的动作，合并的好处是能够提高查询的效率以及回收一些被删除的文档。Merge会在segment文件flush时触发MergePolicy来判定自动触发，也可通过IndexWriter进行一次force merge&lt;/p>
+&lt;h2 id="indexingchain">IndexingChain&lt;/h2>
+&lt;p>在IndexWriter内部，indexing chain上索引构建顺序是invert index、store fields、doc values和point values&lt;/p>
+&lt;h3 id="codec每种类型索引的encoder和decoder">&lt;code>Codec&lt;/code>，每种类型索引的Encoder和Decoder&lt;/h3>
+&lt;ul>
+&lt;li>BlockTreeTermsWriter：倒排索引对应的Codec，其中倒排表部分使用Lucene50PostingsWriter(Block方式写入倒排链)和Lucene50SkipWriter(对Block的SkipList索引)，词典部分则是使用FST（针对倒排表Block级的词典索引）&lt;/li>
+&lt;li>CompressingTermVectorsWriter：对应Term vector索引的Writer，底层是压缩Block格式&lt;/li>
+&lt;li>CompressingStoredFieldsWriter：对应Store fields索引的Writer，底层是压缩Block格式&lt;/li>
+&lt;li>Lucene70DocValuesConsumer：对应Doc values索引的Writer&lt;/li>
+&lt;li>Lucene60PointsWriter：对应Point values索引的Writer&lt;/li>
 &lt;/ul></description></item></channel></rss>
