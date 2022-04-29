@@ -21,3 +21,8 @@ hugo server -D
 
 # hugo new posts/my-first-post.md
 ```
+
+# Reference
+
+https://wall.alphacoders.com/big.php?i=241125
+https://wall.alphacoders.com/big.php?i=37139

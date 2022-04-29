@@ -128,7 +128,7 @@ Flink 支持以下几种窗口类型:
 - `Sessions Window`: 会话窗口。按会话维度进行统计。比如针对每个访问网站的用户建立会话，并且设定会话窗口超时阈值，假设1分钟。如果在最近1分钟之内，用户执行了操作，则将这些操作在同一个会话窗口中进行计算。
 - `Custom Window`: 自定义窗口，继承`WindowAssigner`
 
-![](https://s2.loli.net/2022/03/02/r8SZnEiI1Czxb2m.jpg)
+![alt](/img/3de896780c004f1c879e1ff5c7faa99c.png)
 
 ### 触发器 Trigger
 
