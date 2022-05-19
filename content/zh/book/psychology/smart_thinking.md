@@ -1,6 +1,6 @@
 ---
 title: "敏捷思考"
-weight: 1
+weight: 2
 date: 2022-02-19
 ---
 

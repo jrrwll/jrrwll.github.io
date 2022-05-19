@@ -1,6 +1,6 @@
 ---
 title: "思考，快与慢"
-weight: 2
+weight: 3
 date: 2022-05-06
 ---
 # 序言
