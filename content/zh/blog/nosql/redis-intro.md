@@ -78,7 +78,6 @@ xgroup create newstream mygroup $ mkstream
 xreadgroup group mygroup consumer_name count 1 streams mystream >
 ```
 
-
 ## 流程
 
 线程模型核心是基于非阻塞的IO多路复用机制
