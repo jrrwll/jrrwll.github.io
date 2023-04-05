@@ -22,6 +22,11 @@ brew services start postgresql
 ### docker
 
 ```shell
+docker run -d -it --name postgres \
+ -e POSTGRES_PASSWORD=postgres \
+ -p 5432:5432 \
+ postgres
+
 # -e POSTGRES_USER=postgres \
 # -e POSTGRES_DB=postgres \
 docker run -d -it --name postgres15 \
