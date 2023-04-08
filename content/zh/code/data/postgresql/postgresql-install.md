@@ -1,6 +1,6 @@
 
 ---
-title: "PostgreSQL Config"
+title: "PostgreSQL Install"
 ---
 
 ## install
@@ -9,7 +9,6 @@ title: "PostgreSQL Config"
 
 ```shell
 sudo apt install postgresql-client postgresql pgadmin3
-
 ```
 
 ### mac
@@ -22,22 +21,34 @@ brew services start postgresql
 ### docker
 
 ```shell
-docker run -d -it --name postgres \
- -e POSTGRES_PASSWORD=postgres \
- -p 5432:5432 \
- postgres
+# pg_hba.conf, postgresql.conf
+mkdir pg_data
+cat <<EOF > pg_data/pg_hba.conf
+# host database user address method
+host all all 0.0.0.0/0 md5
+host all all ::/0 md5
+EOF
 
 # -e POSTGRES_USER=postgres \
 # -e POSTGRES_DB=postgres \
 docker run -d -it --name postgres15 \
- -e POSTGRES_PASSWORD=postgres \
- -v ${PWD}/postgresql.conf:/var/lib/postgresql/data/postgresql.conf \
- -v ${PWD}/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf \
- -v ${PWD}/data:/var/lib/postgresql/data \
+  -e POSTGRES_PASSWORD=postgres \
+  -e PGDATA=/var/lib/postgresql/data/pgdata \
+  -v ${PWD}/pg_data:/var/lib/postgresql/data \
  -p 5432:5432 \
  postgres:15
 
 docker exec -it postgres15 psql -hlocalhost -U postgres
+```
+
+```shell
+# POSTGRES_HOST_AUTH_METHOD: md5, trust, scram-sha-256
+# echo "host all all all $POSTGRES_HOST_AUTH_METHOD" >> pg_hba.conf
+docker run -d -it --name postgres15 \
+-e POSTGRES_PASSWORD=postgres \
+-e POSTGRES_HOST_AUTH_METHOD=md5 \
+-p 5432:5432 \
+postgres:15
 ```
 
 ## config

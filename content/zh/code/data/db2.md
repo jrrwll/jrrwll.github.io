@@ -13,6 +13,7 @@ title: "DB2"
 | | |
 
 ```shell
+# -v /root/data/docker-data/db2-tmp:/database
 docker run -it -d --name db2 --privileged=true \
  -p 50000:50000 \
  -e LICENSE=accept \
@@ -40,7 +41,18 @@ db2 connect to my_database user my_user using
 
 ## sql
 
-### 全类型表
+## auth & info
+
+```sql
+# check DB2 version
+db2level
+# check registered edition
+db2licm -l
+# change password
+connect to testdb user db2inst1 using my_old_passwd new my_new_passwd confirm my_new_passwd
+```
+
+### example table
 
 ```sql
 create table t_all_type (

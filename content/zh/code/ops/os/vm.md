@@ -6,24 +6,27 @@ title: "VM"
 ## VBox
 
 ```shell
+VBoxManage import --vsys 0 --vmname myvm some.ova
+VBoxManage export myvm -o some.ova
+
 # start
-VBoxHeadless -startvm vm_name --vrdp on
-VBoxManage startvm vm_name --type headless
-# VBoxManage stopvm vm_name
+VBoxHeadless -startvm myvm --vrdp on
+VBoxManage startvm myvm --type headless
+# VBoxManage stopvm myvm
 
 VBoxManage list vms
 VBoxManage list runningvms
 
 # stop
-VBoxManage controlvm vm_name savestate
-VBoxManage controlvm vm_name acpipowerbutton
-VBoxManage controlvm vm_name poweroff
+VBoxManage controlvm myvm savestate
+VBoxManage controlvm myvm acpipowerbutton
+VBoxManage controlvm myvm poweroff
 
 # remote
-VBoxManage modifyvm vm_name --vrde on
-VBoxManage modifyvm vm_name --vrdeport 3389
-VBoxManage modifyvm vm_name --vrdeextpack default
-# VBoxManage modifyvm vm_name --vrdeaddress 127.0.0.2
+VBoxManage modifyvm myvm --vrde on
+VBoxManage modifyvm myvm --vrdeport 3389
+VBoxManage modifyvm myvm --vrdeextpack default
+# VBoxManage modifyvm myvm --vrdeaddress 127.0.0.2
 mstsc 1.2.3.4:3389
 rdesktop -a 16 -N 1.2.3.4:3389
 ```
@@ -44,6 +47,13 @@ bcdedit /set hypervisorlaunchtype off
 dism.exe /Online /Disable-Feature:Microsoft-Hyper-V
 ```
 Windows Security - Device Security - Memory Integrity
+
+## VMware
+
+| Edition           | Active Code                   |
+| ----------------- | ----------------------------- |
+| Fusion Pro 13.0.0 | 4C21U-2KK9Q-M8130-4V2QH-CF810 |
+|                   |                               |
 
 ## UTM
 

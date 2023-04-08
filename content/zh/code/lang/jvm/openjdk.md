@@ -3,7 +3,17 @@
 title: "OpenJDK"
 ---
 
-## compile openjdk
+## install 
+
+### mac
+
+```shell
+# openjdk8
+brew tap homebrew/cask-versions
+brew install --cask temurin8
+```
+
+## compile
 
 ##### jdk18 on mac
 

@@ -12,3 +12,15 @@ mvn -Dtest=TestApp1#testHello* test
 # match pattern 'testHello*' and 'testMagic*' 
 mvn -Dtest=TestApp1#testHello*+testMagic* test
 ```
+
+## dependency
+
+```xml
+<dependency>
+  <groupId>com.sun</groupId>
+  <artifactId>tools</artifactId>
+  <version>1.8.0_212</version>
+  <scope>system</scope>
+  <systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
+</dependency>
+```
