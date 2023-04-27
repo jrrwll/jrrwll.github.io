@@ -3,7 +3,7 @@
 title: "Install ClickHouse"
 ---
 
-## docker
+## container
 
 ```shell
 docker run -d --name clickhouse \
@@ -15,4 +15,28 @@ docker run -d --name clickhouse \
     clickhouse/clickhouse-server
 
 echo 'SELECT version()' | curl 'http://localhost:18123/' --data-binary @-
+```
+
+### bitnami
+> https://hub.docker.com/r/bitnami/clickhouse
+```shell
+# docker pull bitnami/clickhouse
+curl -sSL https://raw.githubusercontent.com/bitnami/containers/main/bitnami/clickhouse/docker-compose.yml > docker-compose.yml
+docker-compose up -d
+```
+
+```yaml
+version: '2'
+services:
+  clickhouse:
+    image: docker.io/bitnami/clickhouse:23
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '8123:8123'
+    volumes:
+      - clickhouse_data:/bitnami/clickhouse
+volumes:
+  clickhouse_data:
+    driver: local
 ```
