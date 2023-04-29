@@ -38,4 +38,23 @@ sed -i "s/\${IMPALA_QUICKSTART_IMAGE_PREFIX:-}/apache\/impala:$IMPALA_QUICKSTART
 # docker-compose -f quickstart.yml up -d
 docker-compose -f quickstart.yml -f quickstart-kudu-minimal.yml -f quickstart-load-data.yml up -d
 docker logs -f docker_data-loader_1
+
+docker run --network=impala -it \
+     ${IMPALA_QUICKSTART_IMAGE_PREFIX}impala_quickstart_client impala-shell
+impala-shell -i ${QUICKSTART_IP}
+```
+
+#### build
+
+```Dockerfile
+FROM centos:7
+
+RUN yum install -y impala impala-server impala-state-store impala-catalog
+
+CMD ["impala-shell"]
+```
+
+```shell
+docker build -t impala .
+docker run -it impala   
 ```
