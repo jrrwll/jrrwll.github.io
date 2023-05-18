@@ -27,9 +27,7 @@ docker run -it -d --name mongo-express \
 mongo-express
 ```
 
-## sql
-
-### auth
+## auth
 
 ```js
 use my_db
@@ -37,6 +35,60 @@ db.auth('admin', 'my_old_passwd')
 db.addUser('admin','my_new_passwd')
 db.changeUserPassword('admin','my_new_passwd')
 ```
+
+### role
+> https://www.mongodb.com/docs/manual/reference/privilege-actions/
+
+```js
+use admin
+db.getRoles()
+db.createRole({
+    role: 'admin',
+    privileges: [
+        {
+        // { db: <database>, collection: <collection> }
+        resource: {anyResource: true},
+        actions: ['anyAction']
+        }
+    ],
+    roles: [
+        'readWriteAnyDatabase', 'userAdminAnyDatabase', 
+        'dbAdminAnyDatabase'
+    ]
+})
+db.dropRole('admin')
+```
+
+### user
+
+```js
+use admin
+db.getUsers()
+db.createUser({
+    user: "myuser",
+    pwd: "mypassword",
+    roles: [
+        // {
+        // role: "myrole",
+        // db: "mydb"
+        // }
+        "admin"
+    ]
+})
+db.dropUser('myuser')
+
+db.auth('myuser', 'mypassword')
+use mydb
+db.getUsers()
+```
+
+```shell
+# 指定认证的数据库
+mongosh mongodb://myuser:mypassword@localhost/mydb?authSource=admin
+mongosh localhost -u myuser -p mypassword --authenticationDatabase admin
+```
+
+## sql
 
 ### curd
 

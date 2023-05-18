@@ -4,6 +4,13 @@ title: "PrestoDB"
 
 ## install
 
+### client
+> https://prestodb.io/docs/current/installation/cli.html
+
+```shell
+./presto --server localhost:8080 --catalog hive --schema default
+```
+
 ### container
 > https://hub.docker.com/r/ahanaio/prestodb-sandbox
 
@@ -25,6 +32,26 @@ use tpcds.sf10;
 
 ## connector
 > https://prestodb.io/docs/current/connector.html
+
+### memory
+
+**etc/catalog/memory.properties**
+
+```properties
+connector.name=memory
+memory.max-data-per-node=128MB
+```
+
+```shell
+create table memory.default.nation as
+select * from tpch.tiny.nation;
+
+insert into memory.default.nation
+select * from tpch.tiny.nation;
+
+select * from memory.default.nation;
+drop table memory.default.nation;
+```
 
 ### localfile
 
