@@ -25,9 +25,3 @@ netstat -na | grep ESTABLISHED | wc -l
 netstat -na | grep ESTABLISHED | awk {print $5} | awk -F: {print $1} | sort | uniq -c | sort -r +0n
 netstat -na | grep SYN | awk {print $5} | awk -F: {print $1} | sort | uniq -c | sort -r +0n
 ```
-
-### code 
-
-```shell
-tree -if | grep -v node_modules | egrep '[.](j|t)sx?$' | xargs wc -l
-```

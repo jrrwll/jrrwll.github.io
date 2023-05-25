@@ -1,0 +1,161 @@
+version: '3'
+services:
+  tidb-server:
+    image: pingcap/tidb:${TIDB_VERSION}
+    container_name: tidb-server
+    networks:
+      - ${TIDB_NETWORK}
+    ports:
+      - "4000:4000"
+      - "10080:10080"
+    volumes:
+      - tidb_${TIDB_COMPACT_VERSION}_conf:/conf
+      - tidb_${TIDB_COMPACT_VERSION}_logs:/logs
+    command:
+      - --store=tikv
+      - --path=tidb-pd0:2379,tidb-pd1:2379,tidb-pd2:2379
+      - --config=/conf/tidb.toml
+      - --log-file=/logs/tidb.log
+      - --advertise-address=tidb
+    depends_on:
+      - "tidb-tikv0"
+      - "tidb-tikv1"
+      - "tidb-tikv2"
+    restart: on-failure
+  tidb-tikv0:
+    image: pingcap/tikv:${TIDB_VERSION}
+    container_name: tidb-tikv0
+    networks:
+      - ${TIDB_NETWORK}
+    volumes:
+      - tidb_${TIDB_COMPACT_VERSION}_conf:/conf
+      - tidb_${TIDB_COMPACT_VERSION}_data:/data
+      - tidb_${TIDB_COMPACT_VERSION}_logs:/logs
+    command:
+      - --addr=0.0.0.0:20160
+      - --advertise-addr=tidb-tikv0:20160
+      - --data-dir=/data/tikv0
+      - --pd=tidb-pd0:2379,tidb-pd1:2379,tidb-pd2:2379
+      - --config=/conf/tikv.toml
+      - --log-file=/logs/tikv0.log
+    depends_on:
+      - "tidb-pd0"
+      - "tidb-pd1"
+      - "tidb-pd2"
+    restart: on-failure
+  tidb-tikv1:
+    image: pingcap/tikv:${TIDB_VERSION}
+    container_name: tidb-tikv1
+    networks:
+      - ${TIDB_NETWORK}
+    volumes:
+      - tidb_${TIDB_COMPACT_VERSION}_conf:/conf
+      - tidb_${TIDB_COMPACT_VERSION}_data:/data
+      - tidb_${TIDB_COMPACT_VERSION}_logs:/logs
+    command:
+      - --addr=0.0.0.0:20160
+      - --advertise-addr=tidb-tikv1:20160
+      - --data-dir=/data/tikv1
+      - --pd=tidb-pd0:2379,tidb-pd1:2379,tidb-pd2:2379
+      - --config=/conf/tikv.toml
+      - --log-file=/logs/tikv1.log
+    depends_on:
+      - "tidb-pd0"
+      - "tidb-pd1"
+      - "tidb-pd2"
+    restart: on-failure
+  tidb-tikv2:
+    image: pingcap/tikv:${TIDB_VERSION}
+    container_name: tidb-tikv2
+    networks:
+      - ${TIDB_NETWORK}
+    volumes:
+      - tidb_${TIDB_COMPACT_VERSION}_conf:/conf
+      - tidb_${TIDB_COMPACT_VERSION}_data:/data
+      - tidb_${TIDB_COMPACT_VERSION}_logs:/logs
+    command:
+      - --addr=0.0.0.0:20160
+      - --advertise-addr=tidb-tikv2:20160
+      - --data-dir=/data/tikv2
+      - --pd=tidb-pd0:2379,tidb-pd1:2379,tidb-pd2:2379
+      - --config=/conf/tikv.toml
+      - --log-file=/logs/tikv2.log
+    depends_on:
+      - "tidb-pd0"
+      - "tidb-pd1"
+      - "tidb-pd2"
+    restart: on-failure
+  tidb-pd0:
+    image: pingcap/pd:${TIDB_VERSION}
+    networks:
+      - ${TIDB_NETWORK}
+    container_name: tidb-pd0
+    ports:
+      - "2379"
+    volumes:
+      - tidb_${TIDB_COMPACT_VERSION}_conf:/conf
+      - tidb_${TIDB_COMPACT_VERSION}_data:/data
+      - tidb_${TIDB_COMPACT_VERSION}_logs:/logs
+    command:
+      - --name=pd0
+      - --client-urls=http://0.0.0.0:2379
+      - --peer-urls=http://0.0.0.0:2380
+      - --advertise-client-urls=http://tidb-pd0:2379
+      - --advertise-peer-urls=http://tidb-pd0:2380
+      - --initial-cluster=pd0=http://tidb-pd0:2380,pd1=http://tidb-pd1:2380,pd2=http://tidb-pd2:2380
+      - --data-dir=/data/pd0
+      - --config=/conf/pd.toml
+      - --log-file=/logs/pd0.log
+    restart: on-failure
+  tidb-pd1:
+    image: pingcap/pd:${TIDB_VERSION}
+    networks:
+      - ${TIDB_NETWORK}
+    container_name: tidb-pd1
+    ports:
+      - "2379"
+    volumes:
+      - tidb_${TIDB_COMPACT_VERSION}_conf:/conf
+      - tidb_${TIDB_COMPACT_VERSION}_data:/data
+      - tidb_${TIDB_COMPACT_VERSION}_logs:/logs
+    command:
+      - --name=pd1
+      - --client-urls=http://0.0.0.0:2379
+      - --peer-urls=http://0.0.0.0:2380
+      - --advertise-client-urls=http://tidb-pd1:2379
+      - --advertise-peer-urls=http://tidb-pd1:2380
+      - --initial-cluster=pd0=http://tidb-pd0:2380,pd1=http://tidb-pd1:2380,pd2=http://tidb-pd2:2380
+      - --data-dir=/data/pd1
+      - --config=/conf/pd.toml
+      - --log-file=/logs/pd1.log
+    restart: on-failure
+  tidb-pd2:
+    image: pingcap/pd:${TIDB_VERSION}
+    networks:
+      - ${TIDB_NETWORK}
+    container_name: tidb-pd2
+    ports:
+      - "2379"
+    volumes:
+      - tidb_${TIDB_COMPACT_VERSION}_conf:/conf
+      - tidb_${TIDB_COMPACT_VERSION}_data:/data
+      - tidb_${TIDB_COMPACT_VERSION}_logs:/logs
+    command:
+      - --name=pd2
+      - --client-urls=http://0.0.0.0:2379
+      - --peer-urls=http://0.0.0.0:2380
+      - --advertise-client-urls=http://tidb-pd2:2379
+      - --advertise-peer-urls=http://tidb-pd2:2380
+      - --initial-cluster=pd0=http://tidb-pd0:2380,pd1=http://tidb-pd1:2380,pd2=http://tidb-pd2:2380
+      - --data-dir=/data/pd2
+      - --config=/conf/pd.toml
+      - --log-file=/logs/pd2.log
+    restart: on-failure
+
+networks:
+  ${TIDB_NETWORK}:
+
+volumes:
+  tidb_${TIDB_COMPACT_VERSION}_conf:
+  tidb_${TIDB_COMPACT_VERSION}_data:
+  tidb_${TIDB_COMPACT_VERSION}_logs:

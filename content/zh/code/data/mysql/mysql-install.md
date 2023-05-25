@@ -67,6 +67,18 @@ default-storage-engine=INNODB
 default-character-set=utf8
 ```
 
+## client
+
+### centos7
+
+```shell
+sudo rpm -ivh https://repo.mysql.com//mysql57-community-release-el7-11.noarch.rpm
+sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+
+yum search mysql-community
+sudo yum install mysql-community-client -y
+```
+
 ## mysqladmin
 
 ```shell
