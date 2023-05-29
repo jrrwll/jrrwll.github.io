@@ -32,10 +32,6 @@ docker exec -it oracle sqlplus sys/<password>@<SID> as sysdba
 docker exec -it oracle sqlplus system/<password>@<SID>
 docker exec -it oracle sqlplus pdbadmin/<password>@<PDBname>
 
-sqlplus sys/<password>@//localhost:1521/<SID> as sysdba
-sqlplus system/<password>@//localhost:1521/<SID>
-sqlplus pdbadmin/<password>@//localhost:1521/<PDBname>
-
 # Changing the Default Password for SYS User
 docker exec oracle ./setPassword.sh <new_password>
 ```
@@ -71,16 +67,28 @@ docker exec oracle11g resetPassword new_password
 
 ## sql
 
+### sqlplus
+
+```shell
+su - oracle
+sqlplus / as sysdba
+sqlplus '/ as sysdba'
+
+sqlplus sys/<password>@//localhost:1521/<SID> as sysdba
+sqlplus system/<password>@//localhost:1521/<SID>
+sqlplus pdbadmin/<password>@//localhost:1521/<PDBname>
+```
+
+### info
+
 ```sql
 select sysdate from dual;
 select * from v$version;
 select name from v$database;
 select instance_name, status from v$instance;
-
-select default_tablespace, temporary_tablespace, d.username
-from dba_users d;
-select username, default_tablespace from dba_users;
 ```
+
+### tablespace
 
 ```sql
 create tablespace mytablespace
@@ -92,20 +100,28 @@ where tablespace_name = 'mytablespace'
 order by owner, table_name;
 ```
 
-```sql
--- sqlplus '/ as sysdba'
+### user
 
-# switch to PDB rather than CDB
-# ORCLPDB1
+```sql
+-- switch to PDB rather than CDB
+-- ORCLPDB1
 show pdbs;
 -- alter pluggable database ORCLPDB1 open;
 alter session set container=ORCLPDB1;
 
+-- sqlplus myuser/mypassword@ORCLPDB1
 show user
 create user myuser identified by mypassword;
 grant sysdba to myuser;
 grant create session to myuser;
+
+select username, default_tablespace from dba_users where username = 'MYUSER';
+alter user myuser default tablespace mytablespace;
+alter user myuser quota unlimited on mytablespace;
+```
+
+```sql
 select table_name, tablespace_name, owner from dba_tables
-where owner = 'myuser'
+where owner = 'MYUSER'
 order by tablespace_name, table_name;
 ```

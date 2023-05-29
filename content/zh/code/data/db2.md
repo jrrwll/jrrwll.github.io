@@ -41,13 +41,30 @@ db2 connect to my_database user my_user using
 
 ## sql
 
-## auth & info
+### info
 
-```sql
+```shell
 # check DB2 version
 db2level
 # check registered edition
 db2licm -l
+
+# instance: db2inst1
+db2ilist
+# validate
+db2val
+# start database manager
+db2start
+```
+
+```sql
+list database directory
+create database test
+connect to test
+```
+
+### auth
+```sql
 # change password
 connect to testdb user db2inst1 using my_old_passwd new my_new_passwd confirm my_new_passwd
 ```
@@ -116,8 +133,5 @@ insert into t_all_type(
 values 
 (1, 'a', 'varchar_value1', 'char_value1', 
 'long_varchar_value1', 'graphic_1', 3.14, 1, 10, 
-1.414, 2.718, '', true, '2000-01-01', '01:01:01', now(), 2.10, '<a b="c">d</a >', cast('blob_value1' as BLOB), cast('clob_value1' as CLOB), cast('dbclob_value1' as DBCLOB));
-
-insert into t_all_type( c_bigint, c_long_varchar_for_bit_data, c_varchar, c_char, c_long_varchar, c_graphic, c_decimal, c_integer, c_smallint, c_real, c_double, c_vargraphic, c_boolean, c_date, c_time, c_timestamp, c_decfloat, c_xml, c_blob, c_clob, c_dbclob) values (34, 'bb', 'varchar_value2', 'char_value2', 'long_varchar_value2', 'graphic_2', 4.14, 2, 11, 2.414, 3.718, 'v2', false, '2010-02-01', '01:02:03', now(), 2.50, '<a b2="c">d2</a >', cast('blob_value2' as BLOB), cast('clob_value2' as CLOB), cast('dbclob_value2' as DBCLOB));
-insert into t_all_type( c_bigint, c_long_varchar_for_bit_data, c_varchar, c_char, c_long_varchar, c_graphic, c_decimal, c_integer, c_smallint, c_real, c_double, c_vargraphic, c_boolean, c_date, c_time, c_timestamp, c_decfloat, c_xml, c_blob, c_clob, c_dbclob) values (366, 'bcc', 'varchar_value3', 'char_value3', 'long_varchar_value3', 'graphic_3', 40.6, 77, 13, 3.333, 4.8, 'v3', false, '2011-03-01', '03:02:03', now(), 5.10, '<a b3="cc">d3</a >', cast('blob_value3' as BLOB), cast('clob_value3' as CLOB), cast('dbclob_value3' as DBCLOB));
+1.414, 2.718, '', true, '2000-01-01', '01:01:01', now(), 2.10, '<a b="c">d</a >', cast('blob_value1' as blob), cast('clob_value1' as clob), cast('dbclob_value1' as dbclob));
 ```
