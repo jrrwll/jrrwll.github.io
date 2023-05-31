@@ -47,3 +47,13 @@ kvs = conf.items("sec")
 val = conf.get("sec", "key")
 int_val = conf.getint("sec", "key")
 ```
+
+### json
+
+**解析为有序字典，python3.5+开始内置支持**
+```python
+from collections import OrderedDict
+
+json.JSONDecoder(object_pairs_hook=collections.OrderedDict).decode(s)
+json.loads(s, object_pairs_hook=collections.OrderedDict)
+```

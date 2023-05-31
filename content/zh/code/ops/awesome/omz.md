@@ -8,19 +8,19 @@ title: "Oh My Zsh"
 ```shell
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 
 
-cp ~/.oh-my-zsh/themes/agnoster.zsh-theme ~/.oh-my-zsh/custom/themes/
-mv ~/.oh-my-zsh/custom/themes/agnoster.zsh-theme ~/.oh-my-zsh/custom/themes/myagnoster.zsh-theme
-# vim ~/.oh-my-zsh/custom/themes/myagnoster.zsh-theme
-# replace blue to cyan
-# vim ~/.zshrc
-# ZSH_THEME="myagnoster"
+# themes
+cp ~/.oh-my-zsh/themes/agnoster.zsh-theme ~/.oh-my-zsh/custom/themes/myagnoster.zsh-theme
+sed -i 's/blue/cyan/' ~/.oh-my-zsh/custom/themes/myagnoster.zsh-theme
+sed -i 's/^ZSH_THEME=".*"/ZSH_THEME="myagnoster"/' ~/.zshrc
 
-# add zsh-autosuggestions zsh-syntax-highlighting
+# plugins
 cd ~/.oh-my-zsh/custom/plugins
 git clone https://github.com/zsh-users/zsh-autosuggestions --depth 1
 git clone https://github.com/zsh-users/zsh-syntax-highlighting --depth 1
-# . ~/.zshrc
+sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' ~/.zshrc
 ```
+
+### ~/.zshrc
 
 ```shell
 cat <<EOF > ~/.zshrc
@@ -36,4 +36,12 @@ alias dki="dk image"
 alias dkl="dk logs -f"
 alias dke="dk exec -it"
 EOF
+```
+
+### powerlevel10k
+
+```shell
+cd ~/.oh-my-zsh/custom/themes
+git clone https://github.com/romkatv/powerlevel10k --depth 1
+sed -i 's/^ZSH_THEME=".*"/ZSH_THEME="powerlevel10k\/powerlevel10k"/' ~/.zshrc
 ```
