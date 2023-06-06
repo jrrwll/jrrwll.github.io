@@ -68,3 +68,14 @@ sudo apt install -y libcups2-dev libfontconfig1-dev libasound2-dev
 bash ./configure --with-debug-level=slowdebug --enable-ccache
 make images
 ```
+
+## issue
+
+### runtime
+
+#### InvalidKeyException: Illegal key size
+
+Caused by: java.security.InvalidKeyException: Illegal key size
+at javax.crypto.Cipher.checkCryptoPerm(Cipher.java:1039)
+
+需升级jdk到比如 1.8.0_332

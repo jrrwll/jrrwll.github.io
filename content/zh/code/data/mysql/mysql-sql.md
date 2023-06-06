@@ -6,6 +6,11 @@ title: "MySQL SQL"
 ## auth
 
 ```sql
+grant all privileges on *.* to 'root'@'%' identified by 'root' with grant option;
+select user, password, host from mysql.user;
+```
+
+```sql
 create user 'reader'@'%' identified by 'reader';
 alter user 'reader'@'%' identified by 'reader';
 
