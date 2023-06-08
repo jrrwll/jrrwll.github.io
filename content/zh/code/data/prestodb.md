@@ -33,6 +33,7 @@ use tpcds.sf10;
 ## connector
 > https://prestodb.io/docs/current/connector.html
 
+
 ### memory
 
 **etc/catalog/memory.properties**

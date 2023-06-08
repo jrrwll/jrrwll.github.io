@@ -1,0 +1,183 @@
+version: '3'
+
+services:
+  postgresql15:
+    image: postgres:15
+    networks:
+      - datasource
+    container_name: postgresql15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: ${PASSWORD}
+
+  mysql57:
+    image: mysql:5.7
+    networks:
+      - datasource
+    container_name: mysql57
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3306:3306
+    volumes:
+      - ${LOCAL_PATH}/mysql_57_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+
+  mysql80:
+    image: mysql:8.0
+    networks:
+      - datasource
+    container_name: mysql80
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3307:3306
+    volumes:
+      - ${LOCAL_PATH}/mysql_80_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+
+  mongodb42:
+    image: mongo:4.2.24
+    container_name: mongodb42
+    networks:
+      - datasource
+    ports:
+      - 27017:27017
+    volumes:
+      - ${LOCAL_PATH}/mongodb_42_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: ${PASSWORD}
+
+  # https://hub.docker.com/r/bitnami/kafka
+  kafka34:
+    image: bitnami/kafka:3.4.0
+    container_name: kafka34
+    networks:
+      - datasource
+    ports:
+      - "9092:9092"
+    volumes:
+      - ${LOCAL_PATH}/kafka_34_data:/bitnami/kafka
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+
+  db2:
+    image: datagrip/db2:11.5.8
+    container_name: db2
+    networks:
+      - datasource
+    ports:
+      - "50000:50000"
+    volumes:
+      - ${LOCAL_PATH}/db2_data:/database/data
+    environment:
+      - LICENSE=accept
+      - DB2INST1_PASSWORD=${PASSWORD}
+
+  greenplum68:
+    image: datagrip/greenplum:6.8
+    container_name: greenplum
+    networks:
+      - datasource
+    ports:
+      - "54305:5432"
+    volumes:
+      - ${LOCAL_PATH}/greenplum_68_data:/data
+    privileged: true
+    hostname: greenplum68
+    security_opt:
+      - seccomp:unconfined
+    healthcheck:
+      test: grep -r -i --include \*.log "Database successfully started" || exit 1
+    environment:
+      - GP_USER=tester
+      - GP_PASSWORD=${PASSWORD}
+      - GP_DB=testdb
+
+  # https://hub.docker.com/r/bitnami/clickhouse
+  clickhouse228:
+    image: bitnami/clickhouse:22.8
+    container_name: clickhouse228
+    networks:
+      - datasource
+    ports:
+      - "8123:8123"
+    volumes:
+      - ${LOCAL_PATH}/clickhouse_228_data:/bitnami/clickhouse
+    environment:
+      - ALLOW_EMPTY_PASSWORD=no
+      - CLICKHOUSE_ADMIN_USER=root
+      - CLICKHOUSE_ADMIN_PASSWORD=${PASSWORD}
+
+  oracle112:
+    image: datagrip/oracle:11.2
+    container_name: oracle112
+    networks:
+      - datasource
+    ports:
+      - "1521:1521"
+    volumes:
+      - ${LOCAL_PATH}/oracle_112_data:/u01/app/oracle
+    environment:
+      - ORACLE_USER=root
+      - ORACLE_PASSWORD=${PASSWORD}
+
+  sqlserver2022:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver2022
+    networks:
+      - datasource
+    ports:
+      - "1433:1433"
+    user: "0:0"
+    volumes:
+      - ${LOCAL_PATH}/sqlserver_2022_data:/var/opt/mssql/data
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${PASSWORD}
+
+  doris111:
+    image: taozex/doris:v1.1.1
+    container_name: doris111
+    networks:
+      - datasource
+    ports:
+      - "9030:9030"
+      - "8030:8030"
+      - "8040:8040"
+    volumes:
+      - ${LOCAL_PATH}/doris_111_data:/data/deploy/apache-doris-1.1.1-bin-x86/be/storage
+    privileged: true
+
+  # https://hub.docker.com/r/apachepulsar/pulsar
+  pulsar300:
+    image: apachepulsar/pulsar:3.0.0
+    container_name: pulsar300
+    networks:
+      - datasource
+    ports:
+      - "6650:6650"
+      - "8081:8080"
+    command: bin/pulsar standalone
+    volumes:
+      - ${LOCAL_PATH}/pulsar_300_data:/pulsar/data
+      # - ${LOCAL_PATH}/pulsar_300_conf:/pulsar/conf
+    privileged: true
+
+  opengauss500:
+    image: opengauss/opengauss:5.0.0
+    container_name: opengauss500
+    networks:
+      - datasource
+    ports:
+      - "5433:5432"
+    volumes:
+      - ${LOCAL_PATH}/opengauss_500_data:/var/lib/opengauss/data
+    privileged: true
+    environment:
+      - GS_PASSWORD=${PASSWORD}
+
+networks:
+  datasource:

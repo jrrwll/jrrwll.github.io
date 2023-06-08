@@ -13,7 +13,8 @@ pyenv versions
 pyenv global 3.7.15
 ```
 
-#### install python2.7
+### python2.7
+
 ```shell
 sudo apt install make gcc g++ patch cmake -y
 
@@ -22,6 +23,25 @@ pyenv install 2.7.18
 ```
 
 ## build from source
+
+### 3.11
+
+```shell
+# sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
+
+python_version=3.11.4
+wget "https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tgz"
+tar xfvz "Python-${python_version}.tgz"
+cd "Python-${python_version}"
+
+./configure --enable-optimizations --prefix $(pwd)-build 
+# nproc: the number of CPU cores
+make -j $(nproc) build_all
+make install
+make clean
+```
+
+### 3.7
 
 ```shell
 wget http://www.python.org/ftp/python/3.7.15/Python-3.7.15.tgz

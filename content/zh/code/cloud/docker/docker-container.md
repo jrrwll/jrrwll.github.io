@@ -107,3 +107,9 @@ docker kill -s <signal>
 docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH|-
 docker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH
 ```
+
+## rename
+
+```shell
+docker rename CONTAINER NEW_NAME
+```

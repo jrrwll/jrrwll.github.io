@@ -17,26 +17,11 @@ sudo systemctl status docker.service
 sudo systemctl restart docker.service
 ```
 
-## connector
+## config
 
-### memory
-
-**etc/catalog/memory.properties**
-
-```properties
-connector.name=memory
-memory.max-data-per-node=128MB
+```yaml
+# volumes:
+# - <宿主机目录>:<容器目录>
+volumes:
+- /host_path:/container_path
 ```
-
-```sql
-create table memory.default.nation as
-select * from tpch.tiny.nation;
-
-insert into memory.default.nation
-select * from tpch.tiny.nation;
-
-select * from memory.default.nation;
-
-drop table memory.default.nation;
-```
-    

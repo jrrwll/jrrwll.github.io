@@ -19,6 +19,16 @@ echo 'SELECT version()' | curl 'http://localhost:18123/' --data-binary @-
 
 ### bitnami
 > https://hub.docker.com/r/bitnami/clickhouse
+
+```shell
+docker run -it -d --name clickhouse \
+  -e ALLOW_EMPTY_PASSWORD=no \
+  -e CLICKHOUSE_ADMIN_USER=root \
+  -e CLICKHOUSE_ADMIN_PASSWORD=root \
+  -p 8123:8123 \
+  bitnami/clickhouse:23
+```
+
 ```shell
 # docker pull bitnami/clickhouse
 curl -sSL https://raw.githubusercontent.com/bitnami/containers/main/bitnami/clickhouse/docker-compose.yml > docker-compose.yml
