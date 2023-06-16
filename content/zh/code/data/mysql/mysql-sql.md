@@ -5,6 +5,13 @@ title: "MySQL SQL"
 
 ## auth
 
+**change root password**
+```sql
+-- alter user 'root'@'localhost' identified by 'root';
+alter user 'root'@'%' identified by 'root';
+flush privileges;
+```
+
 ```sql
 grant all privileges on *.* to 'root'@'%' identified by 'root' with grant option;
 select user, password, host from mysql.user;

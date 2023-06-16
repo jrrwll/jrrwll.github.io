@@ -78,12 +78,12 @@ docker create [OPTIONS] IMAGE [COMMAND] [ARG...]
 ## exec
 
 ```shell
-# 在运行的容器中执行命令
-docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
-
 # tty size
 docker exec -it -e LINES=$(tput lines) -e COLUMNS=$(tput cols) <cid> bash
 
+# exec as root
+# -u root
+docker exec -u 0 debian whoami
 ```
 
 OPTIONS说明：

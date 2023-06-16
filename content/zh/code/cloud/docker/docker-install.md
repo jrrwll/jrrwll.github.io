@@ -28,7 +28,7 @@ sudo systemctl status docker
 sudo usermod -aG docker $USER
 ```
 
-### debian/ubuntu
+### debian
 
 ```shell
 sudo apt-get install docker.io
@@ -43,7 +43,7 @@ sudo apt-get autoremove --purge docker-io
 rm -rf /var/lib/docker
 ```
 
-### centos/fedora
+### centos
 
 ```shell
 sudo dnf install docker

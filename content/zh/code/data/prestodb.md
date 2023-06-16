@@ -8,7 +8,9 @@ title: "PrestoDB"
 > https://prestodb.io/docs/current/installation/cli.html
 
 ```shell
-./presto --server localhost:8080 --catalog hive --schema default
+wget https://repo1.maven.org/maven2/com/facebook/presto/presto-cli/0.281/presto-cli-0.281-executable.jar -O /usr/local/bin/presto
+chmod +x /usr/local/bin/presto
+presto --server localhost:8080 --catalog hive --schema default
 ```
 
 ### container
