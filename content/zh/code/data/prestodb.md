@@ -13,28 +13,8 @@ chmod +x /usr/local/bin/presto
 presto --server localhost:8080 --catalog hive --schema default
 ```
 
-### container
-> https://hub.docker.com/r/ahanaio/prestodb-sandbox
-
-```shell
-docker run -d --name presto \
--p 8080:8080 \
-ahanaio/prestodb-sandbox
-
-docker exec -it presto presto-cli
-docker exec -it presto presto-cli --catalog tpcds --schema sf10
-```
-
-```sql
-show catalogs;
-show schemas in system;
--- show schemas in tpcds;
-use tpcds.sf10;
-```
-
 ## connector
 > https://prestodb.io/docs/current/connector.html
-
 
 ### memory
 
@@ -127,4 +107,13 @@ elasticsearch.default-schema-name=default
 connector.name=kafka
 kafka.table-names=table1,table2
 kafka.nodes=host1:port,host2:port
+```
+
+## sql
+
+```sql
+-- docker exec -it presto presto-cli --catalog hive --schema default
+show catalogs;
+show schemas in hive;
+use hive.default;
 ```
