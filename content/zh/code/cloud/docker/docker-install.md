@@ -36,7 +36,6 @@ sudo apt-get install docker.io
 sudo usermod -aG docker $USER
 
 sudo systemctl start docker
-
 sudo docker run --rm hello-world
 
 sudo apt-get autoremove --purge docker-io 
@@ -47,7 +46,7 @@ rm -rf /var/lib/docker
 
 ```shell
 sudo dnf install docker
-# 启动 Docker 服务
+
 # sudo service docker start
 sudo systemctl start docker
 docker run --rm hello-world
