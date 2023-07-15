@@ -3,6 +3,19 @@
 title: "Maven"
 ---
 
+## awesome
+
+```shell
+function mvng {
+    if [ "$#" -lt  2 ]; then
+        echo "require at least two args"
+        echo "mvng <groupId> <artifactId> [<version>]"
+        return 1
+    fi
+    mvn archetype:generate -DgroupId=$1 -DartifactId=$2 -Dversion=${3=1.0-SNAPSHOT} -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
+}
+```
+
 ## test
 
 ```shell

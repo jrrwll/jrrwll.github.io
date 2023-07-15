@@ -56,6 +56,8 @@ apt install krb5-user
 echo "0.0.0.0 my.local" >> /etc/hosts
 
 klist
+# default is /etc/krb5.conf
+KRB5_CONFIG=/path/to/custom/krb5.conf
 kinit myuser
 ```
 
@@ -69,40 +71,4 @@ sed -i "/\[realms\]/a$my_realm" /etc/krb5.conf
 
 my_domain_realm="\ .$MY_DOMAIN = $MY_REALM\n $MY_DOMAIN = $MY_REALM\n"
 sed -i "/\[domain_realm\]/a$my_domain_realm" /etc/krb5.conf
-```
-
-## server for nginx
-
-```shell
-apt install nginx-extras libpam-krb5 -y
-
-vi /etc/nginx/sites-available/default
-cat <<EOF > /etc/pam.d/nginx-krb5
-auth sufficient pam_krb5.so use_first_pass
-account sufficient pam_krb5.so
-EOF
-/etc/init.d/nginx restart
-```shell
-
-```nginx
-location /test {
-    # request password authentication and use PAM module
-    auth_pam "Kerberos Authentication";
-    auth_pam_service_name "nginx-krb5";
-}
-```
-
-```shell
-cat <<EOF > /var/www/html/test/index.html
-<html>
-<body>
-<div style="width: 100%; font-size: 40px; font-weight: bold; text-align: center;">
-Test Page for Kerberos Auth
-</div>
-</body>
-</html>
-EOF
-
-# use kerb account to access nginx
-curl -v -u myuser:mypassword http://127.0.0.1/test/
 ```

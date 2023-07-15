@@ -8,13 +8,19 @@ title: "Python Pip"
 wget https://bootstrap.pypa.io/get-pip.py -O - | python
 ```
 
-## pip install
+## config
 
 ```shell
 python -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
 ```
 
-### Mac ARM
+```shell
+cat requirements.txt | cut -f1 -d"#" | sed '/^\s*$/d' | xargs -n 1 pip install
+```
+
+## pip install
+
+### mac arm
 
 #### numpy
 ```shell
