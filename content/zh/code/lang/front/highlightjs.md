@@ -1,6 +1,6 @@
 
 ---
-title: "Highlight"
+title: "highlight.js"
 ---
 
 ## playground

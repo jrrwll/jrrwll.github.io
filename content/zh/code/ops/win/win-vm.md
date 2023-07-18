@@ -1,6 +1,6 @@
 
 ---
-title: "Windows"
+title: "Windows VM"
 ---
 
 ## 虚拟机
@@ -17,5 +17,3 @@ REG ADD HKLM\HARDWARE\DESCRIPTION\System /v SystemBiosVersion /t REG_MULTI_SZ /d
 REG ADD HKLM\HARDWARE\DESCRIPTION\System /v VideoBiosVersion /t REG_MULTI_SZ /d "" /f
 pause
 ```
-
-## 

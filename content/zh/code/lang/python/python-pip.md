@@ -3,14 +3,11 @@
 title: "Python Pip"
 ---
 
-## install
-```shell
-wget https://bootstrap.pypa.io/get-pip.py -O - | python
-```
-
 ## config
 
 ```shell
+wget https://bootstrap.pypa.io/get-pip.py -O - | python
+
 python -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
 ```
 
@@ -18,19 +15,22 @@ python -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
 cat requirements.txt | cut -f1 -d"#" | sed '/^\s*$/d' | xargs -n 1 pip install
 ```
 
-## pip install
+## install
 
-### mac arm
+### numpy
 
-#### numpy
 ```shell
 brew install openblas
 OPENBLAS="$(brew --prefix openblas)" pip install numpy
 ```
 
-## dep man
+### pyarraow
 
-### pdm
+```shell
+apt-get install libarrow-devel libarrow-python-devel
+```
+
+## pdm
 
 ```shell
 pip install pdm

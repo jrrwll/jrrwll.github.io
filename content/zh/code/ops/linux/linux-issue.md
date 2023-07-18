@@ -3,7 +3,7 @@
 title: "Issue"
 ---
 
-## ter
+## terminal
 
 ### terminal command with sudo takes a long time
 

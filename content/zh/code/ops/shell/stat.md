@@ -3,9 +3,17 @@
 title: "Stat"
 ---
 
-## stat
+## os
 
-### mem
+```shell
+# os name
+cat /etc/issue
+cat /etc/os-release
+cat /usr/lib/os-release
+uname -a
+```
+
+## mem
 
 ```shell
 # 查看内存占用
@@ -14,7 +22,7 @@ top -b -o +%MEM | head -n 20 | tail -20
 top -c -b -o +%MEM | head -n 20 | tail -20
 ```
 
-### net
+## net
 
 ```shell
 # 统计22端口连接数

@@ -12,6 +12,30 @@ service ssh restart
 systemctl restart sshd
 ```
 
+## ssh
+
+```shell
+chmod 755 ~/.ssh
+cd ~/.ssh
+cd 644 rsa_id.pub authorized_keys
+cd 600 rsa_id
+```
+
+```conf
+# ~/.ssh/config
+host *
+    AddKeysToAgent yes
+    UseKeychain yes
+    TCPKeepAlive yes
+    ServerAliveInterval 60
+    ServerAliveCountMax 5
+host github.com
+  user git
+  hostname github.com
+  port 22
+  identityfile ~/.ssh/github/id_rsa
+  identitiesOnly yes
+```
 ## issue
 
 ```shell

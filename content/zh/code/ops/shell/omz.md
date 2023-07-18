@@ -26,15 +26,23 @@ sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting
 cat <<EOF > ~/.zshrc
 export ZSH="\$HOME/.oh-my-zsh"
 ZSH_THEME="myagnoster"
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git docker zsh-syntax-highlighting zsh-autosuggestions)
 source \$ZSH/oh-my-zsh.sh
 
 alias dk="sudo docker"
-alias dkn="dk network"
-alias dkv="dk volume"
 alias dki="dk image"
-alias dkl="dk logs -f"
 alias dke="dk exec -it"
+alias dkr="dk run --rm=true"
+alias dkl="dk logs -f"
+alias dkv="dk volume"
+alias dkn="dk network"
+alias dkc="dk container"
+alias dkic="dk inspect container"
+alias dkii="dk inspect image"
+alias dkm="dk machine"
+alias docker-compose="podman-compose"
+alias dkp="docker-compose"
+alias dkpe="docker-compose exec"
 EOF
 ```
 
