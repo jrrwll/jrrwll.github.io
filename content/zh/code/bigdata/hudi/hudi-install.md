@@ -1,51 +1,9 @@
 
 ---
-title: "Hudi"
+title: "Hudi Install"
 ---
 
-## 概念
-
-### 表类型 Table Type
-
-- **写时复制 Copy On Write**
-
-支持 Snapshot Queries 快照查询、Incremental Queries 增量查询
-
-仅使用列式文件格式（例如 parquet）存储数据。通过在写入期间执行同步合并来简单更新版本并重写文件
-
-- **读时合并 Merge On Read**
-
-支持快照查询、增量查询、Read Optimized Queries 读取优化查询
-
-使用列式（例如 parquet）+基于行（例如 avro）文件格式的组合来存储数据。更新会记录到增量文件中，然后进行压缩，以同步或异步方式生成新版本的列式文件
-
-下表总结了这两种表类型之间的权衡
-
-| 权衡 Trade-off             | CopyOnWrite                          | MergeOnRead                                                  |
-| -------------------------- | ------------------------------------ | ------------------------------------------------------------ |
-| 数据延迟 Data Latency      | 更高 Higher                          | 更低 Lower                                                   |
-| 查询延迟 Query Latency     | 更低 Lower                           | 更高 Higher                                                  |
-| 更新成本 Update cost (I/O) | 更高，需要重写整个parquet            | 更低，追加到增量日志                                         |
-| Parquet文件大小            | 更小 Smaller (high update(I/0) cost) | 更大 Larger (low update cost)                                |
-| 写放大 Write Amplification | Higher                               | 较低且取决于压缩策略 Lower (depending on compaction strategy) |
-
-### 查询类型 Query types
-
-- **快照查询 Snapshot Queries**
-
-查询会看到给定提交或压缩操作时表的最新快照。在读取表上合并的情况下，它通过即时合并最新文件切片的基本文件和增量文件来公开近乎实时的数据（几分钟）。对于写时复制表，它提供了现有parquet表的直接替代品，同时提供更新插入/删除和其他写入侧功能。
-
-- **增量查询 Incremental Queries**
-
-查询只能看到自给定提交/压缩以来写入表的新数据。这有效地提供了变更流以启用增量数据管道
-
-- **读取优化查询 Read Optimized Queries**
-
-查询会看到给定提交/压缩操作时表的最新快照。仅公开最新文件切片中的基础/列式文件，并保证与非 hudi 列式表相同的列式查询性能
-
-## Install
-
-### Docker
+## Docker
 
 ```shell
 git clone https://kgithub.com/apache/hudi --depth 1
@@ -67,16 +25,15 @@ cd docker
 docker ps
 ```
 
-#### Step 1 : Publish the first batch to Kafka
+### Step 1 : Publish the first batch to Kafka
 ```shell
 # brew install kcat
-sudo apt-get install kafkacat jq -y
-kafkacat 
+sudo apt-get install kafkacat jq -y 
 cat demo/data/batch_1.json | kafkacat -b kafkabroker -t stock_ticks -P
 kafkacat -b kafkabroker -L -J | jq 
 ```
 
-#### Step 2: Incrementally ingest data from Kafka topic
+### Step 2: Incrementally ingest data from Kafka topic
 ```shell
 docker exec -it adhoc-2 /bin/bash
 
@@ -107,7 +64,7 @@ spark-submit \
 # http://namenode:50070/explorer.html#/user/hive/warehouse/stock_ticks_mor
 ```
 
-#### Step 3: Sync with Hive
+### Step 3: Sync with Hive
 
 ```shell
 docker exec -it adhoc-2 /bin/bash
@@ -133,7 +90,7 @@ docker exec -it adhoc-2 /bin/bash
   --partition-value-extractor org.apache.hudi.hive.SlashEncodedDayPartitionValueExtractor
 ```
 
-#### Step 4 (a): Run Hive Queries
+### Step 4 (a): Run Hive Queries
 
 ```shell
 docker exec -it adhoc-2 /bin/bash
@@ -155,7 +112,7 @@ select `_hoodie_commit_time`, symbol, ts, volume, open, close  from stock_ticks_
 select `_hoodie_commit_time`, symbol, ts, volume, open, close  from stock_ticks_mor_rt where  symbol = 'GOOG';
 ```
 
-#### Step 4 (b): Run Spark-SQL Queries
+### Step 4 (b): Run Spark-SQL Queries
 
 ```shell
 docker exec -it adhoc-1 /bin/bash
@@ -181,7 +138,7 @@ spark.sql("select `_hoodie_commit_time`, symbol, ts, volume, open, close  from s
 spark.sql("select `_hoodie_commit_time`, symbol, ts, volume, open, close  from stock_ticks_mor_rt where  symbol = 'GOOG'").show(100, false)
 ```
 
-#### Step 4 (c): Run Presto/Trino Queries
+### Step 4 (c): Run Presto/Trino Queries
 
 ```shell
 docker exec -it presto-worker-1 presto --server presto-coordinator-1:8090
@@ -206,32 +163,101 @@ exit
 ```shell
 cat demo/data/batch_2.json | kafkacat -b kafkabroker -t stock_ticks -P
 
+# Incrementally ingest data from Kafka topic
 docker exec -it adhoc-2 /bin/bash
-```
-
-```shell
-spark-submit \
-  --class org.apache.hudi.utilities.deltastreamer.HoodieDeltaStreamer $HUDI_UTILITIES_BUNDLE \
-  --table-type COPY_ON_WRITE \
-  --source-class org.apache.hudi.utilities.sources.JsonKafkaSource \
-  --source-ordering-field ts \
-  --target-base-path /user/hive/warehouse/stock_ticks_cow \
-  --target-table stock_ticks_cow \
-  --props /var/demo/config/kafka-source.properties \
-  --schemaprovider-class org.apache.hudi.utilities.schema.FilebasedSchemaProvider
-spark-submit \
-  --class org.apache.hudi.utilities.deltastreamer.HoodieDeltaStreamer $HUDI_UTILITIES_BUNDLE \
-  --table-type MERGE_ON_READ \
-  --source-class org.apache.hudi.utilities.sources.JsonKafkaSource \
-  --source-ordering-field ts \
-  --target-base-path /user/hive/warehouse/stock_ticks_mor \
-  --target-table stock_ticks_mor \
-  --props /var/demo/config/kafka-source.properties \
-  --schemaprovider-class org.apache.hudi.utilities.schema.FilebasedSchemaProvider \
-  --disable-compaction
 
 # http://namenode:50070/explorer.html#/user/hive/warehouse/stock_ticks_cow/2018/08/31
 # http://namenode:50070/explorer.html#/user/hive/warehouse/stock_ticks_mor/2018/08/31
 ```
 
-### Step 7 (a): Incremental Query for COPY-ON-WRITE Table
+### Step 6 (a): Incremental Query for COPY-ON-WRITE Table
+
+```sql
+-- beeline to hive
+
+select `_hoodie_commit_time`, symbol, ts, volume, open, close from stock_ticks_cow where symbol = 'GOOG';
+
+set hoodie.stock_ticks_cow.consume.mode=INCREMENTAL;
+set hoodie.stock_ticks_cow.consume.max.commits=3;
+-- 将开始时间设置为提交时间（20180924064621）
+set hoodie.stock_ticks_cow.consume.start.timestamp=20180924064621;
+
+select `_hoodie_commit_time`, symbol, ts, volume, open, close from stock_ticks_cow where symbol = 'GOOG' and `_hoodie_commit_time` > '20180924064621';
+```
+
+### Step 6 (b): Incremental Query with Spark SQL
+
+```ruby
+# $SPARK_INSTALL/bin/spark-shell
+
+import org.apache.hudi.DataSourceReadOptions
+
+val hoodieIncViewDF = spark.read.format("org.apache.hudi").option(DataSourceReadOptions.QUERY_TYPE_OPT_KEY, DataSourceReadOptions.QUERY_TYPE_INCREMENTAL_OPT_VAL).option(DataSourceReadOptions.BEGIN_INSTANTTIME_OPT_KEY, "20180924064621").load("/user/hive/warehouse/stock_ticks_cow")
+hoodieIncViewDF.registerTempTable("stock_ticks_cow_incr_tmp1")
+
+spark.sql("select `_hoodie_commit_time`, symbol, ts, volume, open, close from stock_ticks_cow_incr_tmp1 where symbol = 'GOOG'").show(100, false);
+```
+
+### Step 7: Schedule and Run Compaction for Merge-On-Read table
+
+```shell
+docker exec -it adhoc-1 /bin/bash
+/var/hoodie/ws/hudi-cli/hudi-cli.sh
+```
+
+```ruby
+connect --path /user/hive/warehouse/stock_ticks_mor
+compactions show all
+# 使用Spark Launcher压缩
+compaction schedule --hoodieConfigs hoodie.compact.inline.max.delta.commits=1
+refresh
+compactions show all
+
+compaction run --compactionInstant 20180924070031 --parallelism 2 --sparkMemory 1G --schemaFilePath /var/demo/config/schema.avsc --retry 1
+refresh
+compactions show all
+```
+
+### Step 8: Run Hive Queries including incremental queries
+
+```sql
+-- Read Optimized Query
+select symbol, max(ts) from stock_ticks_mor_ro group by symbol HAVING symbol = 'GOOG';
+select `_hoodie_commit_time`, symbol, ts, volume, open, close from stock_ticks_mor_ro where symbol = 'GOOG';
+-- Snapshot Query
+select symbol, max(ts) from stock_ticks_mor_rt group by symbol HAVING symbol = 'GOOG';
+select `_hoodie_commit_time`, symbol, ts, volume, open, close from stock_ticks_mor_rt where symbol = 'GOOG';
+```
+
+```sql
+-- Incremental Query
+set hoodie.stock_ticks_mor.consume.mode=INCREMENTAL;
+set hoodie.stock_ticks_mor.consume.max.commits=3;
+set hoodie.stock_ticks_mor.consume.start.timestamp=20180924064636;
+
+select `_hoodie_commit_time`, symbol, ts, volume, open, close from stock_ticks_mor_ro where symbol = 'GOOG' and `_hoodie_commit_time` > '20180924064636';
+```
+
+### Step 9: Read Optimized and Snapshot queries for MOR with Spark-SQL after compaction
+
+```ruby
+# Read Optimized Query
+spark.sql("select symbol, max(ts) from stock_ticks_mor_ro group by symbol HAVING symbol = 'GOOG'").show(100, false)
+spark.sql("select `_hoodie_commit_time`, symbol, ts, volume, open, close from stock_ticks_mor_ro where symbol = 'GOOG'").show(100, false)
+# Snapshot Query
+spark.sql("select symbol, max(ts) from stock_ticks_mor_rt group by symbol HAVING symbol = 'GOOG'").show(100, false)
+spark.sql("select `_hoodie_commit_time`, symbol, ts, volume, open, close from stock_ticks_mor_rt where symbol = 'GOOG'").show(100, false)
+```
+
+### Step 10: Presto Read Optimized queries on MOR table after compaction
+
+```shell
+docker exec -it presto-worker-1 presto --server presto-coordinator-1:8090
+```
+
+```sql
+use hive.default;
+-- Read Optimized Query
+select symbol, max(ts) from stock_ticks_mor_ro group by symbol HAVING symbol = 'GOOG';
+select "_hoodie_commit_time", symbol, ts, volume, open, close from stock_ticks_mor_ro where symbol = 'GOOG';
+```
