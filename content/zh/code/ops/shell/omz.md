@@ -6,6 +6,8 @@ title: "Oh My Zsh"
 ## zsh
 
 ```shell
+apt install zsh git curl wget file -y
+
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 
 
 # themes
@@ -18,6 +20,7 @@ cd ~/.oh-my-zsh/custom/plugins
 git clone https://github.com/zsh-users/zsh-autosuggestions --depth 1
 git clone https://github.com/zsh-users/zsh-syntax-highlighting --depth 1
 sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' ~/.zshrc
+sed -i '$a source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' ~/.zshrc
 ```
 
 ### ~/.zshrc
@@ -28,6 +31,7 @@ export ZSH="\$HOME/.oh-my-zsh"
 ZSH_THEME="myagnoster"
 plugins=(git docker zsh-syntax-highlighting zsh-autosuggestions)
 source \$ZSH/oh-my-zsh.sh
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 alias dk="sudo docker"
 alias dki="dk image"
