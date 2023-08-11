@@ -5,6 +5,8 @@ title: "Docker Compose"
 ## install
 
 ```shell
+curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-Linux-x86_64" -o docker-compose
+
 VERSION=$(curl https://api.github.com/repos/docker/compose/releases/latest | jq .name -r)
 sudo curl -L "https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose

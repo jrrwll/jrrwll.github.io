@@ -26,12 +26,7 @@ sed -i '$a source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax
 ### ~/.zshrc
 
 ```shell
-cat <<EOF > ~/.zshrc
-export ZSH="\$HOME/.oh-my-zsh"
-ZSH_THEME="myagnoster"
-plugins=(git docker zsh-syntax-highlighting zsh-autosuggestions)
-source \$ZSH/oh-my-zsh.sh
-source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+cat <<EOF >> ~/.zshrc
 
 alias dk="sudo docker"
 alias dki="dk image"
@@ -47,6 +42,7 @@ alias dkm="dk machine"
 alias docker-compose="podman-compose"
 alias dkp="docker-compose"
 alias dkpe="docker-compose exec"
+
 EOF
 ```
 

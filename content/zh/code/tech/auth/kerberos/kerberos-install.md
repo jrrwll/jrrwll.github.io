@@ -31,7 +31,10 @@ kadmin.local get_principal myuser
 kadmin.local list_principals
 
 klist
+# login
 kinit myuser
+# logout
+kdestroy
 
 # or kadmin -p root/admin -q 'ktadd ...'
 kadmin.local ktadd -k /etc/myuser.keytab myuser@MY.LOCAL
