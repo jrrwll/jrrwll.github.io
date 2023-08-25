@@ -17,13 +17,19 @@ select name, setting from pg_settings where category = 'File Locations' ;
 ```sql
 -- sudo adduser myuser
 -- sudo passwd myuser
-create user myuser with password 'secret'; 
-create database testdb;
+create user myuser with password 'mypassword'; 
+alter role myuser with password 'mypassword';
 
+create database testdb;
+alter database testdb owner to myuser;
 grant all privileges on database testdb to myuser;
 alter schema public owner to myuser;
 grant all privileges on all sequences in schema public to myuser;
 grant all privileges on all tables in schema public to myuser;
+-- schema
+create schema test;
+alter schema public owner to myuser;
+
 ```
 
 ```sql

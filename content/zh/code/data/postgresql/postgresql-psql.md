@@ -24,6 +24,8 @@ psql -h 127.0.0.1 -p 5432 -U postgres
 \l+
 -- connect db
 \c my_db
+-- show schema
+\dn+
 -- show tables
 \d
 \dt
@@ -43,7 +45,7 @@ psql -h 127.0.0.1 -p 5432 -U postgres
 
 ## cli
 
-```shell
-createdb mydb
+``createdb`shell
+ mydb
 dropdb mydb
 ```
