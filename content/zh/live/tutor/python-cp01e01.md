@@ -24,7 +24,7 @@ at line 1: it will search a file named `python3` in your *$PATH* to execute
 
 at line 2: `#coding=utf-8` or `# -*- coding: UTF-8 -*-`, will make python support your local characters.
 
-at line 8: in python 2 version, it can replace with `print'Hello, World!' `. In fact, *print*  is a function in pyhton3 but a command in python2.
+at line 8: in python 2 version, it can replace with `print 'Hello, World!' `. In fact, *print*  is a function in pyhton3 but a command in python2.
 
 You can save this to a file such as **awesome.py** , and type the command in terminal: `/usr/bin/env python3 awesome.py`.
 
