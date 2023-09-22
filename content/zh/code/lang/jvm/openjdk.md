@@ -5,12 +5,21 @@ title: "OpenJDK"
 
 ## install 
 
-### mac
+- **mac**
+> mac arm: https://www.azul.com/downloads/?version=java-8-lts&os=macos&package=jdk#zulu
 
 ```shell
 # openjdk8
 brew tap homebrew/cask-versions
 brew install --cask temurin8
+```
+
+- **centos**
+
+```shell
+# Installing Java 8 on CentOS 7
+yum install java-1.8.0-openjdk -y
+update-alternatives --config java
 ```
 
 ## compile
