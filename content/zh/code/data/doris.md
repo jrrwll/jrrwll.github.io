@@ -15,6 +15,19 @@ mysql -uroot -h127.0.0.1 -P 9030
 
 ## sql
 
+### auth
+
+```sql
+show frontends\G
+show proc '/backends'\G
+
+-- alter system add backend "host:port";
+set password for 'root' = password('root');
+create user 'myuser' identified by 'Mypassword_123';
+
+grant select_priv,load_priv,alter_priv,create_priv,drop_priv on resource * to 'myuser'@'%';
+```
+
 ### table
 
 ```sql

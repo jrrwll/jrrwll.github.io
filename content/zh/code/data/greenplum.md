@@ -16,5 +16,14 @@ docker run -it -d --name greenplum \
     datagrip/greenplum:6.8
 
 su - gpadmin
+# https://gp-docs-cn.github.io/docs/utility_guide/client_utilities/psql.html
 psql
+```
+
+```sql
+-- 查看所有表
+select * from pg_tables;
+select tablename from pg_tables where schemaname = 'public';
+
+\d my_table;
 ```

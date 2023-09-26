@@ -12,16 +12,21 @@ title: "Oracle"
 docker login container-registry.oracle.com
 # use your orcale username password here
 
-# 19.3.0.0 12.1.0.2
-docker pull container-registry.oracle.com/database/enterprise:21.3.0.0
+# -p 5500:5500
+# -e ORACLE_PWD: SYS, SYSTEM and PDB_ADMIN password
+# -e ORACLE_CHARACTERSET: AL32UTF8
+# -v /opt/oracle/oradata
+docker run -itd --name oracle21xe \
+  -e ORACLE_PWD=oracle \
+  -p 1521:1521 \
+  -v $PWD/oracle21xe:/opt/oracle/oradata \
+  container-registry.oracle.com/database/express:21.3.0-xe
 
-# 5500
 # -e ORACLE_SID=ORCLCDB
 # -e ORACLE_PDB=ORCLPDB1
-# -e ORACLE_PWD=root, SYS, SYSTEM and PDBADMIN password
-# -v /opt/oracle/oradata
-docker run -d --name oracle \
+docker run -d --name oracle21 \
 -p 1521:1521 \
+-v $PWD/oracle21:/opt/oracle/oradata \
 container-registry.oracle.com/database/enterprise:21.3.0.0
 ```
 
@@ -37,6 +42,7 @@ docker exec oracle ./setPassword.sh <new_password>
 ```
 
 #### https://hub.docker.com/r/epiclabs/docker-oracle-xe-11g
+
 ```shell
 # -v /u01/app/oracle
 docker run -d --name oracle11g \
@@ -52,7 +58,8 @@ epiclabs/docker-oracle-xe-11g
 conn sys/root@xe as sysdba
 ```
 
-#### https://hub.docker.com/r/gvenzl/oracle-xe
+#### [gvenzl/oracle-xe](https://hub.docker.com/r/gvenzl/oracle-xe)
+
 ```shell
 # -e ORACLE_PASSWORD
 # -v /u01/app/oracle/oradata
@@ -64,8 +71,48 @@ gvenzl/oracle-xe:11
 docker exec oracle11g resetPassword new_password
 ```
 
+#### [deepdiver/docker-oracle-xe-11g](https://hub.docker.com/r/deepdiver/docker-oracle-xe-11g)
+
+```shell
+# 账号密码 sys/system oracle sid=xe
+# autotest owncloud
+# -p 1022:22 系统账号密码 root admin
+# -p 8080:8080
+docker run -itd --name oracle11g \
+-p 1521:1521 \
+deepdiver/docker-oracle-xe-11g
+
+docker exec -it oracle11g sqlplus system/oracle
+```
+
+## jdbc
+
+jdbc:oracle:thin:@host:port:sid sid=instance_name
+
+jdbc:oracle:thin:@//host:port/sn sn=service_names
+
+```sql
+select name, value from v$parameter where name in ('instance_name', 'service_names');
+```
 
 ## sql
+
+### auth
+
+```sql
+show parameter service
+
+-- user
+select username,password from dba_users;
+create user myuser identified by Mypassword_123;
+grant connect,resource to myuser;
+-- docker exec -it oracle11g sqlplus myuser/Mypassword_123
+
+-- tablespace
+create tablespace mytablespace datafile 'mytablespace.dbf' size 10240M;
+alter user myuser default tablespace mytablespace;
+select tablespace_name from user_tablespaces;
+```
 
 ### sqlplus
 
@@ -86,6 +133,9 @@ select sysdate from dual;
 select * from v$version;
 select name from v$database;
 select instance_name, status from v$instance;
+
+-- show create table <user>.<table>
+select dbms_metadata.get_ddl('TABLE','MY_TABLE','MY_USER') from dual;
 ```
 
 ### tablespace
@@ -124,4 +174,15 @@ alter user myuser quota unlimited on mytablespace;
 select table_name, tablespace_name, owner from dba_tables
 where owner = 'MYUSER'
 order by tablespace_name, table_name;
+```
+
+### insert all
+
+```sql
+
+insert all
+into t_num values(1)
+into t_num values(3.14)
+into t_num values(0.000000000014)
+select 1 from dual;
 ```
