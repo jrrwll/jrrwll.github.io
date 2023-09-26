@@ -39,7 +39,7 @@ alias dkc="dk container"
 alias dkic="dk inspect container"
 alias dkii="dk inspect image"
 alias dkm="dk machine"
-alias docker-compose="podman-compose"
+# alias docker-compose="podman-compose"
 alias dkp="docker-compose"
 alias dkpe="docker-compose exec"
 

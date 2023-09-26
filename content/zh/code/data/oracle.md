@@ -179,6 +179,7 @@ order by tablespace_name, table_name;
 ### insert all
 
 ```sql
+create table t_num(c number);
 
 insert all
 into t_num values(1)
