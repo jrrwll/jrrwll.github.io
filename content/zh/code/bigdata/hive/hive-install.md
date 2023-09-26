@@ -33,6 +33,7 @@ select * from pokes;
 ```
 
 ## mr3
+> https://mr3docs.datamonad.com/docs/quick/k8s/configure-kerberos/
 
 ```shell
 # root:passwd for MySQL

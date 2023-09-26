@@ -27,3 +27,7 @@ select tablename from pg_tables where schemaname = 'public';
 
 \d my_table;
 ```
+
+## jdbc
+> https://docs.vmware.com/en/VMware-Greenplum/index.html
+> https://www.progress.com/jdbc/vmware-greenplum

@@ -13,7 +13,11 @@ docker run -it -d --name doris \
 mysql -uroot -h127.0.0.1 -P 9030
 ```
 
+## type
+> https://doris.apache.org/zh-CN/docs/dev/sql-manual/sql-reference/Data-Types/BOOLEAN
+
 ## sql
+> https://doris.apache.org/zh-CN/docs/dev/sql-manual/sql-reference/Data-Manipulation-Statements/Manipulation/SELECT/
 
 ### auth
 
