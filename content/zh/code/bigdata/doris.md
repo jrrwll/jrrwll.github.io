@@ -27,6 +27,7 @@ show proc '/backends'\G
 
 -- alter system add backend "host:port";
 set password for 'root' = password('root');
+set password for 'root'@'192.%' = password('root');
 create user 'myuser' identified by 'Mypassword_123';
 
 grant select_priv,load_priv,alter_priv,create_priv,drop_priv on resource * to 'myuser'@'%';
