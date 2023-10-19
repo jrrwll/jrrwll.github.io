@@ -11,6 +11,13 @@ title: "Install MySQL"
 # $PWD/my.cnf
 # -v $PWD:/etc/mysql/conf.d
 # -v $PWD/datadir:/var/lib/mysql
+docker run -d -it --name mysql \
+ -e MYSQL_ROOT_PASSWORD=root \
+ -p 3306:3306 \
+ -v $PWD/mysql:/var/lib/mysql \
+ -v $PWD/mysql:/etc/mysql/conf.d \
+ mysql
+
 docker run -d -it --name mysql57 \
  -e MYSQL_ROOT_PASSWORD=root \
  -p 3306:3306 \

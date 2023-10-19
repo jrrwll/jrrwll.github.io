@@ -31,7 +31,7 @@ EOF
 
 # -e POSTGRES_USER=postgres \
 # -e POSTGRES_DB=postgres \
-docker run -d -it --name postgres15 \
+docker run -itd --name postgres15 \
   -e POSTGRES_PASSWORD=postgres \
   -e PGDATA=/var/lib/postgresql/data/pgdata \
   -v ${PWD}/pg_data:/var/lib/postgresql/data \
