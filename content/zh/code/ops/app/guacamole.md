@@ -70,3 +70,4 @@ guacadmin
 
 settings-connections
 http://x.x.x.x:8080/guacamole/#/settings/postgresql/connections
+
