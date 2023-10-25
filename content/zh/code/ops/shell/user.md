@@ -35,3 +35,13 @@ id -g
 id -gn
 grep tuke /etc/passwd
 ```
+
+## passwd
+
+**/etc/pam.d/common-password**
+
+```conf
+# allow any password to set
+#password	[success=1 default=ignore]	pam_unix.so obscure yescrypt
+password	[success=1 default=ignore]	pam_unix.so minlen=1 yescrypt
+```
