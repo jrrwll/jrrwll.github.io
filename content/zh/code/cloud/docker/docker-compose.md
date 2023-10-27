@@ -24,7 +24,7 @@ version: '3'
   services:
     sysctls:
       net.core.somaxconn: 1024
-```
+``` 
 
 ```shell
 sysctl -w net.ipv4.tcp_tw_recycle=1
