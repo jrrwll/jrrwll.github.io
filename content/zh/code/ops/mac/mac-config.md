@@ -16,6 +16,14 @@ sudo scutil --set ComputerName mac
 sudo scutil --set HostName mac
 ```
 
+### Font
+
+```shell
+/System/Library/Fonts
+/Library/Fonts
+$HOME/Library/Fonts
+```
+
 ### ARM
 
 #### Windows ARM
