@@ -5,13 +5,21 @@ date: 2022-04-29
 weight: 2
 ---
 
+## 整体架构
+
+Flink系统由`Flink Program`、`JobManager`、`TaskManager`三个部分组成。这三部分之间都使用Akka框架(`Actor System`)进行通信, 通过发送消息驱动任务的推进。
+
+`Flink Program` 加载用户提交的任务代码，解析并生成任务执行拓扑图，并将拓扑图提交给`JobManager`。
+
+`JobManager`基于任务执行拓扑图，生成相应的物理执行计划，将执行计划发送给`TaskManager`执行。除此之外，`JobManager`还负责协调`checkpoint`的生成，不断地从`TaskManager`收集Operator的状态，并周期性生成`checkpoint`，以便在系统出错时从`checkpoint`恢复之前的状态。
+
+`TaskManager`负责管理任务执行所需的资源，执行具体的任务，并将任务产出的数据流传入给下一个任务。每个`TaskManger`上运行一个jvm进程。每个`TaskSlot`运行一个线程
+
 ## 流量控制
 
 ### 基于Credit的反压机制
 
-下游的InputChannel从上游的ResultPartition接收数据的时候，会基于当前已经缓存的数据量，以及可申请到的LocalBufferPool与NetworkBufferPool，计算出一个Credit值返回给上游。上游基于Credit的值，来决定发送多少数据。Credit就像信用卡额度一样，不能超支
-
-当下游发生数据拥塞时，Credit减少值为0，于是上游停止数据发送。拥塞压力不断向上游传导，形成反压
+下游的`InputChannel`从上游的`ResultPartition`接收数据的时候，会基于当前已经缓存的数据量，以及可申请到的`LocalBufferPool`与`NetworkBufferPool`，计算出一个`Credit`值返回给上游。上游基于`Credit`的值，来决定发送多少数据。`Credit`就像信用卡额度一样，不能超支。当下游发生数据拥塞时，`Credit`减少值为0，于是上游停止数据发送。拥塞压力不断向上游传导，形成反压。
 
 ## 系统容错
 
@@ -20,14 +28,17 @@ weight: 2
 - At-least-once，是指每条 event 会对 state 产生最少一次影响，也就是存在重复处理的可能
 - At-most-once，是指每条 event 会对 state 产生最多一次影响，就是状态可能会在出错时丢失
 
-### Checkpointing检查点
+分布式场景中，数据会丢失、会乱序、会重复。乱序的问题，结合`Event Time` (表征事件发生的时间)与 `Watermark`(表征何时数据已经完整的标识)解决。针对丢失和重复的问题，Flink基于`Chandy and Lamport`算法，通过分布式快照(`distributed snapshot`)机制，支持了`Exactly Once`的一致性语义
+
+### Checkpointing 检查点
 
 Flink会在流上定期产生一个barrier（屏障）。barrier 是一个轻量的，用于标记stream顺序的数据结构。barrier被插入到数据流中，作为数据流的一部分和数据一起向下流动，过程如下：
-1. barrier 由source节点发出
-2. barrier会将流上event切分到不同的checkpoint中
-3. 汇聚到当前节点的多流的barrier要对齐（At least once不需要对齐）
-4. barrier对齐之后会进行Checkpointing，生成snapshot，快照保存到StateBackend中
-5. 完成snapshot之后向下游发出barrier，继续直到Sink节点
+
+- barrier 由source节点发出
+- barrier会将流上event切分到不同的checkpoint中
+- 汇聚到当前节点的多流的barrier要对齐(align barriers)，如是At least once则不需要对齐
+- barrier对齐之后会进行Checkpointing，生成snapshot，快照保存到StateBackend中
+- 完成snapshot之后向下游发出barrier，继续直到Sink节点(需要通过两阶段提交 2PC two-phase commit 完成分布式事务)
 
 ## 资源管理
 
