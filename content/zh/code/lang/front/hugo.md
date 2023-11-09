@@ -1,7 +1,6 @@
 
 ---
 title: "Hugo"
-date: 2023-03-11
 ---
 
 ## deploy
@@ -20,7 +19,20 @@ yarn run netlify deploy --prod
 ### docsy
 
 ```shell
-git clone  https://gitee.com/mirrors_google/docsy themes/docsy --depth 1
-git clone https://gitee.com/jrrwll/bootstrap themes/docsy/assets/vendor/bootstrap --depth 1 --branch=v4-dev
-git clone https://gitee.com/jrrwll/Font-Awesome themes/docsy/assets/vendor/Font-Awesome --depth 1
+git clone https://kgithub.com/mirrors_google/docsy themes/docsy --depth 1
+git clone https://kgithub.com/jrrwll/bootstrap themes/docsy/assets/vendor/bootstrap --depth 1 --branch=v4-dev
+git clone https://kgithub.com/jrrwll/Font-Awesome themes/docsy/assets/vendor/Font-Awesome --depth 1
+```
+
+### hugo-chart(chart.js)
+
+```shell
+# theme = ["hugo-chart", "docsy"]
+git clone  https://github.com/Shen-Yu//hugo-chart themes/hugo-chart --depth 1
+```
+
+```
+{{< chart [width] [height] >}}
+// Chartjs options goes here
+{{< /chart >}}
 ```
