@@ -31,8 +31,8 @@ git clone https://kgithub.com/jrrwll/Font-Awesome themes/docsy/assets/vendor/Fon
 git clone  https://github.com/Shen-Yu//hugo-chart themes/hugo-chart --depth 1
 ```
 
-```
-{{< chart [width] [height] >}}
+```xml
+{ { < chart width height > } }
 // Chartjs options goes here
-{{< /chart >}}
+{ { < /chart > } }
 ```
