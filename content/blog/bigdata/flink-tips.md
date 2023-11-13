@@ -1,6 +1,6 @@
 ---
-title: "Flink 性能调优"
-linkTitle: "Flink 性能调优"
+title: "Flink 优化技巧"
+linkTitle: "Flink 优化技巧"
 date: 2022-04-29
 weight: 3
 ---
@@ -58,3 +58,47 @@ FROM (
 WHERE rownum <= 10
 ```
 
+
+## CPU 优化
+
+- json解析加速 json-iterator
+
+```java
+Config newConfig = JsoniterSpi.getDefaultConfig().copyBuilder().
+encodingMode(EncodingMode.DYNAMIC_MODE).
+decodingMode(DecodingMode.DYNAMIC_MODE_AND_MATCH_FIELD_WITH_HASH).
+escapeUnicode(false).
+build();
+JsoniterSpi.setDefaultConfig(newConfig);
+```
+
+- kafak schema 使用 ByteArraySchema
+
+- enableObjectReuse
+使用StringValue、LongValue等可变对象。被Flink Gelly普遍使用
+
+- 使用tuple而非map
+
+- join策略
+
+```java
+// ds1比ds2小得多的时候使用，将ds1的同分区key的数据，全数发给ds2所在节点上
+ds1.join(ds2, JoinHint.BROADCAST_HASH_FIRST)
+```
+
+## Failover Strategy 优化
+
+**策略对比**
+RestartAllStrategry： 任何一个Task失败则会重启整个Job
+RestartPipelinedRegionStrategy：Task级别重启且无限重试，streaming场景下
+
+**现存问题**
+
+- 任务失败，上游DataSource不支持数据重发，导致Task重启后缺数据
+- 目前RestartPipelinedRegionStrategy是为Streaming设计，没有重启上限
+- 部分OutPlugin不支持Task重启，例如Hive->MySQL/Tableau任务运行一半失败后，已经有部分数据的写入，由于每个task写入的数据是随机的，重启时也难以提前清除上次写入的数据。
+
+**解决思路**
+- 保存每个Task启动时获取的DataSource Split信息，如果任务失败，Task会回退Split信息,上游Task重启后支持数据重发
+- 在RestartPipelinedRegionStrategy基础上，实现BatchJobFailoverStrategy,并支持Region Task重启次数配置，重启次数超过上限任务会失败
+- 针对下游不可重发的Plugin，不支持Task级别重启，直接使用Job级别重启
