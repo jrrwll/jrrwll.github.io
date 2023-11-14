@@ -5,11 +5,15 @@ date: 2023-11-06
 weight: 5
 ---
 
-## AQE 功能点
+## 原理
 
 根据执行过程中的中间数据优化后续执行，从而提高整体执行效率。核心在于两点
 1. 执行计划可动态调整
 2. 调整的依据是中间结果的精确统计信息
+
+AQE会为每个stage单独创建一个子job `QueryStage`，执行完后收集该stage相关的统计信息（主要是数据量和记录数），并依据这些统计信息优化调整下一个stage的执行计划。
+
+## 功能点
 
 ### 自动调整shuffle partition number
 
@@ -103,3 +107,25 @@ rectangle page {
   - MultipleJoin：SortMergeJoin且一边有Join，则依赖该侧是否支持数据倾斜优化
   - MultipleJoinWithAggOrWin：SortMergeJoin且一边有HashAgg，则该侧不支持
   - SkewedJoinWithUnion：两个SortMergeJoin的Union，则不支持
+
+### 其他方法
+
+**加盐去盐**
+
+```sql
+-- 关联为null或空字符串的key gid，在join之前先加盐
+select case gid is not null and gid <> '' then gid
+    else concat(cast(floor(rand() * 10000) as string), 'unknown')
+    end as gid
+```
+
+**先filter后join，再union filter**
+
+```sql
+select a.gid, b.score
+from a where a.gid is not null and a.gid <> ''
+left join b on a.gid = b.gid
+union all
+select a.gid, null as score
+from a where a.gid is null or a.gid = '';
+```
