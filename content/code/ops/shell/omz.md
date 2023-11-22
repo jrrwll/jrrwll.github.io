@@ -9,6 +9,8 @@ title: "Oh My Zsh"
 apt install zsh git curl wget file -y
 
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 
+# or in china mainland
+sh -c "$(curl -kfsSL https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh | sed 's/github.com/gitclone.com\/github.com/')"
 
 # themes
 cp ~/.oh-my-zsh/themes/agnoster.zsh-theme ~/.oh-my-zsh/custom/themes/myagnoster.zsh-theme
