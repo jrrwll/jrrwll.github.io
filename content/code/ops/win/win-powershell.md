@@ -1,6 +1,6 @@
 
 ---
-title: "Windows powershell"
+title: "Windows Powershell"
 ---
 
 ## config programmably

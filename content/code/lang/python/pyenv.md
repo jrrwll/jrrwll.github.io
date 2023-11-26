@@ -11,7 +11,8 @@ curl https://pyenv.run | bash
 set -e
 curl -ksSL https://raw.fastgit.org/pyenv/pyenv-installer/master/bin/pyenv-installer | sed 's/https:\/\/github.com/https:\/\/gitclone.com\/github.com/' | bash
 # or just
-git clone https://hub.fastgit.org/pyenv/pyenv.git ~/.pyenv
+git clone https://gitclone.com/github.com/pyenv/pyenv.git ~/.pyenv
+git clone https://gitee.com/mirrors/pyenv ~/.pyenv
 
 # add to ~/.zshrc
 cat <<EOF >> ~/.zshrc
@@ -31,6 +32,11 @@ pyenv install 2.7.18
 pyenv global 2.7.18
 ```
 
+```shell
+sudo apt-get install g++ make -y
+sudo apt-get install zlib1g-dev libreadline-dev libssl-dev libbz2-dev libsqlite3-dev libffi-dev liblzma-dev -y
+```
+
 ## usage
 
 **~/.pyenv/cache**
@@ -39,6 +45,8 @@ pyenv global 2.7.18
 wget https://www.python.org/ftp/python/3.10.13/Python-3.10.13.tar.xz -P ~/.pyenv/cache/
 
 export v=3.10.13; wget https://npm.taobao.org/mirrors/python/$v/Python-$v.tar.xz -P ~/.pyenv/cache/; pyenv install $v
+
+export v=3.10.13; wget https://npm.taobao.org/mirrors/python/$v/Python-$v.tgz -P ~/.pyenv/cache/Python-$v.tar.gz; pyenv install $v
 ```
 
 ## pyenv-virtualenv
