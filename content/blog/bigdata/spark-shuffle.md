@@ -2,7 +2,6 @@
 title: "Spark Shuffle"
 linkTitle: "Spark Shuffle"
 date: 2023-11-11
-weight: 8
 ---
 
 ## Shuffle

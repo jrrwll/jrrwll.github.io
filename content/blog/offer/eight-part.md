@@ -1,7 +1,6 @@
 ---
 title: "八股文"
 linkTitle: "八股文"
-weight: 100
 date: 2022-06-01
 ---
 

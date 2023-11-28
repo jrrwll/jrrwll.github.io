@@ -2,7 +2,6 @@
 title: "Elasticsearch 分布式原理Data篇"
 linkTitle: "ES 分布式原理Data篇"
 date: 2022-04-28
-weight: 7
 ---
 
 ## Replication写入流程

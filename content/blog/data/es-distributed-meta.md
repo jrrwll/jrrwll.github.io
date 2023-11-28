@@ -2,7 +2,6 @@
 title: "Elasticsearch 分布式原理Meta篇"
 linkTitle: "ES 分布式原理Meta篇"
 date: 2022-04-28
-weight: 6
 ---
 
 ## `Meta`数据

@@ -2,7 +2,6 @@
 title: "Redis 特性"
 linkTitle: "Redis 特性"
 date: 2022-05-21
-weight: 12
 ---
 
 ## 发布订阅

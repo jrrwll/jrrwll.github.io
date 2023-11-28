@@ -2,7 +2,6 @@
 title: "Flink 原理"
 linkTitle: "Flink 原理"
 date: 2022-04-29
-weight: 2
 ---
 
 ## 整体架构

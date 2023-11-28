@@ -2,7 +2,6 @@
 title: "Elasticsearch 分布式原理Node篇"
 linkTitle: "ES 分布式原理Node篇"
 date: 2022-04-27
-weight: 5
 ---
 
 ## ES集群构成

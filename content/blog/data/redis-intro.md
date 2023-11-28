@@ -2,7 +2,6 @@
 title: "Redis 简介"
 linkTitle: "Redis 简介"
 date: 2022-05-10
-weight: 10
 ---
 
 ## 概述

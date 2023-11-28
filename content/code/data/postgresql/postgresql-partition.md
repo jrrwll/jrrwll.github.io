@@ -55,3 +55,58 @@ create table t_part_list0 partition of t_part_list for values in (0);
 create table t_part_list1 partition of t_part_list for values in (1, 2, 3);
 create table t_part_list2 partition of t_part_list default;
 ```
+
+## meta
+
+```sql
+/*
+ column_name | data_type | partstrat
+-------------+-----------+-----------
+ c_int       | integer   | r
+
+ column_name | data_type | partstrat
+-------------+-----------+-----------
+ c_int       | integer   | l
+
+ column_name | data_type | partstrat
+-------------+-----------+-----------
+ c_int       | integer   | h
+*/
+select
+    col.column_name, col.data_type, pt.partstrat
+from
+    (select
+         partrelid,
+         unnest(partattrs) column_index,
+         partstrat
+     from
+         pg_partitioned_table) pt
+join
+    information_schema.columns col
+on  ordinal_position = pt.column_index
+where pt.partrelid = 'public.t_part_range'::regclass and col.table_name = 't_part_range' and col.table_schema = 'public';
+```
+
+```sql
+/*
+^FOR VALUES IN \((.+?)\)$
+
+ partition_table_name |  partition_expression
+----------------------+-------------------------
+ t_part_list0         | FOR VALUES IN (0)
+ t_part_list1         | FOR VALUES IN (1, 2, 3)
+ t_part_list2         | DEFAULT
+*/
+select
+    partition.relname as partition_table_name,
+    pg_get_expr(partition.relpartbound, partition.oid) as partition_expression
+from
+    pg_class AS parent
+join
+    pg_inherits AS i ON parent.oid = i.inhparent
+join
+    pg_class AS partition ON i.inhrelid = partition.oid
+where
+    parent.oid = 'public.t_part_list'::regclass
+    and parent.relkind = 'p';
+```

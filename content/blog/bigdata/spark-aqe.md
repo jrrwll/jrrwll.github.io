@@ -2,7 +2,6 @@
 title: "Spark AQE 自适应查询执行"
 linkTitle: "Spark AQE 自适应查询执行"
 date: 2023-11-06
-weight: 5
 ---
 
 ## 原理

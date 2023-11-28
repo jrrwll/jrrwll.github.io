@@ -1,6 +1,7 @@
 
 ---
-title: "CP01E01 - Python 教程"
+title: "CP01E01"
+linkTitle: "CP01E01"
 date: 2018-10-17
 ---
 

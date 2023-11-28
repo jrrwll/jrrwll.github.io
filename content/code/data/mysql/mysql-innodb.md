@@ -32,7 +32,8 @@ show variables like 'innodb_old_blocks_time';
 show variables like 'innodb_log_buffer_size';
 ```
 
-## Checkpoint
+## checkpoint
+
 > 使用**LSN**, 即log sequence number
 
 ### sharp checkpoint
@@ -85,16 +86,6 @@ sync_water_mark = 90% * total_redo_log_size
 ```sh
 show variables like 'innodb_max_dirty_pages_pct'; -- default 90
 ```
-
-## Insert Buffer
-
-对非聚集索引 (**辅助索引而非主键索引，并且是不唯一的**，辅助索引一般是非聚集离散分布的，唯一性校验需要查找索引页) 的插入和更新操作，不直接插入到索引页，而是先判断插入的非聚集索引页是否在缓冲池，在，则直接插入，否则存到Insert Buffer对象中。然后后台合并Insert Buffer对象和非聚集索引页子节点
-
-### Insert Buffer B+ tree
-
-非叶子节点：space(table space id, 4 bytes) --- marker(1 bytes) --- offset(4 bytes)
-
-叶子节点：space(table space id, 4 bytes) --- marker(1 bytes) --- offset(4 bytes) --- metadata(4 bytes) --- record(9 bytes)
 
 ## Innodb File
 
