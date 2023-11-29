@@ -7,6 +7,8 @@ date: 2023-11-11
 
 ```plantuml
 @startuml
+!theme sketchy-outline
+
 rectangle Map as m
 rectangle Shuffle as s
 rectangle Reduce as r
@@ -15,7 +17,7 @@ s -right-> r
 @enduml
 ```
 
-**会产生shuffle的算子**
+### 会产生shuffle的算子
 
 | Repartition | ByKey         | Join          | Distinct |
 | ----------- | ------------- | ------------- | -------- |
