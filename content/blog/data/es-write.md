@@ -1,6 +1,5 @@
 ---
 title: "ElasticSearch 写入"
-linkTitle: "ES 写入"
 date: 2022-02-17
 ---
 

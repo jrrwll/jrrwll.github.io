@@ -1,6 +1,5 @@
 ---
 title: "Spark SQL"
-linkTitle: "Spark SQL"
 date: 2023-11-11
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: "Flink RocksDB"
-linkTitle: "Flink RocksDB"
 date: 2023-11-06
 ---
 

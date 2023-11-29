@@ -1,6 +1,5 @@
 ---
 title: "Redis 应用场景"
-linkTitle: "Redis 应用场景"
 date: 2023-11-08
 ---
 

@@ -1,6 +1,5 @@
 
 ---
-title: "Data"
-linkTitle: "Data"
+title: "数据库"
 date: 2022-02-17
 ---

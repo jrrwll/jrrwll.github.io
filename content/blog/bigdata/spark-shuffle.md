@@ -1,6 +1,5 @@
 ---
 title: "Spark Shuffle"
-linkTitle: "Spark Shuffle"
 date: 2023-11-11
 ---
 

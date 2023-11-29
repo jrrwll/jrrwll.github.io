@@ -1,6 +1,5 @@
 ---
 title: "ElasticSearch 简介"
-linkTitle: "ES 简介"
 date: 2022-02-17
 ---
 

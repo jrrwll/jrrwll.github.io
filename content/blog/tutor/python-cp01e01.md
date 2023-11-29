@@ -1,7 +1,6 @@
 
 ---
-title: "CP01E01"
-linkTitle: "CP01E01"
+title: "Python - CP01E01"
 date: 2018-10-17
 ---
 

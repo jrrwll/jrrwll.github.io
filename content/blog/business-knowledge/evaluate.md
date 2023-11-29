@@ -1,7 +1,6 @@
 
 ---
 title: "评估"
-linkTitle: "评估"
 date: 2023-10-29
 ---
 

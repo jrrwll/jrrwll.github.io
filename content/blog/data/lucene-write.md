@@ -1,6 +1,5 @@
 ---
 title: "Lucene IndexWriter"
-linkTitle: "Lucene IndexWriter"
 date: 2022-04-29
 ---
 

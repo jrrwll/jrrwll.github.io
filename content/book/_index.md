@@ -1,6 +1,5 @@
 ---
 title: "阅读"
-linkTitle: "阅读"
 menu:
   main:
     weight: 25
