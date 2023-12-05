@@ -3,31 +3,12 @@
 title: "Install Python"
 ---
 
-## pyenv
-
-```shell
-curl https://pyenv.run | bash
-
-pyenv install --list
-pyenv versions
-pyenv global 3.7.15
-```
-
-### python2.7
-
-```shell
-sudo apt install make gcc g++ patch cmake -y
-
-sudo apt install libssl-dev libbz2-dev libreadline-dev zlib1g.dev libsqlite3-dev libffi-dev lzma-dev libsnappy-dev libjpeg-dev default-libmysqlclient-dev -y
-pyenv install 2.7.18
-```
-
 ## build from source
 
 ### 3.11
 
 ```shell
-# sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
+sudo apt install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev
 
 python_version=3.11.4
 wget "https://www.python.org/ftp/python/${python_version}/Python-${python_version}.tgz"

@@ -64,3 +64,50 @@ netsh advfirewall firewall add rule name=WSL2 dir=in action=allow protocol=TCP l
 ipconfig
 ssh root@$win_ip
 ```
+
+## gpu
+
+https://developer.nvidia.com/cuda/wsl
+
+**install cuda**
+
+https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_network
+
+```shell
+# 在WSL2中安装CUDA
+wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt-get update
+sudo apt-get install cuda-12-3 cuda-toolkit-12-3 -y
+
+# add to ~/.zshrc
+export PATH="/usr/local/cuda-12.3/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/cuda-12.3/lib64:$LD_LIBRARY_PATH"
+
+nvcc -V
+```
+
+**install cudnn**
+
+https://developer.nvidia.com/rdp/cudnn-archive
+
+```shell
+sudo dpkg -i cudnn-local-repo-debian11-8.9.5.30_1.0-1_amd64.deb
+sudo apt-get update
+sudo apt install libcudnn8 libcudnn8-dev -y
+```
+
+**test gpu**
+
+```python
+## torch
+import torch
+torch.cuda.is_available()
+torch.cuda.device_count()
+torch.cuda.get_device_name(0)
+## tensorflow
+import tensorflow as tf
+tf.config.list_physical_devices()
+tf.config.list_physical_devices('GPU')
+tf.test.gpu_device_name()
+```

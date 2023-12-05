@@ -15,6 +15,18 @@ systemctl restart sshd
 ## ssh
 
 ```shell
+# -N 不执行远程命令，仅用于端口转发
+# -f 后台运行
+# -L 端口转发
+ssh -NfL $local_port:$remote_ip:$remote_port $ssh_host
+
+ssh -NfL 3306:127.0.0.1:3306 some_host
+ssh -NfL 3306:198.168.1.10:3306 some_host
+```
+
+## `~/.ssh/config`
+
+```shell
 chmod 755 ~/.ssh
 cd ~/.ssh
 cd 644 rsa_id.pub authorized_keys

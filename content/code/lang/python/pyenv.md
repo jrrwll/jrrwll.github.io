@@ -22,19 +22,30 @@ eval "\$(pyenv init -)"
 EOF
 ```
 
-**compile dependency**
+## versions
 
 ```shell
-sudo apt-get install readline-devel zlib-devel openssl-devel bzip2-devel sqlite-devel libffi-devel lzma-sdk-devel -y
-
+pyenv versions --list
 pyenv versions
 pyenv install 2.7.18
 pyenv global 2.7.18
 ```
 
+### compile dependency
+
+**debian** 
+
 ```shell
 sudo apt-get install g++ make -y
 sudo apt-get install zlib1g-dev libreadline-dev libssl-dev libbz2-dev libsqlite3-dev libffi-dev liblzma-dev -y
+# python 2.x
+sudo apt-get install libsnappy-dev libjpeg-dev default-libmysqlclient-dev -y
+```
+
+**centos**
+
+```shell
+sudo apt-get install readline-devel zlib-devel openssl-devel bzip2-devel sqlite-devel libffi-devel lzma-sdk-devel -y
 ```
 
 ## usage
@@ -58,7 +69,8 @@ echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
 ```
 
 ```shell
-pyenv virtualenv 3.6.5 v365env
-pyenv activate v365env
-pyenv deactivate v365env
+pyenv virtualenv 3.10.13 venv310
+pyenv activate venv310
+pyenv deactivate venv310
+pyenv virtualenv-delete venv310
 ```
