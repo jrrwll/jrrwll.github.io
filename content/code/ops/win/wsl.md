@@ -25,7 +25,22 @@ wsl --set-default-version 2
 debian
 ```
 
+```shell
+wsl
+# wsl --terminate Ubuntu
+wsl -t Debian
+wsl --shutdown
+wsl --list
+```
+
 ## config
+
+```shell
+# 如果没有列出 zh_CN.utf8，则会出现中文乱码
+locale -a
+# 选中 en_US.utf8 和 zh_CN.utf8，然后设置默认 en_US.utf8
+sudo dpkg-reconfigure locales
+```
 
 ### `~/.wslconfig`
 
