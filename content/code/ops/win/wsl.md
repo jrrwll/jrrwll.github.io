@@ -38,8 +38,16 @@ wsl --list
 ```shell
 # 如果没有列出 zh_CN.utf8，则会出现中文乱码
 locale -a
+# sudo apt-get install language-pack-zh-hans
 # 选中 en_US.utf8 和 zh_CN.utf8，然后设置默认 en_US.utf8
 sudo dpkg-reconfigure locales
+# 添加到 ~/.zshrc
+export LC_ALL=en_US.UTF-8
+```
+
+```conf
+Host *
+    SendEnv LANG LC_*
 ```
 
 ### `~/.wslconfig`

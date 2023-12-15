@@ -22,6 +22,18 @@ yum install java-1.8.0-openjdk -y
 update-alternatives --config java
 ```
 
+- **debian**
+
+```shell
+# https://adoptium.net/installation/linux/
+sudo apt install -y wget apt-transport-https
+sudo mkdir -p /etc/apt/keyrings
+sudo wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo tee /etc/apt/keyrings/adoptium.asc
+sudo echo "deb [signed-by=/etc/apt/keyrings/adoptium.asc] https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list
+sudo apt update
+sudo apt install temurin-21-jdk
+```
+
 ## compile
 
 ##### jdk18 on mac

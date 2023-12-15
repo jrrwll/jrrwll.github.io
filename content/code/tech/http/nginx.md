@@ -3,9 +3,24 @@
 title: "Nginx"
 ---
 
+## install
+
+### container
+
+```shell
+# /etc/nginx/nginx.conf
+# 
+docker run -itd --name nginx \
+    -p 80:80 \
+    -v $PWD:/etc/nginx/conf.d/ \
+    nginx
+```
+
 ## config
 
-```nginx
+### server
+
+```conf
 server {
     listen 80;
 
