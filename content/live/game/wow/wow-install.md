@@ -81,6 +81,7 @@ git clone https://github.com/azerothcore/azerothcore-wotlk.git --depth=1
 - 在 CMake 窗口中使用 [Open Project] 按钮直接打开解决方案到 VS。
 - 在顶部的菜单上，把 Debug，修改为 Release。
 - 右键单击 ALL_BUILD，然后选择 生成。
+- 最终编译产物位于：\bin\Release
 
 **复制DLL文件到编译的服务端程序目录**
 
