@@ -94,6 +94,41 @@ git clone https://github.com/azerothcore/azerothcore-wotlk.git --depth=1
 
 **重命名configs目录中的文件**
 
-```cmd
-worldserver.conf.dist worldserver.conf
+```bat
+rename worldserver.conf.dist worldserver.conf
+rename authserver.conf.dist authserver.conf
+```
+
+### 服务器设置
+
+#### 客户端配置
+
+> 下载链接：http://wow.gameivy.com/zhCN/WoW_v3.3.5_zhCN.zip
+
+复制服务端下述文件到客户端根目录(Wow.exe 和 Data 文件夹所在位置)中
+
+```bat
+rem \bin\Release
+mapextractor.exe
+mmaps_generator.exe
+vmap4extractor.exe
+vmap4assembler.exe
+rem azerothcore-wotlk\apps\extractor
+extractor.bat
+```
+
+复制源码azerothcore-wotlk\apps\extractor目录中的`extractor.bat`到客户端根目录。然后运行并选择您的提取选项。对于全新设置，应选择选项 4 - 提取全部。
+
+提取完成之后，将 vmaps、maps、dbc、cameras和mmaps文件夹移到与 AzerothCore 二进制文件worldserver.exe相同的目录中。
+
+#### 数据库配置
+
+默认情况下，AzerothCore 需要运行以下三个数据库：
+- acore_auth：包含帐户数据 - 用户名、密码、GM 访问、领域信息等。
+- acore_characters：包含角色数据 - 创建的角色、库存、银行物品、拍卖行、工单等。
+- acore_world：包含游戏体验内容，如NPC、任务、物体等。
+
+```sql
+-- 执行源码目录 azerothcore-wotlk/data/sql/create 中的create_mysql.sql文件
+source create_mysql.sql
 ```
