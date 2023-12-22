@@ -48,6 +48,14 @@ sudo apt-get install libsnappy-dev libjpeg-dev default-libmysqlclient-dev -y
 sudo apt-get install readline-devel zlib-devel openssl-devel bzip2-devel sqlite-devel libffi-devel lzma-sdk-devel -y
 ```
 
+**mac**
+
+```shell
+# ModuleNotFoundError: No module named '_lzma'
+brew install xz
+pyenv install 3.10.13
+```
+
 ## usage
 
 **~/.pyenv/cache**
@@ -58,6 +66,11 @@ wget https://www.python.org/ftp/python/3.10.13/Python-3.10.13.tar.xz -P ~/.pyenv
 export v=3.10.13; wget https://npm.taobao.org/mirrors/python/$v/Python-$v.tar.xz -P ~/.pyenv/cache/; pyenv install $v
 
 export v=3.10.13; wget https://npm.taobao.org/mirrors/python/$v/Python-$v.tgz -P ~/.pyenv/cache/Python-$v.tar.gz; pyenv install $v
+```
+
+```shell
+wget https://ftpmirror.gnu.org/readline/readline-8.0.tar.gz ~/.pyenv/cache
+wget https://registry.npmmirror.com/-/binary/python/2.7.18/Python-2.7.18.tar.xz ~/.pyenv/cache
 ```
 
 ## pyenv-virtualenv

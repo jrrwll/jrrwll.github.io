@@ -94,3 +94,13 @@ ssh -vvv some_host
 rm known_hosts.old
 rm known_hosts
 ```
+
+### Permission denied (publickey)
+
+openssh >= 8.8 `ssh -V` 时，默认禁用RSA签名，这时需要显式开启
+
+```conf
+Host *
+    HostkeyAlgorithms +ssh-rsa
+    PubkeyAcceptedKeyTypes +ssh-rsa
+```

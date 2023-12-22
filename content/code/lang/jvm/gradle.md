@@ -3,6 +3,14 @@
 title: "Gradle"
 ---
 
+## install
+
+https://mirrors.cloud.tencent.com/gradle/gradle-8.4-all.zip
+
+```shell
+
+```
+
 ## build
 
 ```shell
