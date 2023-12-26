@@ -17,4 +17,6 @@ sudo apt install qbittorrent-nox
 qbittorrent-nox -d --webui-port=1111
 
 qbittorrent-nox torrent_file_or_url
+
+tail -100f ~/.local/share/qBittorrent/logs/qbittorrent.log
 ```

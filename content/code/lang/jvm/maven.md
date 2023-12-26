@@ -6,6 +6,11 @@ title: "Maven"
 ## awesome
 
 ```shell
+alias mvnc="mvn clean -DskipTests=true -Dmaven.source.skip=true -Dsource.skip=true"
+alias mvnp="mvn package -DskipTests=true -Dmaven.source.skip=true -Dsource.skip=true"
+alias mvni="mvn install -DskipTests=true"
+alias mvnd="mvn package -DskipTests=true"
+
 function mvng {
     if [ "$#" -lt  2 ]; then
         echo "require at least two args"
