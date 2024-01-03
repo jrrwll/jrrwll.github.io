@@ -12,3 +12,10 @@ title: "grep"
 # -w 匹配整个单词
 grep -rn . --exclude='*.jar' -e 'key'
 ```
+
+## wc
+
+```shell
+# count code line number
+tree -if | grep -v node_modules | egrep '[.](j|t)sx?$' | xargs wc -l
+```

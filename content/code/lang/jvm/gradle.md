@@ -28,3 +28,18 @@ gradle classes --parallel
 # gradle.properties
 org.gradle.parallel=true
 ```
+
+## issue
+
+### ​inconsistent module metadata found.
+
+```groovy
+maven {
+    url 'some_nexus_url'
+    metadataSources { artifact() } // Look directly for artifact
+    content {
+        // Use this repository only for org.myorg:mypkg:1.0
+        includeVersion("org.myorg", "mypkg", "1.0")
+    }
+}
+```
