@@ -7,10 +7,6 @@ title: "Gradle"
 
 https://mirrors.cloud.tencent.com/gradle/gradle-8.4-all.zip
 
-```shell
-
-```
-
 ## build
 
 ```shell
@@ -27,6 +23,18 @@ gradle classes --parallel
 ```properties
 # gradle.properties
 org.gradle.parallel=true
+```
+
+## dependency
+
+### global exclude
+
+```groovy
+// https://docs.gradle.org/current/userguide/dependency_management.html
+configurations.all { 
+    exclude group: 'com.sun.xml.bind' 
+    exclude group: 'commons-collections', module: 'commons-collections' 
+}
 ```
 
 ## issue
