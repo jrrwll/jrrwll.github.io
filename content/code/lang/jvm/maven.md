@@ -42,3 +42,26 @@ mvn -Dtest=TestApp1#testHello*+testMagic* test
   <systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
 </dependency>
 ```
+
+```shell
+// 列出项目的所有jar包
+mvn dependency:list -Dverbose
+
+// -Dincludes=[groupId]:[artifactId]:[type]:[version]
+// -Dexcludes=velocity:velocity,:::*-SNAPSHOT
+mnv dependency:tree -Dverbose
+
+// 分析依赖
+mnv dependency:analyze-only
+
+// 查找<dependencies/> 和 <dependencyManagement/>中重复声明的依赖
+mnv dependency:analyze-duplicate
+
+// 列出所有的远程repositories
+dependency:list-repositories
+
+// 清理本地依赖，重新从远程repository下载
+// -DactTransitively=false 仅对项目的直接依赖进行操作
+// -DmanualIncludes 自定义依赖
+dependency:purge-local-repository
+```
