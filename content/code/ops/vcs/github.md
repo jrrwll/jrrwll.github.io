@@ -15,19 +15,34 @@ git config –global –list
 git config –global –unset url.https://github.com/.insteadof
 ```
 
-### .git
+### https://mirror.ghproxy.com
 
-- `git clone https://gitee.com/mirrors/repo.git`
-- `git clone https://hub.fastgit.org/user/repo.git`
-- `git clone  https://gitclone.com/github.com/user/repo,git`
-- hub.gitmirror.com
+```shell
+git clone https://mirror.ghproxy.com/https://github.com/user/repo
+wget https://mirror.ghproxy.com/https://github.com/user/repo/archive/master.zip
+wget https://mirror.ghproxy.com/https://github.com/user/repo/master/file
+```
 
-### raw.githubusercontent.com
+### https://gitee.com/mirrors
 
-- https://raw.fastgit.org/user/repo/master/file
-- https://raw.gitmirror.com/user/repo/master/file, blocked: .(zip|rar|7z|apk|ipa|exe|msi|m3u|m3u8|mp4|mp3)
+```shell
+git clone https://gitee.com/mirrors/repo.git
+```
 
-### releases
+### https://gitclone.com
 
-- https://download.fastgit.org/user/repo/releases/file
+```shell
+git clone  https://gitclone.com/github.com/user/repo,git
+```
 
+### https://gitmirror.com/
+
+**raw.githubusercontent.com**
+
+https://raw.gitmirror.com/user/repo/master/file, blocked: .(zip|rar|7z|apk|ipa|exe|msi|m3u|m3u8|mp4|mp3)
+
+### https://githubfast.com
+
+```shell
+git clone https://githubfast.com/user/repo
+```

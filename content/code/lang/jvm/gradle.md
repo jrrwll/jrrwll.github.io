@@ -51,3 +51,7 @@ maven {
     }
 }
 ```
+
+### 找不到或无法加载主类 org.gradle.wrapper.GradleWrapperMain
+
+缺失 `gradle/wrapper/gradle-wrapper.jar`

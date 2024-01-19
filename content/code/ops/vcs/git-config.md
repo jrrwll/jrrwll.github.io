@@ -36,6 +36,8 @@ git config --global alias.url 'remote get-url --all origin'
 
 # git config --global core.editor "'C:/Options/Notepad++/notepad++.exe' -multiInst -nosession"
 git config --global core.editor vim
+
+git config --global init.defaultBranch master
 ```
 
 ### `.gitconfig`
@@ -51,6 +53,8 @@ git config --global core.editor vim
 [core]
     autocrlf = input
     safecrlf = true
+[init]
+    defaultBranch = master
 [alias]
     co = checkout
     br = branch
