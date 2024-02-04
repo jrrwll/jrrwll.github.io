@@ -23,6 +23,8 @@ gradle classes --parallel
 ```properties
 # gradle.properties
 org.gradle.parallel=true
+# custom jvm args
+org.gradle.jvmargs=-Xmx2024m -XX:MaxPermSize=512m
 ```
 
 ## dependency
