@@ -19,6 +19,10 @@ date "+%Y-%m-%d %H:%M:%S"
 
 # timestamp, in sec
 date +%s
+
+# GMT
+LANG=en_US.UTF-8 date -u
+LANG=en_US.UTF-8 TZ=GMT date
 ```
 
 ### cal
