@@ -12,6 +12,8 @@ https://mirrors.cloud.tencent.com/gradle/gradle-8.4-all.zip
 ```shell
 # -x skip task
 gradle build -x tets -x checkstyleMain
+
+gradle build --refresh-dependencies
 ```
 
 ## performance
