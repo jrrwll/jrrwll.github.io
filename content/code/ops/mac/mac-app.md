@@ -3,6 +3,16 @@
 title: "Apps on Mac"
 ---
 
+## built-in
+
+### 剪贴板
+
+Finder->编辑->显示剪贴板
+
+```shell
+osascript -e 'clipboard info'
+```
+
 ## ssh-server
 
 ```shell
