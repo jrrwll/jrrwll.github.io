@@ -23,7 +23,7 @@ docker run -d -it --name mysql57 \
  -p 3306:3306 \
  mysql:5.7
 
-# withour configuration file
+# without configuration file
 docker run --name mysql -d \
 	-p 3306:3306 \
 	-e MYSQL_ROOT_PASSWORD=root \

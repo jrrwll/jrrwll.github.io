@@ -65,3 +65,11 @@ dependency:list-repositories
 // -DmanualIncludes 自定义依赖
 dependency:purge-local-repository
 ```
+
+## issue
+
+## OOM on IDEA
+
+> https://stackoverflow.com/questions/32859935/maven-import-in-intellij-idea-runs-out-of-memory-on-a-large-project
+
+set -Xmx1g (or more) in: **Settings/Preferences -> Build Tools -> Maven -> Importing -> Vm options for importer**
