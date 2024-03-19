@@ -23,14 +23,19 @@ docker run -d --name=nacos \
     nacos/nacos-server
 
 # 在启动nacos之前需要先在mysql上执行DDL
-# https://raw.githubusercontent.com/alibaba/nacos/develop/distribution/conf/mysql-schema.sql
-docker exec -it mysql57 mysql -uroot -proot -e 'create database if not exists nacos'
-docker cp ./mysql-schema.sql mysql57:/docker-entrypoint-initdb.d/nacos-mysql.sql
-docker exec -it mysql57 bash -c 'source /entrypoint.sh && docker_process_init_files /docker-entrypoint-initdb.d/nacos-mysql.sql'
-```
+wget https://raw.githubusercontent.com/alibaba/nacos/develop/distribution/conf/mysql-schema.sql
+docker cp mysql-schema.sql mysql57:/
 
-### cluster
+docker exec -it mysql57 mysql -uroot -p -e "
+create database nacos;
 
-```yaml
+create user 'nacos'@'%' identified by 'nacos';
+grant all privileges on nacos.* to 'nacos'@'%' identified by 'nacos';
+flush privileges;
 
+use nacos;
+source /mysql-schema.sql;
+"
+
+docker exec -it mysql57 mysql -unacos -pnacos -e 'show tables from nacos;'
 ```

@@ -30,6 +30,7 @@ https://boostorg.jfrog.io/artifactory/main/release/1.74.0/binaries/
 > https://slproweb.com/products/Win32OpenSSL.html
 > choose **Win64 OpenSSL v3.0.12**
 > https://slproweb.com/download/Win64OpenSSL-3_0_12.exe
+> https://slproweb.com/download/Win64OpenSSL-3_0_13.exe
 
 MySQL 8.0.34+ 使用 OpenSSL 3，8.0-8.0.33 使用 OpenSSL 1.1.1
 
@@ -85,7 +86,7 @@ git clone https://github.com/azerothcore/azerothcore-wotlk.git --depth=1
 
 **复制DLL文件到编译的服务端程序目录**
 
-- C:\Program Files\MySQL\MySQL Server 8.x\lib：
+- C:\Program Files\MySQL\MySQL Server 8.0\lib：
 `libmysql.dll`
 
 - C:\Program Files\OpenSSL-Win64\bin：

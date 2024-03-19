@@ -12,6 +12,8 @@ sudo apt install qbittorrent-nox
 ```
 
 ```shell
+ls -lah ~/.config/qBittorrent
+
 # 启动一个webserver来监听下载进度，账密：admin/adminadmin
 # --webui-port=8080
 qbittorrent-nox -d --webui-port=1111
