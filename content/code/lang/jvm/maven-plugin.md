@@ -85,6 +85,48 @@ title: "Maven Plugins"
 </plugin>
 ```
 
+**assembly.xml**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.1"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.1 http://maven.apache.org/xsd/assembly-1.1.1.xsd">
+    <!--
+    <descriptors>
+        <descriptor>assembly.xml</descriptor>
+    </descriptors>
+    -->
+    <formats>
+        <format>zip</format>
+        <!-- format>tar.gz</format -->
+        <!-- format>dir</format -->
+    </formats>
+    <dependencySets>
+        <dependencySet>
+            <unpack>false</unpack>
+            <outputDirectory>lib</outputDirectory>
+            <useTransitiveFiltering>true</useTransitiveFiltering>
+            <useStrictFiltering>true</useStrictFiltering>
+            <fileMode>666</fileMode>
+            <includes>
+                <include>org.hibernate:*</include>
+            </includes>
+            <!-- 将scope为runtime的依赖包打包到lib目录下 -->
+            <scope>runtime</scope>
+        </dependencySet>
+    </dependencySets>
+    <fileSets>
+        <fileSet>
+            <!-- 定义代码目录中与输出目录的映射 -->
+            <directory>${project.basedir}/src/main/resources</directory>
+            <outputDirectory>/</outputDirectory>
+            <filtered>false</filtered>
+        </fileSet>
+    </fileSets>
+</assembly>
+```
+
 ### shade
 
 ```xml
