@@ -3,6 +3,8 @@
 title: "Query Acceleration of StarRocks"
 ---
 
+## query
+
 ### 排序聚合 Sorted streaming aggregate
 
 > https://docs.starrocks.io/docs/using_starrocks/sorted_aggregate
@@ -15,4 +17,13 @@ set enable_sort_aggregate=true;
 -- AGGREGATE
 -- sorted streaming: true
 explain costs select xxx group by xxx;
+```
+
+## update
+
+### 列模式的部分更新 3.1+
+
+```sql
+select @@partial_update_mode;
+set partial_update_mode = 'column'
 ```
