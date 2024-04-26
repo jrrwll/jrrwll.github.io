@@ -142,6 +142,41 @@ title: "Maven Plugins"
                 <goal>shade</goal>
             </goals>
             <configuration>
+                <!-- 不要创建 dependency-reduced-pom.xml -->
+                <createDependencyReducedPom>false</createDependencyReducedPom>
+​​                <artifactSet>
+                    <!-- 包含以下artifact -->
+                    <includes>
+                        <include>com.fasterxml.jackson.core:*</include>
+                        <include>com.fasterxml.jackson.dataformat:*</include>
+                    </includes>
+                </artifactSet>
+                <filters>
+                    <!-- 作用于所有artifact -->
+                    <filter>
+                        <artifact>*:*</artifact>                        <!-- 排除指定路径 -->
+                        <excludes>
+                            <exclude>META-INF/*.SF</exclude>
+                            <exclude>META-INF/*.DSA</exclude>
+                            <exclude>META-INF/*.RSA</exclude>
+                            <exclude>META-INF/LICENSE</exclude>
+                        </excludes>
+                    </filter>
+                </filters>
+                ​<!-- 自动删除项目未使用的所有依赖关系类 -->
+                <minimizeJar>true</minimizeJar>
+                <!-- 作为附加组件打包，而不是主要组件-->
+                <shadedArtifactAttached>true</shadedArtifactAttached>
+                <shadedClassifierName>shade<shadedClassifierName>        <!-- shade -->
+                <relocations>
+                    <relocation>
+                        <pattern>com.fasterxml.jackson</pattern>
+                        <shadedPattern>shaded.com.fasterxml.jackson</shadedPattern>
+                        <excludes>
+                            <exclude>com.fasterxml.jackson.annotation.*</exclude>
+                        </excludes>
+                    </relocation>
+                </relocations>
                 <transformers>
                     <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                         <mainClass>com.example.biz.Launcher</mainClass>
@@ -154,5 +189,30 @@ title: "Maven Plugins"
             </configuration>
         </execution>
     </executions>
+</plugin>
+```
+
+### gpg
+
+```xml
+<!-- https://maven.apache.org/plugins/maven-gpg-plugin/usage.html -->
+<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-gpg-plugin</artifactId>
+  <version>${maven-gpg.version}</version>
+  <executions>
+    <execution>
+      <id>sign-artifacts</id>
+      <phase>verify</phase>
+      <goals>
+        <!-- mvn install -Dmaven.test.skip=true -Dgpg.passphrase=$GPG_PASSPHRASE -->
+        <goal>sign</goal>
+      </goals>
+    </execution>
+  </executions>
+  <configuration>
+    <passphrase>${env.GPG_PASSPHRASE}</passphrase>
+  </configuration>
 </plugin>
 ```
