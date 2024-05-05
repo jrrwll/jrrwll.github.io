@@ -40,9 +40,34 @@ version: '3'
 ```
 
 ### volume
+
 ```yaml
 # volumes:
 # - <宿主机目录>:<容器目录>
 volumes:
-- /host_path:/container_path
+  - /host_path:/container_path
+  - /etc/localtime:/etc/localtime:ro
+```
+
+### deploy
+
+```yaml
+restart: always
+deploy:
+  resources:
+    limits:
+      cpus: "2"
+      memory: 4G
+```
+
+### healthcheck
+
+```yaml
+healthcheck:
+  # test: 'mysql -uroot -h127.0.0.1 -P 9030 -e "show backends\G" |grep "Alive: true"'
+  # test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+  test: timeout 5s bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1
+  interval: 30s
+  timeout: 3s
+  retries: 3
 ```
