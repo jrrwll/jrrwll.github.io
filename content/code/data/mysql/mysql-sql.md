@@ -3,6 +3,13 @@
 title: "MySQL SQL"
 ---
 
+## schema
+
+```sql
+alter table my_table comment 'new comment';
+show full columns from my_table;
+```
+
 ## auth
 
 **change root password**

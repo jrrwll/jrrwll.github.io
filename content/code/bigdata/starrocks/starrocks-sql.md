@@ -10,6 +10,9 @@ https://docs.starrocks.io/zh/docs/sql-reference/sql-functions/function-list/
 -- https://docs.starrocks.io/zh/docs/cover_pages/functions_utility/
 -- 2.1.2 0782ad7, StarRocks version 2.1.2
 select current_version(), @@version_comment;
+
+show proc '/frontends'\G
+show proc '/backends'\G
 ```
 
 ### load

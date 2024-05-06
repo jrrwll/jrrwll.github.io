@@ -13,6 +13,9 @@ brew install mycli
 sudo apt-get install mycli
 
 mycli -d example_dsn
+
+# table_format = ascii
+\T ascii
 ```
 
 ## config
