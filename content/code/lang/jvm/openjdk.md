@@ -5,6 +5,14 @@ title: "OpenJDK"
 
 ## install 
 
+### download
+
+https://mirrors.tuna.tsinghua.edu.cn/Adoptium/8/jdk/
+
+https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-8
+
+### os
+
 - **mac**
 > mac arm: https://www.azul.com/downloads/?version=java-8-lts&os=macos&package=jdk#zulu
 
