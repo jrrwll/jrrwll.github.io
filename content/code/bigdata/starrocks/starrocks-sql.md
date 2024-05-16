@@ -1,5 +1,5 @@
 ---
-title: "StarRocks"
+title: "StarRocks SQL"
 ---
 
 ## sql
