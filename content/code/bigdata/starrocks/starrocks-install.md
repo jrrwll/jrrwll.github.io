@@ -21,3 +21,7 @@ docker exec -it sr \
 ```shell
 
 ```
+
+## StarGo
+
+https://docs.starrocks.io/zh/docs/administration/stargo
