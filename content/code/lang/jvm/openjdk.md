@@ -28,6 +28,10 @@ brew install --cask temurin8
 # Installing Java 8 on CentOS 7
 yum install java-1.8.0-openjdk -y
 update-alternatives --config java
+
+# Installing Java 11 on CentOS 7
+yum install java-11-openjdk-devel
+alternatives --config java
 ```
 
 - **debian**
@@ -97,6 +101,11 @@ sudo apt install -y libcups2-dev libfontconfig1-dev libasound2-dev
 bash ./configure --with-debug-level=slowdebug --enable-ccache
 make images
 ```
+
+## migrate
+
+JDK迁移检查工具
+https://github.com/adoptium/emt4j
 
 ## issue
 

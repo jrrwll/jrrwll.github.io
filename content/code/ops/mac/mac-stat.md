@@ -19,6 +19,9 @@ top -l 1 | awk '/PhysMem/'
 echo -e "\n$(top -l 1 | awk '/PhysMem/';)\n"
 
 system_profiler | grep Processor
+
+# MB
+ps uax | grep 'Microsoft Edge' |  awk '{sum+=$6} END {print sum/1024}'
 ```
 
 ## network
