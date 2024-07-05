@@ -9,6 +9,12 @@ title: "StarRocks Audit"
 show processlist
 ```
 
+## query_profile
+
+```sql
+select get_query_profile(last_query_id());
+```
+
 ## query
 
 ```sql
