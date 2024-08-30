@@ -22,8 +22,6 @@ ip a
 sudo apt install task-xfce-desktop
 # switch desktop
 sudo update-alternatives --config x-session-manager
-
-
 ```
 
 ### vnc

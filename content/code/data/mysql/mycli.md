@@ -40,6 +40,9 @@ syntax_style = default # colorful emacs monokai xcode
 prompt = '\u@\h:\d> '
 less_chatty = True
 
+# 关闭单独的结果显示页面，直接显示到终端
+enable_pager = False
+
 [alias_dsn]
 # example_dsn = mysql://[user[:password]@][host][:port][/dbname]
 ```

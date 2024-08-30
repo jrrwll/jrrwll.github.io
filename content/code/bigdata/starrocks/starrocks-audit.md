@@ -6,7 +6,10 @@ title: "StarRocks Audit"
 ## info
 
 ```sql
-show processlist
+show processlist;
+
+-- storage size
+show data;
 ```
 
 ## query_profile

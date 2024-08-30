@@ -2,7 +2,7 @@
 title: "StarRocks Load"
 ---
 
-## Flink
+### Flink
 > https://docs.starrocks.io/zh/docs/loading/Flink-connector-starrocks/
 
 ```xml
@@ -30,3 +30,19 @@ CREATE TABLE `score_board` (
 -- 'sink.properties.partial_update' = 'true',
 );
 ```
+
+## Routine Load
+> https://docs.starrocks.io/zh/docs/loading/RoutineLoad/
+
+```sql
+show routine load;
+
+resume routine load for dbname.jobname;
+```
+
+### Issue
+
+- **fetch failed due to requested offset not available on the broker: Broker: Offset out of range**
+
+kafka offset 已过期
+
