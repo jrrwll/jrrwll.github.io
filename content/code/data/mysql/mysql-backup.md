@@ -72,15 +72,18 @@ from test_table where 1=1;
 ```
 
 ```sql
-load data into table test_table
-ignore 3 lines
-infile 'test_backup.csv';
+-- show variables like "secure_file_priv";
+load data infile '/var/lib/mysql-files/file.csv'
+into table table_name
+fields terminated by ',' enbclosed by '"'
+lines terminated by '\n'
+ignore 1 rows;
 
 -- 导入到指定表
 -- 其中col1, col2为文件中的数据，col3为计算列
 load data infile 'test_backup.csv'
 into table test_table
-fields terminated by ','
+fields terminated by ',' ignore 1 lines
 (col1, col2) set col3 = col1 + col2;
 ```
 

@@ -152,6 +152,9 @@ enable = true
 [params.mermaid]
 enable = true
 
+[params.katex]
+enable = true
+
 # User interface configuration
 [params.ui]
 #  Set to true to disable breadcrumb navigation.
