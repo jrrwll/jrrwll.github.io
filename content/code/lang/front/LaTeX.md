@@ -5,10 +5,9 @@ title: "LaTeX"
 
 ## 数据公式
 
-
-$x^4$
-
-$$x_1$$
+$$
+\tag*{(1)} P(E) = {n \choose k} p^k (1-p)^{n-k}
+$$
 
 ```math
 
