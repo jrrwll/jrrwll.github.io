@@ -10,11 +10,11 @@ docker run -d --name minio \
     -p 9000:9000 -p 9090:9090 \
     -v ./minio/config:/root/.minio \
     -v ./minio/data:/data \
-    -e "MINIO_ACCESS_KEY=minioadmin" \
-    -e "MINIO_SECRET_KEY=minioadmin" \
+    -e "MINIO_ROOT_USER=minioadmin" \
+    -e "MINIO_ROOT_PASSWORD=minioadmin" \
     minio/minio server /data --console-address ":9090"
 
-# access http://:9090/
+# access http://127.0.0.1:9090/
 ```
 
 ## client
