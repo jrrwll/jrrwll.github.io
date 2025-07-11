@@ -57,7 +57,7 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
       - name: Install Node.js dependencies
-        run: "[[ -f pnpm-lock.yaml ]] && pnpm i || true"
+        run: "[[ -f pnpm-lock.yaml ]] && npm i -g pnpm && pnpm i || true"
       - name: Cache Restore
         id: cache-restore
         uses: actions/cache/restore@v4
