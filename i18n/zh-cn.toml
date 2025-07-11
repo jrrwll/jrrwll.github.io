@@ -1,2 +1,4 @@
-[post_view_this]
-other = "查看源代码"
+feedback_title = "您的反馈"
+feedback_question = "此页面是否有帮助？"
+feedback_positive = "是"
+feedback_negative = "否"

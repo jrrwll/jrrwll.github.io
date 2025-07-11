@@ -1,17 +1,47 @@
 {
-    "name": "jrrwll",
-    "version": "0.1",
-    "description": "A simple blog site.",
-    "main": "none.js",
-    "scripts": {
-        "test": "echo 'Test passed'"
-    },
-    "author ": "tuke",
-    "license": "MIT",
-    "devDependencies": {
-        "autoprefixer": "^10.4.0",
-        "netlify-cli": "^13.1.2",
-        "postcss": "^8.3.7",
-        "postcss-cli": "^9.0.2"
-    }
+  "name": "jrrwll",
+  "version": "0.1",
+  "description": "A simple blog site.",
+  "author ": "tuke",
+  "license": "Apache-2.0",
+  "scripts": {
+    "_build": "pnpm run _hugo-dev --",
+    "_check:links": "echo IMPLEMENTATION PENDING for check-links; echo",
+    "_hugo": "hugo --cleanDestinationDir",
+    "_hugo-dev": "pnpm run _hugo -- -e dev -DFE",
+    "_local": "npx cross-env HUGO_MODULE_WORKSPACE=docsy.work",
+    "_serve": "pnpm run _hugo-dev -- --minify serve --renderToMemory",
+    "build:preview": "pnpm run _hugo-dev -- --minify --baseURL \"${DEPLOY_PRIME_URL:-/}\"",
+    "build:production": "pnpm run _hugo -- --minify",
+    "build": "pnpm run _build -- ",
+    "check:links:all": "HTMLTEST_ARGS= pnpm run _check:links",
+    "check:links": "pnpm run _check:links",
+    "clean": "rm -Rf public/* resources",
+    "local": "pnpm run _local -- pnpm run",
+    "make:public": "git init -b main public",
+    "precheck:links:all": "pnpm run build",
+    "precheck:links": "pnpm run build",
+    "postbuild:preview": "pnpm run _check:links",
+    "postbuild:production": "pnpm run _check:links",
+    "serve": "pnpm run _serve",
+    "test": "pnpm run check:links",
+    "update:dep": "pnpm install --save-dev autoprefixer@latest postcss-cli@latest",
+    "update:hugo": "pnpm install --save-dev --save-exact hugo-extended@latest",
+    "update:pkgs": "npx npm-check-updates -u"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "cross-env": "^7.0.3",
+    "hugo-extended": "0.147.9",
+    "postcss-cli": "^11.0.1",
+    "rtlcss": "^4.3.0"
+  },
+  "optionalDependencies": {
+    "npm-check-updates": "^18.0.1"
+  },
+  "private": true,
+  "prettier": {
+    "proseWrap": "always",
+    "singleQuote": true
+  }
 }
