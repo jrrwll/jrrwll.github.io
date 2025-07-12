@@ -8,9 +8,12 @@ date: 2021-12-17
 > 
 > 只需要指定想要解析的接口源码目录，并保证接口涉及的所有类都包含在classpath下，然后再设置渲染方式，最后运行便可获得最终结果
 > 
-> 目前支持json-with-comment 和 swagger-editor两种输出方式
+> 目前支持markdown(json-with-comment)、[swagger-editor](https://editor.swagger.io/)和自定义渲染插件三种输出方式
+
+源代码见：[apidoc-generator](https://github.com/jrrwll/apidoc-generator)
 
 ## 二、实现原理
+
 ```plantuml
 @startuml
 folder "数据源" {
@@ -34,8 +37,9 @@ node "Java类型解析" {
 
 frame "文档渲染" {
     component [API Doc元数据] as doc
-    component [Markdown] as md
+    component [markdown(json-with-comment)] as md
     component [Swagger元数据] as sg
+    component [自定义渲染插件] as rp
 
     javaparser --> doc
     type --> doc
@@ -45,6 +49,7 @@ frame "文档渲染" {
     doc --> md
 
     doc --> sg
+    doc --> rp
 }
 
 @enduml
@@ -52,10 +57,85 @@ frame "文档渲染" {
 
 ## 三、接入姿势
 
-### 3.1 项目侵入式接入
+目前支持三种渲染方式：
+1. swagger 输出yaml
+2. jsonWithComment 输出markdown
+3. rendererPlugin 自定义渲染插件，SPI方式实现ApiDocRenderer接口
+
+### 3.1 构建工具插件接入
+
+#### 3.1.1 gradle 插件接入
+
+```groovy
+plugins {
+    id 'org.dreamcat.apidoc-generator' version '0.4-SNAPSHOT'
+}
+
+apidocGenerate {
+    javaFileDirs = ['com/example/controller']
+    mergeInputParam = true
+
+    swagger {
+      enabled = true
+    }
+    jsonWithComment {
+      enabled = true
+    }
+    rendererPlugin {
+      path = "/path/to/plugin/dir/"
+      // ApiDocRenderer实现类需要注入的字段值
+      injectedArgs = [
+        verbose: true,
+        version: 1
+      ]
+    }
+}
+```
+
+```shell
+./gradlew apidocGenerate
+```
+
+#### 3.1.2 maven 插件接入
+
+```xml
+<plugin>
+  <groupId>org.dreamcat</groupId>
+  <artifactId>apidoc-generator-maven-plugin</artifactId>
+  <version>0.4-SNAPSHOT</version>
+  <configuration>
+    <javaFileDirs>
+      <javaFileDir>com/example/biz/controller</javaFileDir>
+      <javaFileDir>com/example/biz/service</javaFileDir>
+    </javaFileDirs>
+    <mergeInputParam>true</mergeInputParam>
+    <verbose>true</verbose>
+    <swagger>
+      <enabled>true</enabled>
+    </swagger>
+    <jsonWithComment>
+      <enabled>true</enabled>
+    </jsonWithComment>
+  </configuration>
+</plugin>
+```
+
+```xml
+<!-- put in your ~/.m2/settings.xml -->
+<pluginGroups>
+  <pluginGroup>org.dreamcat</pluginGroup>
+</pluginGroups>
+```
+
+```shell
+mvn apidoc-generator:apidocGenerate
+```
+
+### 3.2 项目侵入式接入
+
 可以编写单元测试或单独的模块来接入
 
-#### 3.1.1 gradle 依赖引入
+#### 3.2.1 gradle 依赖引入
 ```groovy
 repositories {
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
@@ -64,7 +144,7 @@ repositories {
 testImplementation 'org.dreamcat:apidoc-generator:0.1-SNAPSHOT'
 ```
 
-#### 3.1.2 maven 依赖引入
+#### 3.2.2 maven 依赖引入
 ```xml
 <project>
   <repository>
@@ -83,7 +163,9 @@ testImplementation 'org.dreamcat:apidoc-generator:0.1-SNAPSHOT'
 </project>
 ```
 
-#### 3.1.3 单元测试示例
+## 四、输出姿势
+
+### 4.0 测试用例
 
 **源码样例**
 ```java
@@ -153,8 +235,6 @@ class JavaDocTest {
     }
 }
 ```
-
-## 四、输出姿势
 
 ### 4.1 带注释的Json Markdown文档输出
 
